@@ -7,17 +7,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./helpers/Error/error-page";
 import { store } from "./stores/index";
 import { Provider } from "react-redux";
+import AuthProvider from "./contexts/AuthContext";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/login",
-  },
-]);
+
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -25,7 +17,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <App></App>
+      </AuthProvider>
     </Provider>
   </React.StrictMode>
 );
