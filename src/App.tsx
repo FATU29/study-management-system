@@ -1,15 +1,15 @@
 import React from "react";
 import "./App.css";
 import './styles/index.css'
-import { Counter } from "./Counter";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./helpers/Error/error-page";
+import HomePage from "./pages/HomePage";
 
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Counter></Counter>,
+    element: <HomePage></HomePage>,
     errorElement: <ErrorPage />,
   },
   {

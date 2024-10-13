@@ -3,8 +3,6 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import ErrorPage from "./helpers/Error/error-page";
 import { store } from "./stores/index";
 import { Provider } from "react-redux";
 import AuthProvider from "./contexts/AuthContext";
