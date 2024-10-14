@@ -1,5 +1,5 @@
 import { useTheme } from "@mui/material";
-import IconifyIcon from "../icon";
+import IconifyIcon from "../utils/icon";
 
 
 const Footer = () => {
