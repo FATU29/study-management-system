@@ -6,17 +6,26 @@ import reportWebVitals from "./reportWebVitals";
 import { store } from "./stores/index";
 import { Provider } from "react-redux";
 import AuthProvider from "./contexts/AuthContext";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import themeConfig from "./theme/themeConfig";
 
 
+// Tạo theme
+const theme = createTheme(themeConfig('light'));  // hoặc 'dark' tùy theo nhu cầu
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
     <Provider store={store}>
       <AuthProvider>
-        <App></App>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <App />
+        </ThemeProvider>
       </AuthProvider>
     </Provider>
   </React.StrictMode>

@@ -1,4 +1,5 @@
-import { TUser } from "src/types/userType"
+import { TUser } from "../types/userType"
+
 
 export type LoginParams = {
     email: string

@@ -1,4 +1,5 @@
-import { ACCESS_TOKEN, REFRESH_TOKEN, USER_DATA } from "src/configs/localStorageCongig";
+import { ACCESS_TOKEN, REFRESH_TOKEN, USER_DATA } from "../../configs/localStorageCongig";
+
 
 export const setLocalUserData = (userData: string, accessToken: string, refreshToken: string) => {
     if (typeof window !== "undefined") { 

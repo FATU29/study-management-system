@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { incrementAsync } from './actions'
-import { CountState } from 'src/types/exampleCountType'
+import { CountState } from '../../types/exampleCountType'
 
 const initialState: CountState = {
   value: 0,
