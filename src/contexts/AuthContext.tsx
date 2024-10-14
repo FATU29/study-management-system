@@ -1,4 +1,5 @@
-import { TUser } from "src/types/userType"
+
+import { TUser } from "../types/userType"
 import { AuthValuesType, LoginParams } from "./types"
 import { createContext, ReactNode, useState } from "react"
 
