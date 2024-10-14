@@ -9,7 +9,8 @@ import "./App.css";
 import './styles/index.css';
 import ErrorPage from "./helpers/Error/error-page";
 import HomePage from "./pages/HomePage";
-import themeConfig from './theme/themeConfig'; // Adjust the import path as needed
+import LoginPage from "./pages/LoginPage"; // Import the LoginPage component
+import themeConfig from './theme/themeConfig';
 
 const router = createBrowserRouter([
   {
@@ -19,7 +20,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <div>Hello login</div>,
+    element: <LoginPage />, // Use the LoginPage component here
     errorElement: <ErrorPage />,
   },
 ]);
