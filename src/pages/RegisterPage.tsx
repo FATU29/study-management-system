@@ -6,7 +6,8 @@ import IconifyIcon from '../components/icon';
 const RegisterPage = () => {
   const { control, handleSubmit, formState: { errors }, watch } = useForm({
     defaultValues: {
-      fullName: '',
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
       confirmPassword: '',
@@ -51,19 +52,34 @@ const RegisterPage = () => {
             <a href="/login" className="text-blue-500 ml-1">Đăng nhập</a>
           </p>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="mb-4">
+            <div className="mb-4 flex space-x-3">
               <Controller
-                name="fullName"
+                name = "lastName"
                 control={control}
                 rules={{ required: 'Họ và tên là bắt buộc' }}
                 render={({ field }) => (
                   <TextField
                     {...field}
                     fullWidth
-                    label="Họ và tên"
+                    label="Họ"
                     variant="outlined"
-                    error={!!errors.fullName}
-                    helperText={errors.fullName?.message}
+                    error={!!errors.lastName}
+                    helperText={errors.lastName?.message}
+                  />
+                )}
+              />
+              <Controller
+                name="firstName"
+                control={control}
+                rules={{ required: 'Họ và tên là bắt buộc' }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    fullWidth
+                    label="Tên"
+                    variant="outlined"
+                    error={!!errors.firstName}
+                    helperText={errors.firstName?.message}
                   />
                 )}
               />
@@ -172,9 +188,7 @@ const RegisterPage = () => {
               <button className="p-2 border border-gray-300 rounded-full flex items-center justify-center">
                 <IconifyIcon icon="skill-icons:gmail-light" className="w-6 h-6" />
               </button>
-              <button className="p-2 border border-gray-300 rounded-full flex items-center justify-center">
-                <IconifyIcon icon="logos:facebook" className="w-6 h-6" />
-              </button>
+           
             </div>
           </div>
         </div>

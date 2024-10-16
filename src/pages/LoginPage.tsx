@@ -62,7 +62,7 @@ const LoginPage = () => {
                   <TextField
                     {...field}
                     fullWidth
-                    label="Tên đăng nhập"
+                    label="Email"
                     variant="outlined"
                     error={!!errors.email}
                     helperText={errors.email?.message}
