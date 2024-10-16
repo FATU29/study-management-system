@@ -1,7 +1,6 @@
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { TextField, Checkbox, Button, FormControlLabel } from '@mui/material';
-import IconifyIcon from '../components/icon';
+import { TextField, Button, FormControlLabel, Checkbox } from '@mui/material';
 
 const LoginPage = () => {
   const { control, handleSubmit, formState: { errors } } = useForm({
@@ -19,13 +18,13 @@ const LoginPage = () => {
 
   return (
     <div className="flex items-center justify-center bg-white min-h-screen p-4">
-      <div className="w-full max-w-4xl flex bg-white rounded-lg shadow-lg overflow-hidden">
-        <div className="w-1/2 bg-blue-500 p-12 text-white">
+      <div className="w-full max-w-4xl flex flex-col md:flex-row bg-white rounded-lg shadow-lg overflow-hidden">
+        <div className="w-full md:w-1/2 bg-blue-500 p-12 text-white flex flex-col">
           <div className="flex items-center mb-8">
             <div className="w-8 h-8 mr-2 border-2 border-white rounded-full flex items-center justify-center">
               <div className="w-4 h-4 bg-white rounded-full"></div>
             </div>
-            <h1 className="text-2xl font-bold">QUẢN LÝ HỌC TẬP</h1>
+            <h1 className="text-2xl font-bold">WEB QUẢN LÝ HỌC TẬP</h1>
           </div>
           <div className="flex-grow flex items-center justify-center mb-8">
             <img className="max-w-full max-h-full object-contain" src="https://placehold.co/200" alt="Logo nhóm" />
@@ -35,12 +34,11 @@ const LoginPage = () => {
           
           <div className="flex space-x-2">
             <div className="w-2 h-2 bg-white rounded-full"></div>
-            <div className="w-2 h-2 bg-white opacity-50 rounded-full"></div>
-            <div className="w-2 h-2 bg-white opacity-50 rounded-full"></div>
-            <div className="w-2 h-2 bg-white opacity-50 rounded-full"></div>
+            <div className="w-2 h-2 bg-white rounded-full"></div>
+            <div className="w-2 h-2 bg-white rounded-full"></div>
           </div>
         </div>
-        <div className="w-1/2 p-12">
+        <div className="w-full md:w-1/2 p-12">
           <h2 className="text-2xl font-bold mb-6">Đăng nhập</h2>
           <p className="mb-8 text-sm text-gray-600">
             Bạn chưa có tài khoản? 
@@ -62,7 +60,7 @@ const LoginPage = () => {
                   <TextField
                     {...field}
                     fullWidth
-                    label="Email"
+                    label="Tên"
                     variant="outlined"
                     error={!!errors.email}
                     helperText={errors.email?.message}
@@ -74,19 +72,13 @@ const LoginPage = () => {
               <Controller
                 name="password"
                 control={control}
-                rules={{ 
-                  required: 'Mật khẩu là bắt buộc',
-                  minLength: {
-                    value: 6,
-                    message: 'Mật khẩu phải có ít nhất 6 ký tự'
-                  }
-                }}
+                rules={{ required: 'Mật khẩu là bắt buộc' }}
                 render={({ field }) => (
                   <TextField
                     {...field}
                     fullWidth
-                    type="password"
                     label="Mật khẩu"
+                    type="password"
                     variant="outlined"
                     error={!!errors.password}
                     helperText={errors.password?.message}
@@ -117,16 +109,8 @@ const LoginPage = () => {
             </Button>
           </form>
           <p className="mt-4 text-sm text-right">
-            <a href="#" className="text-blue-500">Quên mật khẩu?</a>
+            <a href="/forgot-password" className="text-blue-500">Quên mật khẩu?</a>
           </p>
-          <div className="mt-8">
-            <p className="text-sm text-center text-gray-600 mb-4">Hoặc tiếp tục với</p>
-            <div className="flex justify-center space-x-4">
-              <button className="p-2 border border-gray-300 rounded-full flex items-center justify-center">
-                <IconifyIcon icon="skill-icons:gmail-light" className="w-6 h-6" />
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </div>
