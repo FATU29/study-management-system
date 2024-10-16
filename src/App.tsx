@@ -9,7 +9,8 @@ import "./App.css";
 import './styles/index.css';
 import ErrorPage from "./helpers/Error/error-page";
 import HomePage from "./pages/HomePage";
-import LoginPage from "./pages/LoginPage"; // Import the LoginPage component
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage"; // Import the RegisterPage component
 import themeConfig from './theme/themeConfig';
 
 const router = createBrowserRouter([
@@ -20,7 +21,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <LoginPage />, // Use the LoginPage component here
+    element: <LoginPage />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/register",
+    element: <RegisterPage />, // Add the route for the registration page
     errorElement: <ErrorPage />,
   },
 ]);
@@ -39,10 +45,6 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className="App">
-        <FormControlLabel
-          control={<Switch checked={mode === 'dark'} onChange={handleModeToggle} />}
-          label="Dark mode"
-        />
         <RouterProvider router={router} />
       </div>
     </ThemeProvider>

@@ -1,78 +1,146 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, FormEvent } from 'react';
+import { ThemeProvider } from '@mui/material/styles';
+import { Box, Button, Checkbox, CssBaseline, FormControlLabel, Grid, TextField, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 
-interface LoginFormProps {
-  onSubmit: (username: string, password: string) => void;
+// Define the prop types for the component if necessary (e.g., for theme and handlers)
+interface LoginProps {
+  theme: any; // Specify the type of your theme if available
+  handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  handleValidationUsername: () => void;
+  handleValidationPassword: () => void;
+  renderNotice: () => React.ReactNode;
 }
 
-interface LoginFormState {
-  username: string;
-  password: string;
-}
-
-const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
-  const [formState, setFormState] = useState<LoginFormState>({
-    username: '',
-    password: '',
-  });
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    onSubmit(formState.username, formState.password);
-  };
-
+const LoginForm: React.FC<LoginProps> = ({
+  theme,
+  handleSubmit,
+  handleChange,
+  handleValidationUsername,
+  handleValidationPassword,
+  renderNotice,
+}) => {
   return (
-    <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-      <input type="hidden" name="remember" value="true" />
-      <div className="rounded-md shadow-sm -space-y-px">
-        <div>
-          <label htmlFor="username" className="sr-only">
-            Username
-          </label>
-          <input
-            id="username"
-            name="username"
-            type="text"
-            required
-            className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-            placeholder="Username"
-            value={formState.username}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="password" className="sr-only">
-            Password
-          </label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            required
-            className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-            placeholder="Password"
-            value={formState.password}
-            onChange={handleInputChange}
-          />
-        </div>
-      </div>
+    <ThemeProvider theme={theme}>
+      <Grid
+        id="login"
+        style={{
+          maxWidth: '1120px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+        className="mx-auto"
+        container
+        component="main"
+        sx={{ height: '100vh' }}
+      >
+        <CssBaseline />
+        <Grid item xs={12} md={6}>
+          <Box
+            mx={6}
+            my={6}
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Link to="/">
+              <img
+                src="/assets/img/Friendly_logo.png"
+                alt="Friendly"
+                style={{
+                  height: '70px',
+                  width: 'auto',
+                }}
+              />
+            </Link>
 
-      <div>
-        <button
-          type="submit"
-          className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          Sign in
-        </button>
-      </div>
-    </form>
+            <Typography component="h1" variant="h5">
+              Đăng nhập
+            </Typography>
+
+            {renderNotice()}
+
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 1 }}
+            >
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                label="Tên đăng nhập"
+                type="text"
+                name="username"
+                autoComplete="current-username"
+                onChange={handleChange}
+                onBlur={handleValidationUsername}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Mật khẩu"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onChange={handleChange}
+                onBlur={handleValidationPassword}
+              />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Nhớ tên tài khoản"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Đăng nhập
+              </Button>
+              <Grid container>
+                <Grid item xs>
+                  <a
+                    href="#login"
+                    style={{ textDecoration: 'none' }}
+                  >
+                    Quên mật khẩu?
+                  </a>
+                </Grid>
+                <Grid item>
+                  <Link
+                    to="/register"
+                    style={{ textDecoration: 'none' }}
+                  >
+                    {"Chưa có tài khoản? Đăng ký ngay"}
+                  </Link>
+                </Grid>
+              </Grid>
+            </Box>
+          </Box>
+        </Grid>
+
+        <Grid item xs={false} md={6}>
+          <img
+            src="/assets/img/intro_login.svg"
+            alt="intro"
+            style={{
+              width: '100%',
+              maxHeight: '70vh',
+              objectFit: 'contain',
+            }}
+          />
+        </Grid>
+      </Grid>
+    </ThemeProvider>
   );
 };
 
