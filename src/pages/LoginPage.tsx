@@ -24,7 +24,7 @@ const LoginPage = () => {
             <div className="w-8 h-8 mr-2 border-2 border-white rounded-full flex items-center justify-center">
               <div className="w-4 h-4 bg-white rounded-full"></div>
             </div>
-            <h1 className="text-2xl font-bold">WEB QUẢN LÝ HỌC TẬP</h1>
+            <h1 className="text-2xl font-bold">QUẢN LÝ HỌC TẬP</h1>
           </div>
           <div className="flex-grow flex items-center justify-center mb-8">
             <img className="max-w-full max-h-full object-contain" src="https://placehold.co/200" alt="Logo nhóm" />

@@ -14,6 +14,7 @@ const RegisterPage = () => {
       agreeTerms: false,
     },
   });
+  
 
   const password = watch("password");
 
@@ -30,8 +31,8 @@ const RegisterPage = () => {
             <div className="w-8 h-8 mr-2 border-2 border-white rounded-full flex items-center justify-center">
               <div className="w-4 h-4 bg-white rounded-full"></div>
             </div>
-            <h1 className="text-2xl font-bold">WEB QUẢN LÝ HỌC TẬP</h1>
-          </div>
+              <h1 className="text-2xl font-bold">QUẢN LÝ HỌC TẬP</h1>
+            </div>
           <div className="flex-grow flex items-center justify-center mb-8">
             <img className="max-w-full max-h-full object-contain" src="https://placehold.co/200" alt="Logo nhóm" />
           </div>
@@ -118,7 +119,7 @@ const RegisterPage = () => {
                 )}
               />
             </div>
-            <div className="mb-4">
+            <div className="mb-4"> 
               <Controller
                 name="confirmPassword"
                 control={control}
@@ -136,21 +137,45 @@ const RegisterPage = () => {
                 )}
               />
             </div>
-            <div className="mb-4">
-              <Controller
-                name="agreeTerms"
-                control={control}
-                rules={{ required: 'Bạn phải đồng ý với các điều khoản' }}
-                render={({ field }) => (
-                  <FormControlLabel
-                    control={<Checkbox {...field} />}
-                    label="Tôi đồng ý với các điều khoản và điều kiện"
-                  />
-                )}
-              />
-            </div>
-            <Button type="submit" variant="contained" color="primary">
-              Đăng ký
+            <div className="mb-4 w-full">
+                <Controller
+                  name="agreeTerms"
+                  control={control}
+                  rules={{ required: 'Bạn phải đồng ý với các điều khoản' }}
+                  render={({ field }) => (
+                    <FormControlLabel
+                      control={<Checkbox {...field} />}
+                      label={
+                        <span className="text-sm sm:text-base md:text-base lg:text-base">
+                          Tôi đồng ý với {' '}
+                          <a 
+                            href="/terms-and-conditions" 
+                            className="text-blue-600 hover:text-blue-800 underline"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            điều khoản và điều kiện
+                          </a>
+                        </span>
+                      }
+                      classes={{
+                        root: 'items-start', 
+                        label: 'w-full ml-2' 
+                      }}
+                    />
+                  )}
+                />
+              </div>
+            
+
+      
+            <Button 
+              type="submit" 
+              variant="contained" 
+              color="primary" 
+              fullWidth
+              className="mb-4"
+            >
+              Đăng ký 
             </Button>
           </form>
         </div>
