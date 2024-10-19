@@ -12,13 +12,13 @@ const Carousel = () => {
       </ol>
       <div className="carousel-inner">
         <div className="carousel-item active">
-          <img className="d-block w-50 mx-auto" src="https://images.pexels.com/photos/842711/pexels-photo-842711.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="First slide" />
+          <img className="d-block w-100 mx-auto" src="https://placehold.co/1200x500" alt="First slide" />
         </div>
         <div className="carousel-item">
-          <img className="d-block w-50 mx-auto" src="https://images.pexels.com/photos/5725320/pexels-photo-5725320.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Second slide" />
+          <img className="d-block w-100 mx-auto" src="https://placehold.co/1200x500" alt="Second slide" />
         </div>
         <div className="carousel-item">
-          <img className="d-block w-50 mx-auto" src="https://images.pexels.com/photos/1525041/pexels-photo-1525041.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Third slide" />
+          <img className="d-block w-100 mx-auto" src="https://placehold.co/1200x500" alt="Third slide" />
         </div>
       </div>
       <a className="carousel-control-prev" href="#carouselIndicators" role="button" data-bs-slide="prev">
