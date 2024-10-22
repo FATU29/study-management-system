@@ -12,6 +12,7 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage"; // Import the RegisterPage component
 import themeConfig from './theme/themeConfig';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,11 @@ const router = createBrowserRouter([
     element: <RegisterPage />, // Add the route for the registration page
     errorElement: <ErrorPage />,
   },
+  {
+    path: "/forgot-password",
+    element: <ForgotPasswordPage/>, // Add the route for the registration page
+    errorElement: <ErrorPage />,
+  }
 ]);
 
 const App: React.FC = () => {

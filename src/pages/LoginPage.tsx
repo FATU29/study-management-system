@@ -1,8 +1,13 @@
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { TextField, Button, FormControlLabel, Checkbox } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
+
+
+  const navigate = useNavigate();
+
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       email: '',
@@ -11,10 +16,14 @@ const LoginPage = () => {
     },
   });
 
+
+
   const onSubmit = (data: any) => {
     console.log(data);
     // Handle login logic here
   };
+
+
 
   return (
     <div className="flex items-center justify-center bg-white min-h-screen p-4">
@@ -109,7 +118,8 @@ const LoginPage = () => {
             </Button>
           </form>
           <p className="mt-4 text-sm text-right">
-            <a href="/forgot-password" className="text-blue-500">Quên mật khẩu?</a>
+            <Link to={"/forgot-password"} className='text-blue-500'>Quên mật khẩu</Link>
+           
           </p>
         </div>
       </div>
