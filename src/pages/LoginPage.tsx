@@ -47,7 +47,7 @@ const LoginPage = () => {
             <div className="w-2 h-2 bg-white rounded-full"></div>
           </div>
         </div>
-        <div className="w-full md:w-1/2 p-12">
+        <div className="w-full md:w-1/2 p-12 bg-slate-500">
           <h2 className="text-2xl font-bold mb-6">Đăng nhập</h2>
           <p className="mb-8 text-sm text-gray-600">
             Bạn chưa có tài khoản? 
@@ -69,7 +69,7 @@ const LoginPage = () => {
                   <TextField
                     {...field}
                     fullWidth
-                    label="Tên"
+                    label="Tên đăng nhập"
                     variant="outlined"
                     error={!!errors.email}
                     helperText={errors.email?.message}
