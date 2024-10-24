@@ -6,7 +6,10 @@ const themeConfig = (mode: 'light' | 'dark'): ThemeOptions => {
   const darkColor = '#121212';
   const darkPaperBgColor = '#1E1E1E';
   const mainColor = mode === 'light' ? lightColor : darkColor;
-  
+
+  const primaryColor = '#2a9df4'; // Màu chủ đạo mới
+
+
   const customColors = {
     dark: darkColor,
     main: mainColor,
@@ -25,9 +28,9 @@ const themeConfig = (mode: 'light' | 'dark'): ThemeOptions => {
     palette: {
       mode,
       primary: {
-        light: '#9F7FEF',
-        main: '#7955D9',
-        dark: '#4C36B3',
+        light: '#5eb8f7', // Màu sáng hơn của màu chủ đạo
+        main: primaryColor,
+        dark: '#1e6dab', // Màu tối hơn của màu chủ đạo
         contrastText: whiteColor,
       },
       secondary: {
@@ -96,7 +99,6 @@ const themeConfig = (mode: 'light' | 'dark'): ThemeOptions => {
           },
         },
       },
-
     },
   };
 };
