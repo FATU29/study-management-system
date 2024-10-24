@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { TextField, Checkbox, Button, FormControlLabel, Typography } from '@mui/material';
-import IconifyIcon from '../components/icon';
+
 
 const RegisterPage = () => {
   const { control, handleSubmit, formState: { errors }, watch } = useForm({
