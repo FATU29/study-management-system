@@ -25,7 +25,9 @@ const RegisterPage = () => {
 
   return (
     <div className="flex items-center justify-center bg-white min-h-screen p-4">
-      <div className="w-full max-w-4xl flex flex-col md:flex-row bg-white rounded-lg shadow-lg overflow-hidden">
+      <div   style={{
+            boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+        }} className="w-full max-w-4xl flex flex-col md:flex-row bg-white rounded-lg overflow-hidden">
         <div className="w-full md:w-1/2 bg-blue-500 p-12 text-white flex flex-col">
           <div className="flex items-center mb-8">
             <div className="w-8 h-8 mr-2 border-2 border-white rounded-full flex items-center justify-center">

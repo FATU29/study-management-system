@@ -1,12 +1,10 @@
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { TextField, Button, FormControlLabel, Checkbox } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const LoginPage = () => {
 
-
-  const navigate = useNavigate();
 
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
@@ -27,8 +25,10 @@ const LoginPage = () => {
 
   return (
     <div className="flex items-center justify-center bg-white min-h-screen p-4">
-      <div className="w-full max-w-4xl flex flex-col md:flex-row bg-white rounded-lg shadow-lg overflow-hidden">
-        <div className="w-full md:w-1/2 bg-blue-500 p-12 text-white flex flex-col">
+      <div   style={{
+            boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+        }} className="w-full max-w-4xl flex flex-col md:flex-row bg-white rounded-lg overflow-hidden">
+        <div  className="w-full md:w-1/2 bg-blue-500 p-12 text-white flex flex-col">
           <div className="flex items-center mb-8">
             <div className="w-8 h-8 mr-2 border-2 border-white rounded-full flex items-center justify-center">
               <div className="w-4 h-4 bg-white rounded-full"></div>
@@ -47,11 +47,11 @@ const LoginPage = () => {
             <div className="w-2 h-2 bg-white rounded-full"></div>
           </div>
         </div>
-        <div className="w-full md:w-1/2 p-12 bg-slate-500">
+        <div className="w-full md:w-1/2 p-12">
           <h2 className="text-2xl font-bold mb-6">Đăng nhập</h2>
-          <p className="mb-8 text-sm text-gray-600">
+          <p className="mb-8 text-sm">
             Bạn chưa có tài khoản? 
-            <a href="/Register" className="text-blue-500 ml-1">Đăng ký</a>
+            <Link to={"/Register"} className="text-blue-500 ml-1">Đăng ký</Link>
           </p>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4">
