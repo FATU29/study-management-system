@@ -6,7 +6,9 @@ const themeConfig = (mode: 'light' | 'dark'): ThemeOptions => {
   const darkColor = '#121212';
   const darkPaperBgColor = '#1E1E1E';
   const mainColor = mode === 'light' ? lightColor : darkColor;
+
   const primaryColor = '#2a9df4'; // Màu chủ đạo mới
+
 
   const customColors = {
     dark: darkColor,
