@@ -1,6 +1,12 @@
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Typography, useTheme } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const ForgotPasswordPage = () => {
+
+  const theme = useTheme();
+
+
+
   return (
     <div className="flex items-center justify-center bg-white min-h-screen p-4">
       <div
@@ -35,7 +41,7 @@ const ForgotPasswordPage = () => {
           </div>
         </div>
         <div className="flex flex-col justify-center items-center w-full md:w-1/2 p-12 bg-white">
-          <h2 className="text-3xl font-bold mb-6">Quên mật khẩu</h2>
+          <h2 className="text-2xl font-bold mb-6">Quên mật khẩu</h2>
           <div className="flex flex-col justify-items-center items-center p-[1rem] rounded-r-lg bg-white">
             <form className="h-full flex flex-col justify-center items-center">
               <div className="flex flex-col justify-center items-center gap-5">
@@ -66,6 +72,15 @@ const ForgotPasswordPage = () => {
                     variant="outlined"
                   />
                 </div>
+                <div className="flex justify-between items-center w-full">
+                    <Typography>Đã có tài khoản ?</Typography>
+                    <Link to={"/login"} style={{
+                      color:theme.palette.primary.main,
+                      textDecoration:"underline"
+                    }}>Đăng nhập</Link>
+                </div>
+
+
                 <Button
                   onClick={() => {
                     alert("Hello Minh Tý");
