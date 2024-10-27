@@ -108,10 +108,14 @@ const RegisterPage = () => {
           <div className="flex-grow flex items-center justify-center mb-8">
             <img className="max-w-full max-h-full object-contain" src="https://placehold.co/200" alt="Logo nhóm" />
           </div>
-          <div 
-            className={`transition-opacity duration-500 ${fadeIn ? 'opacity-100' : 'opacity-0'}`}
-          >
-            <h2 className="text-2xl font-bold mb-7">{quotes[currentQuoteIndex]}</h2>
+          <div className="h-24 flex items-center justify-center">
+            <div 
+              className={`transition-opacity duration-500 ${fadeIn ? 'opacity-100' : 'opacity-0'}`}
+            >
+              <h2 className="text-xl font-bold text-white text-center">
+                {quotes[currentQuoteIndex]}
+              </h2>
+            </div>
           </div>
           <p className="mb-8">Tham gia ngay - Dễ dàng - Miễn phí.</p>
           
