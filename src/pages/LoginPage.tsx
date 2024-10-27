@@ -52,7 +52,7 @@ const LoginPage = () => {
     return () => clearInterval(intervalId);
   }, [quotes.length]);
 
-  const { control, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<LoginFormData>({
+  const { control, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginFormData>({
     defaultValues: {
       email: '',
       password: '',
@@ -77,7 +77,11 @@ const LoginPage = () => {
   return (
     <div className="flex items-center justify-center bg-white min-h-screen p-4">
       {/* Fixed height container */}
-      <div className="w-full max-w-4xl h-[600px] flex flex-col md:flex-row bg-white rounded-lg shadow-lg overflow-hidden">
+      <div 
+      style={{
+        boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px"
+      }}
+      className="w-full max-w-4xl h-[600px] flex flex-col md:flex-row bg-white rounded-lg overflow-hidden">
         {/* Left side - fixed height with internal scrolling if needed */}
         <div className="w-full md:w-1/2 bg-blue-500 flex flex-col overflow-hidden">
           {/* Top section with fixed content */}
@@ -125,8 +129,8 @@ const LoginPage = () => {
         </div>
 
         {/* Right side - fixed height with internal scrolling if needed */}
-        <div className="w-full md:w-1/2 overflow-y-auto">
-          <div className="p-8">
+        <div className="w-full md:w-1/2 overflow-y-auto flex flex-col justify-center items-center">
+          <div className="p-8 w-[85%]">
             <h2 className="text-2xl font-bold mb-6">Đăng nhập</h2>
             <p className="mb-8 text-sm text-gray-600">
               Bạn chưa có tài khoản? 
