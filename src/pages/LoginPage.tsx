@@ -1,8 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { TextField, Button, FormControlLabel, Checkbox } from '@mui/material';
+import { Link } from 'react-router-dom';
 
+interface LoginFormData {
+  email: string;
+  password: string;
+  RemeberPassword: boolean;
+}
 const LoginPage = () => {
+  const quotes = [
+    "Học hỏi là chìa khóa mở ra cánh cửa thành công",
+    "Giáo dục là vũ khí mạnh nhất để thay đổi thế giới",
+    "Đầu tư vào kiến thức mang lại lợi nhuận tốt nhất",
+    "Học tập không có giới hạn về tuổi tác",
+    "Tri thức là sức mạnh",
+  ];
+
+  const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
+  const [fadeIn, setFadeIn] = useState(true);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setFadeIn(false);
+      setTimeout(() => {
+        setCurrentQuoteIndex((prevIndex) => (prevIndex + 1) % quotes.length);
+        setFadeIn(true);
+      }, 500);
+    }, 5000);
+
+    return () => clearInterval(intervalId);
+  }, [quotes.length]);
+
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       email: '',
@@ -29,7 +58,11 @@ const LoginPage = () => {
           <div className="flex-grow flex items-center justify-center mb-8">
             <img className="max-w-full max-h-full object-contain" src="https://placehold.co/200" alt="Logo nhóm" />
           </div>
-          <h2 className="text-2xl font-bold mb-7">"Học hỏi là chìa khóa mở ra cánh cửa thành công".</h2>
+          <div 
+            className={`transition-opacity duration-500 ${fadeIn ? 'opacity-100' : 'opacity-0'}`}
+          >
+            <h2 className="text-2xl font-bold mb-7">{quotes[currentQuoteIndex]}</h2>
+          </div>
           <p className="mb-8">Tham gia ngay - Dễ dàng - Miễn phí.</p>
           
           <div className="flex space-x-2">
@@ -42,7 +75,7 @@ const LoginPage = () => {
           <h2 className="text-2xl font-bold mb-6">Đăng nhập</h2>
           <p className="mb-8 text-sm text-gray-600">
             Bạn chưa có tài khoản? 
-            <a href="/Register" className="text-blue-500 ml-1">Đăng ký</a>
+            <Link to="/Register" className="text-blue-500 ml-1">Đăng ký</Link>
           </p>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4">
