@@ -48,24 +48,6 @@ const ForgotPasswordPage = () => {
                     variant="outlined"
                   />
                 </div>
-                <div className="w-[20rem]">
-                  <TextField
-                    sx={{
-                      width: "100%",
-                    }}
-                    label="Mật khẩu mới"
-                    variant="outlined"
-                  />
-                </div>
-                <div className="w-[20rem]">
-                  <TextField
-                    sx={{
-                      width: "100%",
-                    }}
-                    label="Xác nhận mật khẩu mới"
-                    variant="outlined"
-                  />
-                </div>
                 <Button
                   onClick={() => {
                     alert("Hello Minh Tý");
