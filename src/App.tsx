@@ -11,11 +11,14 @@ import themeConfig from './theme/themeConfig';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import { ThemeProviderWrapper } from './contexts/ThemeContext';
 
+import DashboardPage from './pages/DashboardPage';
+
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage />,
+    element: <DashboardPage />,
+    // element: <HomePage />,
     errorElement: <ErrorPage />,
   },
   {
