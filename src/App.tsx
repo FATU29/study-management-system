@@ -5,7 +5,12 @@ import "./App.css";
 import './styles/index.css';
 import ErrorPage from "./helpers/Error/error-page";
 import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage"; // Import the RegisterPage component
+import themeConfig from './theme/themeConfig';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import { ThemeProviderWrapper } from './contexts/ThemeContext';
+
 
 const router = createBrowserRouter([
   {
@@ -15,9 +20,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <div>Hello login</div>,
+    element: <LoginPage />,
     errorElement: <ErrorPage />,
   },
+  {
+    path: "/register",
+    element: <RegisterPage />, 
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPasswordPage/>, // Add the route for the registration page
+    errorElement: <ErrorPage />,
+  }
 ]);
 
 const App: React.FC = () => {
