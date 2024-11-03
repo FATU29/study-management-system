@@ -1,6 +1,15 @@
 import { Button, TextField } from "@mui/material";
+import { Link, useNavigate } from 'react-router-dom';
+import { link } from "fs";
+
 
 const ForgotPasswordPage = () => {
+  const navigate = useNavigate();
+
+  const handleResetPassword = () => {
+    navigate('/verify-reset-password');
+  }
+
   return (
     <div className="flex items-center justify-center bg-white min-h-screen p-4">
       <div
@@ -36,6 +45,9 @@ const ForgotPasswordPage = () => {
         </div>
         <div className="flex flex-col justify-center items-center w-full md:w-1/2 p-12 bg-white">
           <h2 className="text-3xl font-bold mb-6">Quên mật khẩu</h2>
+          <p className="mb-8 text-sm text-gray-600 justify-normal">
+            Nhập email của bạn để xác minh. Một mã xác minh sẽ được gửi đến địa chỉ email của bạn.
+          </p>
           <div className="flex flex-col justify-items-center items-center p-[1rem] rounded-r-lg bg-white">
             <form className="h-full flex flex-col justify-center items-center">
               <div className="flex flex-col justify-center items-center gap-5">
@@ -50,7 +62,7 @@ const ForgotPasswordPage = () => {
                 </div>
                 <Button
                   onClick={() => {
-                    alert("Hello Minh Tý");
+                    handleResetPassword();
                   }}
                   sx={{
                     width: "20rem",
@@ -58,7 +70,7 @@ const ForgotPasswordPage = () => {
                   type="submit"
                   variant="contained"
                 >
-                  Xác nhận
+                  GỬI MÃ XÁC MINH
                 </Button>
               </div>
             </form>
