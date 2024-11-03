@@ -9,7 +9,6 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage"; // Import the RegisterPage component
 import themeConfig from './theme/themeConfig';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
-import VerifyResetPassword from './pages/VerifyResetPassword';
 import ResetPassword from './pages/ResetPassword';
 import { ThemeProviderWrapper } from './contexts/ThemeContext';
 
@@ -33,11 +32,6 @@ const router = createBrowserRouter([
   {
     path: "/forgot-password",
     element: <ForgotPasswordPage/>, // Add the route for the registration page
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/verify-reset-password",
-    element: <VerifyResetPassword />, // Add the route for the registration page
     errorElement: <ErrorPage />,
   },
   {
