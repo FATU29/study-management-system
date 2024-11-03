@@ -10,6 +10,7 @@ const ForgotPasswordPage = () => {
     navigate('/reset-password');
   }
 
+
   return (
     <div className="flex items-center justify-center bg-white min-h-screen p-4">
       <div
@@ -48,6 +49,7 @@ const ForgotPasswordPage = () => {
           <p className="mb-8 text-sm text-gray-600 justify-normal">
             Nhập email của bạn để xác minh.
           </p>
+
           <div className="flex flex-col justify-items-center items-center p-[1rem] rounded-r-lg bg-white">
             <form className="h-full flex flex-col justify-center items-center">
               <div className="flex flex-col justify-center items-center gap-5">
