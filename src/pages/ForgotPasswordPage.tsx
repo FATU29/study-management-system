@@ -1,10 +1,14 @@
-import { Button, TextField, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Button, TextField } from "@mui/material";
+import { Link, useNavigate } from 'react-router-dom';
+import { link } from "fs";
+
 
 const ForgotPasswordPage = () => {
+  const navigate = useNavigate();
 
-  const theme = useTheme();
-
+  const handleResetPassword = () => {
+    navigate('/reset-password');
+  }
 
 
   return (
@@ -41,7 +45,11 @@ const ForgotPasswordPage = () => {
           </div>
         </div>
         <div className="flex flex-col justify-center items-center w-full md:w-1/2 p-12 bg-white">
-          <h2 className="text-2xl font-bold mb-6">Quên mật khẩu</h2>
+          <h2 className="text-3xl font-bold mb-6">Quên mật khẩu</h2>
+          <p className="mb-8 text-sm text-gray-600 justify-normal">
+            Nhập email của bạn để xác minh.
+          </p>
+
           <div className="flex flex-col justify-items-center items-center p-[1rem] rounded-r-lg bg-white">
             <form className="h-full flex flex-col justify-center items-center">
               <div className="flex flex-col justify-center items-center gap-5">
@@ -54,36 +62,9 @@ const ForgotPasswordPage = () => {
                     variant="outlined"
                   />
                 </div>
-                <div className="w-[20rem]">
-                  <TextField
-                    sx={{
-                      width: "100%",
-                    }}
-                    label="Mật khẩu mới"
-                    variant="outlined"
-                  />
-                </div>
-                <div className="w-[20rem]">
-                  <TextField
-                    sx={{
-                      width: "100%",
-                    }}
-                    label="Xác nhận mật khẩu mới"
-                    variant="outlined"
-                  />
-                </div>
-                <div className="flex justify-between items-center w-full">
-                    <Typography>Đã có tài khoản ?</Typography>
-                    <Link to={"/login"} style={{
-                      color:theme.palette.primary.main,
-                      textDecoration:"underline"
-                    }}>Đăng nhập</Link>
-                </div>
-
-
                 <Button
                   onClick={() => {
-                    alert("Hello Minh Tý");
+                    handleResetPassword();
                   }}
                   sx={{
                     width: "20rem",
@@ -91,7 +72,7 @@ const ForgotPasswordPage = () => {
                   type="submit"
                   variant="contained"
                 >
-                  Xác nhận
+                  XÁC MINH
                 </Button>
               </div>
             </form>
