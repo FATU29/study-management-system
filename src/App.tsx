@@ -7,7 +7,6 @@ import ErrorPage from "./helpers/Error/error-page";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage"; // Import the RegisterPage component
-import themeConfig from './theme/themeConfig';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPassword from './pages/ResetPassword';
 import { ThemeProviderWrapper } from './contexts/ThemeContext';
