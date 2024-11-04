@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './HomePage.tsx.css';
+import {Link} from "react-router-dom";
 
 interface HeaderProps {
   isScrolledOut: boolean;
@@ -20,8 +21,8 @@ function Header({ isScrolledOut }: HeaderProps) {
             <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white text-decoration-none">Moodle</span>
           </a>
           <div className="flex items-center lg:order-2">
-            <a href="#" className="text-primary font-bold rounded mr-2 border border-gray-300 rounded font-medium text px-3 py-2 text-decoration-none">Đăng nhập</a>
-            <a href="#" className="text-white bg-primary font-bold rounded mr-2 border border-gray-300 rounded font-medium text px-3 py-2 text-decoration-none">Bắt đầu</a>
+            <Link to="/login" className="text-primary font-bold rounded mr-2 border border-gray-300 rounded font-medium text px-3 py-2 text-decoration-none">Đăng nhập</Link>
+            <Link to="/register" className="text-white bg-primary font-bold rounded mr-2 border border-gray-300 rounded font-medium text px-3 py-2 text-decoration-none">Bắt đầu</Link>
             <button
               data-collapse-toggle="mobile-menu-2"
               type="button"

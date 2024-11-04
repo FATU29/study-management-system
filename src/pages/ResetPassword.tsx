@@ -42,7 +42,7 @@ const ResetPassword = () => {
                     <div className="flex flex-col justify-items-center items-center p-[1rem] rounded-r-lg bg-white">
                         <form className="h-full flex flex-col justify-center items-center">
                             <div className="flex flex-col justify-center items-center gap-5">
-                                <div className="w-[20rem]">
+                                <div className="w-[20rem] flex flex-column justify-content-center items-center gap-3">
                                     <TextField
                                         sx={{
                                             width: "100%",
