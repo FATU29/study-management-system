@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
     Avatar, Badge,
     Box,
@@ -47,6 +47,7 @@ const ChatListComponent = () => {
 
 
     const [menuState, setMenuState] = React.useState<Record<string, any>>({});
+    const [activeUser,setActiveUser] = React.useState<string>("1");
 
     const handleClick = (event: any, id: any) => {
         setMenuState({
@@ -68,6 +69,12 @@ const ChatListComponent = () => {
         });
     };
 
+    const handleClickMessage = (id:string) => {
+        if(id === activeUser) return;
+        setActiveUser(id);
+    }
+
+
     const theme = useTheme();
 
     const data = MockDataChatList;
@@ -77,14 +84,25 @@ const ChatListComponent = () => {
         return data.map((item) => (
             <React.Fragment key={item.id}>
                 <Grid
+                    onClick={() => handleClickMessage(item.id)}
                     container
                     sx={{
                         p: 2,
                         mb: 2,
                         borderRadius: 2,
-                        bgcolor: theme.palette.background.paper,
+                        bgcolor: activeUser === item.id ?  theme.palette.primary.main :  theme.palette.background.paper,
                         boxShadow: "rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
-                        alignItems: "center"
+                        color:activeUser === item.id ?  'white' :  'black',
+                        alignItems: "center",
+                        cursor:"pointer",
+                        "&:hover":{
+                            backgroundColor: theme.palette.grey["400"],
+                            color:"black"
+                        },
+                        "&:active":{
+                            backgroundColor:theme.palette.primary.main,
+                            color:"white",
+                        }
                     }}
                 >
                     <Grid item xs={2.5} alignItems={"center"} direction="row">
@@ -101,8 +119,8 @@ const ChatListComponent = () => {
                             </Grid>
 
                             <Grid item>
-                                <Grid container justifyContent="space-between" alignItems="center">
-                                    <Grid item xs>
+                                <Grid container direction={"row"}  justifyContent="space-between" alignItems="center">
+                                    <Grid item xs={6}>
                                         <Typography
                                             sx={{
                                                 textOverflow: "ellipsis",
@@ -168,13 +186,13 @@ const ChatListComponent = () => {
                             <Box
                                 sx={{
                                     position: 'absolute',
-                                    top: 0,
-                                    left: 15,
+                                    top: "0",
+                                    left: "50%",
                                     width: 8,
                                     height: 8,
                                     borderRadius: '50%',
-                                    bgcolor: 'primary.main',
-                                    transform: 'translate(50%, -50%)'
+                                    bgcolor: 'black',
+                                    transform: 'translate(-50%, -50%)'
                                 }}
                             />
                         </Box>
@@ -183,6 +201,7 @@ const ChatListComponent = () => {
             </React.Fragment>
         ));
     };
+
 
     return (
         <React.Fragment>
@@ -231,7 +250,7 @@ const ChatListComponent = () => {
                             justifyContent: "flex-start",
                             alignItems: "center",
                             width: "100%",
-                            height: "30rem",
+                            height:"32.5rem",
                             gap: "5px",
                             overflow: "auto",
                             padding: "10px"

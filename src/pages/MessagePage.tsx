@@ -14,28 +14,31 @@ const MessagePage = () => {
         <React.Fragment>
             <CssBaseline/>
             <Container
-                maxWidth="lg"
+                maxWidth="xl"
                 sx={{
                     backgroundColor: theme.customColors.backgroundGrey,
                     borderRadius: "10px",
                     padding: "15px",
                     marginTop: "10px",
                     boxShadow: "rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
+                    height: "43rem",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "flex-start",
                 }}
             >
-                <Box sx={
-                    {
+                    <Grid container  sx={{
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        width:"100%",
-
-                    }
-                }>
-                    <Grid container spacing={2}>
+                        height:"100%",
+                    }}>
                         <Grid
                             item
                             xs={4}
+                            sx={{
+                                borderRight:`2px solid ${theme.customColors.textGrey}`,
+                            }}
                         >
                             <ChatListComponent/>
                         </Grid>
@@ -44,8 +47,11 @@ const MessagePage = () => {
                             xs={6}
                             sx={{
                                 display: "flex",
-                                justifyContent: "center",
+                                flexDirection: "column",
+                                justifyContent: "flex-start",
                                 alignItems: "center",
+                                height:"100%",
+                                borderRight:`2px solid ${theme.customColors.textGrey}`,
                             }}
                         >
                             <ChatDetailComponent/>
@@ -57,12 +63,12 @@ const MessagePage = () => {
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
+
                             }}
                         >
                             <UserDetailComponent/>
                         </Grid>
                     </Grid>
-                </Box>
 
             </Container>
         </React.Fragment>
