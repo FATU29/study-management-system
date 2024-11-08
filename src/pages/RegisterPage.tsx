@@ -15,41 +15,40 @@ interface RegisterFormData {
   agreeTerms: boolean;
 }
 
-// Define validation schema
 const validationSchema = yup.object({
   firstName: yup
-      .string()
-      .required('Tên là bắt buộc')
-      .min(2, 'Tên phải có ít nhất 2 ký tự')
-      .max(50, 'Tên không được vượt quá 50 ký tự'),
+    .string()
+    .required('Tên là bắt buộc')
+    .min(2, 'Tên phải có ít nhất 2 ký tự')
+    .max(50, 'Tên không được vượt quá 50 ký tự'),
   lastName: yup
-      .string()
-      .required('Họ là bắt buộc')
-      .min(2, 'Họ phải có ít nhất 2 ký tự')
-      .max(50, 'Họ không được vượt quá 50 ký tự'),
+    .string()
+    .required('Họ là bắt buộc')
+    .min(2, 'Họ phải có ít nhất 2 ký tự')
+    .max(50, 'Họ không được vượt quá 50 ký tự'),
   email: yup
-      .string()
-      .required('Email là bắt buộc')
-      .email('Email không hợp lệ')
-      .matches(
-          /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-          'Email không đúng định dạng'
-      ),
+    .string()
+    .required('Email là bắt buộc')
+    .email('Email không hợp lệ')
+    .matches(
+      /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+      'Email không đúng định dạng'
+    ),
   password: yup
-      .string()
-      .required('Mật khẩu là bắt buộc')
-      .min(8, 'Mật khẩu phải có ít nhất 8 ký tự')
-      .matches(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-          'Mật khẩu phải chứa ít nhất một chữ hoa, một chữ thường, một số và một ký tự đặc biệt'
-      ),
+    .string()
+    .required('Mật khẩu là bắt buộc')
+    .min(8, 'Mật khẩu phải có ít nhất 8 ký tự')
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      'Mật khẩu phải chứa ít nhất một chữ hoa, một chữ thường, một số và một ký tự đặc biệt'
+    ),
   confirmPassword: yup
-      .string()
-      .required('Xác nhận mật khẩu là bắt buộc')
-      .oneOf([yup.ref('password')], 'Mật khẩu không khớp'),
+    .string()
+    .required('Xác nhận mật khẩu là bắt buộc')
+    .oneOf([yup.ref('password')], 'Mật khẩu không khớp'),
   agreeTerms: yup
-      .boolean()
-      .oneOf([true], 'Bạn phải đồng ý với điều khoản và điều kiện')
+    .boolean()
+    .oneOf([true], 'Bạn phải đồng ý với điều khoản và điều kiện')
 });
 
 const RegisterPage = () => {
