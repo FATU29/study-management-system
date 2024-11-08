@@ -44,29 +44,16 @@ const MessagePage = () => {
                         </Grid>
                         <Grid
                             item
-                            xs={6}
+                            xs={8}
                             sx={{
                                 display: "flex",
                                 flexDirection: "column",
                                 justifyContent: "flex-start",
                                 alignItems: "center",
                                 height:"100%",
-                                borderRight:`2px solid ${theme.customColors.textGrey}`,
                             }}
                         >
                             <ChatDetailComponent/>
-                        </Grid>
-                        <Grid
-                            item
-                            xs={2}
-                            sx={{
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-
-                            }}
-                        >
-                            <UserDetailComponent/>
                         </Grid>
                     </Grid>
 

@@ -10,7 +10,6 @@ const ChatDetailComponent = () => {
 
     const data = MockDataMessage;
 
-
     return (
         <React.Fragment>
             <Grid2 container spacing={2} sx={{
@@ -90,40 +89,94 @@ const ChatDetailComponent = () => {
                     borderRadius: "10px",
                     boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px",
                     overflowY: "auto",
-                    padding:"20px",
-                    maxWidth:"80%"
+                    padding: "20px",
                 }}>
                     <Box sx={{
                         display: "flex",
-                        justifyContent: "flex-end",
-                        alignItems:"center",
+                        justifyContent: "center",
+                        flexDirection: "column",
+                        gap:2,
+                        maxWidth:"90%",
+                        margin: "0 auto",
                     }}>
                         <Box sx={{
-                            padding: "20px",
-                            backgroundColor: theme.palette.primary.main,
-                            maxWidth: "40%",
-                            borderRadius: "10px",
-                            boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px",
+                            display: "flex",
+                            justifyContent: "flex-end",
+                            alignItems: "center",
                         }}>
-                            <Typography
-                                textAlign="left"
-                                sx={{
-                                    whiteSpace: "pre-wrap",
-                                    wordBreak: "break-word"
-                                }}
-                            >
-                                Hello asdfas âfádfasfasfafaádfasfafasa asdfa sdfafas fasf a
-                            </Typography>
+                            <Box sx={{
+                                padding: "20px",
+                                backgroundColor: theme.palette.primary.main,
+                                maxWidth: "40%",
+                                borderRadius: "10px",
+                                boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px",
+                            }}>
+                                <Typography
+                                    textAlign="left"
+                                    sx={{
+                                        whiteSpace: "pre-wrap",
+                                        wordBreak: "break-word",
+                                        color: "white"
+                                    }}
+                                >
+                                    Hello
+                                </Typography>
+                            </Box>
                         </Box>
+
+                        <Box sx={{
+                            display: "flex",
+                            justifyContent: "flex-end",
+                            alignItems: "center",
+                        }}>
+                            <Box sx={{
+                                padding: "20px",
+                                backgroundColor: theme.palette.primary.main,
+                                maxWidth: "40%",
+                                borderRadius: "10px",
+                                boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px",
+                            }}>
+                                <Typography
+                                    textAlign="left"
+                                    sx={{
+                                        whiteSpace: "pre-wrap",
+                                        wordBreak: "break-word",
+                                        color: "white"
+                                    }}
+                                >
+                                    Hello asdfasd fasf asdf asfsa asf saf sa
+                                </Typography>
+                            </Box>
+                        </Box>
+
+                        <Box sx={{
+                            display: "flex",
+                            justifyContent: "flex-right",
+                            alignItems: "center",
+                        }}>
+                            <Box sx={{
+                                padding: "20px",
+                                backgroundColor: theme.palette.primary.main,
+                                maxWidth: "40%",
+                                borderRadius: "10px",
+                                boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px",
+                            }}>
+                                <Typography
+                                    textAlign="left"
+                                    sx={{
+                                        whiteSpace: "pre-wrap",
+                                        wordBreak: "break-word",
+                                        color: "white"
+                                    }}
+                                >
+                                    Hello asdfas âfádfasfasfafaádfasfafasa asdfa sdfafas fasf a
+                                </Typography>
+                            </Box>
+                        </Box>
+
+
                     </Box>
 
-                    <Box sx={{
-                        display: "flex",
-                        justifyContent: "flex-right",
-                        alignItems:"center"
-                    }}>
-                        Hello
-                    </Box>
                 </Grid>
 
                 <Grid item xs={12} sx={{
@@ -131,25 +184,27 @@ const ChatDetailComponent = () => {
                 }}>
                     <Paper
                         sx={{
-                            display:"flex",
-                            justifyContent:"flex-start",
-                            alignItems:"center",
-                            padding:"5px",
+                            display: "flex",
+                            justifyContent: "flex-start",
+                            alignItems: "center",
+                            padding: "5px",
+                            height: "80%",
                             boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px",
                         }}
                     >
                         <Box sx={{
-                            width:"10%",
+                            width: "10%",
                         }}>
-                           <Tooltip title={"Đính kèm"}>
-                               <IconButton>
-                                   <IconifyIcon fontSize={"2rem"} icon={"gridicons:add-outline"}/>
-                               </IconButton>
-                           </Tooltip>
+                            <Tooltip title={"Đính kèm"}>
+                                <IconButton>
+                                    <IconifyIcon fontSize={"2rem"} icon={"gridicons:add-outline"}/>
+                                </IconButton>
+                            </Tooltip>
                         </Box>
                         <Box sx={{
-                            width:"70%",
-                            position:"relative",
+                            width: "70%",
+                            display: "flex",
+                            boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px",
                         }}>
                             <TextField
                                 multiline
@@ -160,6 +215,7 @@ const ChatDetailComponent = () => {
                                 sx={{
                                     '& .MuiOutlinedInput-root': {
                                         backgroundColor: theme.customColors.backgroundGrey,
+                                        minHeight: '50px',
                                         '& fieldset': {
                                             border: 'none',
                                         },
@@ -171,20 +227,19 @@ const ChatDetailComponent = () => {
                                         }
                                     },
                                 }}
-                                onKeyDown={(e:any) => {
+                                onKeyDown={(e: any) => {
                                     if (e.key === 'Enter' && !e.shiftKey) {
                                         e.preventDefault();
                                         e.target.value = '';
-
                                     }
                                 }}
                             />
 
                         </Box>
                         <Box sx={{
-                            width:"20%",
-                            display:"flex",
-                            justifyContent:"center"
+                            width: "20%",
+                            display: "flex",
+                            justifyContent: "center"
                         }}>
                             <Tooltip title={"Chọn emoij"}>
                                 <IconButton>
