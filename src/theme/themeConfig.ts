@@ -7,10 +7,13 @@ const themeConfig = (mode: 'light' | 'dark'): ThemeOptions => {
   const darkPaperBgColor = '#1E1E1E';
   const mainColor = mode === 'light' ? lightColor : darkColor;
 
-  const primaryColor = '#2a9df4'; // Màu chủ đạo mới
-
+  const primaryColor = '#2a9df4';
+  const textGrey = '#B7B8BC';
+  const backgroundGrey = '#F0F3F5';
 
   const customColors = {
+    textGrey: textGrey,
+    backgroundGrey: backgroundGrey,
     dark: darkColor,
     main: mainColor,
     light: lightColor,

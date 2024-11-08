@@ -1,0 +1,49 @@
+.fixed-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: white;
+  }
+
+  .bg-transparent {
+    background-color: white;
+  }
+  
+  .bg-blue {
+    background: linear-gradient(to bottom, rgb(71, 114, 255), rgb(255, 255, 255));
+  }
+
+  .bg-blue a {
+    color: white !important;
+  }
+
+  @media (max-width: 600px) {
+    .coiny-regular {
+      font-family: "Coiny", system-ui;
+      font-weight: 400;
+      font-style: normal;
+      font-size: 2rem; /* Adjust the size for smaller screens */
+    }
+  }
+  
+  @media (min-width: 601px) and (max-width: 1024px) {
+    .coiny-regular {
+      font-family: "Coiny", system-ui;
+      font-weight: 400;
+      font-style: normal;
+      font-size: 3rem; /* Adjust the size for medium screens */
+    }
+  }
+  
+  @media (min-width: 1025px) {
+    .coiny-regular {
+      font-family: "Coiny", system-ui;
+      font-weight: 400;
+      font-style: normal;
+      font-size: 4rem; /* Size for larger screens */
+    }
+  }
+  
+  
+  
