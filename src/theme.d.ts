@@ -13,6 +13,8 @@ declare module '@mui/material/styles' {
       avatarBg: string;
       tableHeaderBg: string;
       borderColor: string;
+      textGrey:string;
+      backgroundGrey:string;
     };
   }
   interface ThemeOptions {
@@ -27,6 +29,8 @@ declare module '@mui/material/styles' {
       avatarBg?: string;
       tableHeaderBg?: string;
       borderColor?: string;
+      textGrey?:string;
+      backgroundGrey?:string;
     };
   }
 }
