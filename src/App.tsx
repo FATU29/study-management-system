@@ -17,8 +17,8 @@ import DashboardPage from './pages/DashboardPage';
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <DashboardPage />,
-    // element: <HomePage />,
+    // element: <DashboardPage />,
+    element: <HomePage />,
     errorElement: <ErrorPage />,
   },
   {
