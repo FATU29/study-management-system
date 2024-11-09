@@ -1,42 +1,51 @@
+import React, { useEffect, useState } from 'react';
+import Footer from "../components/Home/Footer";
+import Header from "../components/Home/Header";
+import Carousel from "../components/Home/Carousel";
+import Feature from "../components/Home/Feature";
+import MembersGrid from '../components/Home/MembersGrid';
+import Welcome from '../components/Home/Welcome';
+import ThemeToggle from "../components/utils/toggleTheme";
 
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button, Typography, Box } from '@mui/material';
+const HomePage = () => {
+  const [isScrolledOut, setIsScrolledOut] = useState(false);
 
-const HomePage: React.FC = () => {
-  const navigate = useNavigate();
+  useEffect(() => {
+    const handleScroll = () => {
+      const welcomeSection = document.getElementById('welcome-section');
+      if (welcomeSection) {
+        const rect = welcomeSection.getBoundingClientRect();
+        setIsScrolledOut(rect.bottom < 0);
+      }
+    };
 
-  const handleLoginClick = () => {
-    navigate('/login');
-  };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '100vh',
-        padding: 3,
-      }}
-    >
-      <Typography variant="h2" component="h1" gutterBottom>
-        Welcome to Our App
-      </Typography>
-      <Typography variant="h5" component="h2" gutterBottom>
-        This is the home page of your application.
-      </Typography>
-      <Button
-        variant="contained"
-        color="primary"
-        size="large"
-        onClick={handleLoginClick}
-        sx={{ marginTop: 4 }}
-      >
-        Go to Login
-      </Button>
-    </Box>
+    <div>
+      <Header isScrolledOut={isScrolledOut} />
+      <div id="welcome-section">
+        <Welcome />
+      </div>
+      <div id="carousel-section">
+        <div style={{ paddingTop: '3rem' }}></div>
+        <Carousel />
+      </div>
+      <div id="feature-section">
+        <div style={{ paddingTop: '3rem' }}></div>
+        <Feature />
+      </div>
+      <div id="members-section">
+        <div style={{ paddingTop: '3rem' }}></div>
+        <MembersGrid />
+      </div>
+      <div id="footer-section">
+      <Footer />
+      </div>
+      
+    </div>
   );
 };
 
