@@ -11,6 +11,7 @@ import ResetPassword from './pages/ResetPassword';
 import MessagePage from "./pages/MessagePage";
 import { ThemeProviderWrapper } from './contexts/ThemeContext';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
+import DashboardPage from './pages/DashboardPage';
 
 const AppContent: React.FC = () => {
   const location = useLocation();
@@ -25,7 +26,8 @@ const AppContent: React.FC = () => {
         >
           <div className="page">
             <Routes location={location}>
-              <Route index path="/" element={<HomePage />} />
+              <Route index path="/" element={<DashboardPage />} />
+              <Route path="/home" element={<HomePage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
