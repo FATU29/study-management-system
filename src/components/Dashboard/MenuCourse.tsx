@@ -1,48 +1,71 @@
-import React, { useState } from 'react';
-import IconifyIcon from '../utils/icon/index';
+import React, { useState } from "react";
+import IconifyIcon from "../utils/icon/index";
 
+import { MenuSection } from "../types/menu-section";
 
-const mainListItems = [
+type MenuCourseProps = {
+  onSectionChange: (section: MenuSection) => void;
+};
+
+const mainListItems: {
+  icon: string;
+  section: MenuSection;
+  text: string;
+  badge: number;
+}[] = [
   {
     icon: "solar:home-linear",
-    text: 'Trang chủ',
-    badge: 0
+    section: "home",
+    text: "Trang chủ",
+    badge: 0,
   },
   {
     icon: "hugeicons:course",
-    text: 'Khóa học',
-    badge: 3
+    section: "course",
+    text: "Khóa học",
+    badge: 3,
   },
   {
-    icon: "proicons:chat" ,
-    text: 'Trò chuyện',
-    badge: 5
+    icon: "proicons:chat",
+    section: "chat",
+    text: "Trò chuyện",
+    badge: 5,
   },
   {
     icon: "formkit:file",
-    text: 'Tệp riêng tư',
-    badge: 0
-  }
+    section: "file",
+    text: "Tệp riêng tư",
+    badge: 0,
+  },
 ];
 
-const MenuCourse = () => {
+const MenuCourse: React.FC<MenuCourseProps> = ({ onSectionChange }) => {
   const [isExpanded, setIsExpanded] = useState(true);
   const [activeItem, setActiveItem] = useState(0);
 
   return (
-    <aside className={`
+    <aside
+      className={`
       relative min-h-screen bg-white border-r border-gray-200 transition-all duration-300 ease-in-out
-      ${isExpanded ? 'w-64' : 'w-20'}
-    `}>
+      ${isExpanded ? "w-64" : "w-20"}
+    `}
+    >
       {/* Toggle Button */}
-      <button 
+      <button
         onClick={() => setIsExpanded(!isExpanded)}
         className="absolute -right-3 top-6 z-10 rounded-full bg-white p-1.5 shadow-md hover:bg-gray-50"
       >
-        {isExpanded ? 
-          <IconifyIcon icon ="cuida:caret-left-outline" className="h-4 w-4 text-gray-600" /> : 
-          <IconifyIcon icon ="cuida:caret-right-outline" className="h-4 w-4 text-gray-600" />
-        }
+        {isExpanded ? (
+          <IconifyIcon
+            icon="cuida:caret-left-outline"
+            className="h-4 w-4 text-gray-600"
+          />
+        ) : (
+          <IconifyIcon
+            icon="cuida:caret-right-outline"
+            className="h-4 w-4 text-gray-600"
+          />
+        )}
       </button>
 
       {/* Logo Area */}
@@ -64,20 +87,31 @@ const MenuCourse = () => {
           return (
             <button
               key={index}
-              onClick={() => setActiveItem(index)}
+              onClick={() => {
+                setActiveItem(index);
+                onSectionChange(item.section);
+              }}
               className={`
                 group mb-2 flex w-full items-center rounded-lg p-2 text-sm font-medium transition-all duration-200
-                ${activeItem === index 
-                  ? 'bg-blue-50 text-blue-600' 
-                  : 'text-gray-600 hover:bg-gray-50'
+                ${
+                  activeItem === index
+                    ? "bg-blue-50 text-blue-600"
+                    : "text-gray-600 hover:bg-gray-50"
                 }
               `}
             >
-              <IconifyIcon icon = {Icon} className={`
+              <IconifyIcon
+                icon={Icon}
+                className={`
                 h-5 w-5 transition-colors
-                ${activeItem === index ? 'text-blue-600' : 'text-gray-500 group-hover:text-gray-600'}
-              `} />
-              
+                ${
+                  activeItem === index
+                    ? "text-blue-600"
+                    : "text-gray-500 group-hover:text-gray-600"
+                }
+              `}
+              />
+
               {isExpanded && (
                 <div className="ml-3 flex flex-1 items-center justify-between">
                   <span className="font-bold text-base">{item.text}</span>
@@ -96,12 +130,13 @@ const MenuCourse = () => {
         <div className="bottom-0 w-full border-t p-4">
           <div className="flex items-center space-x-3">
             <div className="flex flex-col absolute">
-              <span className="text-sm font-medium text-gray-700">Copyright &copy; 2024 uStudy</span>
+              <span className="text-sm font-medium text-gray-700">
+                Copyright &copy; 2024 uStudy
+              </span>
             </div>
           </div>
         </div>
       )}
-
     </aside>
   );
 };

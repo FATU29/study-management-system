@@ -1,19 +1,35 @@
+import React, { /* useEffect, */ useState } from "react";
+// import { useNavigate } from "react-router-dom";
+// import { Button, Typography, Box } from "@mui/material";
+// import SideMenu from "../components/Dashboard/SideMenu";
+// import NavigatorBar from "../components/Dashboard/NavigatorBar";
+// import MainGrid from "../components/Dashboard/MainGrid";
+import NavbarHome from "../components/Dashboard/NavbarHome";
+import MenuCourse from "../components/Dashboard/MenuCourse";
+import Main from "../components/Dashboard/Main";
+import MessagePage from "./MessagePage";
+// import { alpha } from "@mui/material/styles";
 
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button, Typography, Box } from '@mui/material';
-import SideMenu from '../components/Dashboard/SideMenu';
-import NavigatorBar from '../components/Dashboard/NavigatorBar';
-import MainGrid from '../components/Dashboard/MainGrid';
-import NavbarHome from '../components/Dashboard/NavbarHome';
-import MenuCourse from '../components/Dashboard/MenuCourse';
-import Main from '../components/Dashboard/Main';
+import { MenuSection } from "../components/types/menu-section";
 
+type MainContentProps = {
+  currentSection: MenuSection;
+};
 
-
-
-import { alpha } from '@mui/material/styles';
-
+const MainContent: React.FC<MainContentProps> = ({ currentSection }) => {
+  switch (currentSection) {
+    case "home":
+      return <Main />;
+    case "course":
+      return <></>;
+    case "chat":
+      return <MessagePage />;
+    case "file":
+      return <></>;
+    default:
+      return <></>;
+  }
+};
 
 const DashboardPage: React.FC = () => {
   // const navigate = useNavigate();
@@ -51,17 +67,23 @@ const DashboardPage: React.FC = () => {
   //   </Box>
   // );
   // const [isScrolledOut, setIsScrolledOut] = useState(false);
-  
+
+  const [currentSection, setCurrentSection] = useState<MenuSection>("home");
+
+  function handleSectionChange(section: MenuSection) {
+    setCurrentSection(section);
+  }
+
   const styles = {
     app: {
-      display: 'flex',
-      flexDirection: 'column' as const,
-      height: '100vh',
+      display: "flex",
+      flexDirection: "column" as const,
+      height: "100vh",
     },
     content: {
-      display: 'flex',
+      display: "flex",
       flex: 1,
-      overflow: 'hidden' as const, // Prevents entire page scrolling
+      overflow: "hidden" as const, // Prevents entire page scrolling
     },
   };
 
@@ -77,7 +99,7 @@ const DashboardPage: React.FC = () => {
 
     // { /* <Box component="replacing_div" sx={{ //CSS-like-style }}> BoxContent </Box>
     // sx: width, height, borderRadius, bgcolor
-    
+
     // */ }
     //   <Header isScrolledOut={isScrolledOut} />
     //   <NavigatorBar />
@@ -87,14 +109,14 @@ const DashboardPage: React.FC = () => {
     //     </Box>
     // </Box>
     <div style={styles.app}>
-    <NavbarHome />
-    <div style={styles.content}>
-      <MenuCourse />
-      <Main />
-      {/* <RightSidebar /> */}
+      <NavbarHome />
+      <div style={styles.content}>
+        <MenuCourse onSectionChange={handleSectionChange} />
+        <MainContent currentSection={currentSection} />
+        {/* <RightSidebar /> */}
+      </div>
     </div>
-  </div>
-  )
+  );
 };
 
 export default DashboardPage;
