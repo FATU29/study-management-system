@@ -9,9 +9,11 @@ import RegisterPage from "./pages/RegisterPage";
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPassword from './pages/ResetPassword';
 import MessagePage from "./pages/MessagePage";
+import ModalPage from './pages/Modal';
 import { ThemeProviderWrapper } from './contexts/ThemeContext';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import DashboardPage from './pages/DashboardPage';
+import { Modal } from '@mui/material';
 
 const AppContent: React.FC = () => {
   const location = useLocation();
@@ -33,6 +35,7 @@ const AppContent: React.FC = () => {
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/message" element={<MessagePage/>}/>
+              <Route path='/modal' element={<ModalPage/>}/>
               <Route path="*" element={<ErrorPage />} />
             </Routes>
           </div>
