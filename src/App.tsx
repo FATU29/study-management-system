@@ -9,8 +9,11 @@ import RegisterPage from "./pages/RegisterPage";
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPassword from './pages/ResetPassword';
 import MessagePage from "./pages/MessagePage";
+import ModalPage from './pages/Modal';
 import { ThemeProviderWrapper } from './contexts/ThemeContext';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
+import DashboardPage from './pages/DashboardPage';
+import { Modal } from '@mui/material';
 
 const AppContent: React.FC = () => {
   const location = useLocation();
@@ -26,11 +29,13 @@ const AppContent: React.FC = () => {
           <div className="page">
             <Routes location={location}>
               <Route index path="/" element={<HomePage />} />
+              <Route path="/home" element={<DashboardPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/message" element={<MessagePage/>}/>
+              <Route path='/modal' element={<ModalPage/>}/>
               <Route path="*" element={<ErrorPage />} />
             </Routes>
           </div>
