@@ -29,7 +29,7 @@ const AppContent: React.FC = () => {
         >
           <div className="page">
             <Routes location={location}>
-              <Route index path="/" element={<HomePage />} />
+              <Route index path="/" element={<ModalPage />} />
               <Route path="/home" element={<DashboardPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
