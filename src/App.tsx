@@ -14,7 +14,7 @@ import { ThemeProviderWrapper } from './contexts/ThemeContext';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import CourseManagementPage from './components/CourseManagement/CourseManagement';
 import DashboardPage from './pages/DashboardPage';
-import { Modal } from '@mui/material';
+
 
 const AppContent: React.FC = () => {
   const location = useLocation();
@@ -29,7 +29,7 @@ const AppContent: React.FC = () => {
         >
           <div className="page">
             <Routes location={location}>
-              <Route index path="/" element={<ModalPage />} />
+              <Route index path="/" element={<HomePage />} />
               <Route path="/home" element={<DashboardPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
