@@ -11,6 +11,7 @@ import MessagePage from "./MessagePage";
 // import { alpha } from "@mui/material/styles";
 
 import { MenuSection } from "../components/types/menu-section";
+import { useAuth } from "../contexts/AuthContext";
 
 type MainContentProps = {
   currentSection: MenuSection;
@@ -69,6 +70,7 @@ const DashboardPage: React.FC = () => {
   // const [isScrolledOut, setIsScrolledOut] = useState(false);
 
   const [currentSection, setCurrentSection] = useState<MenuSection>("home");
+  const {user} = useAuth();
 
   function handleSectionChange(section: MenuSection) {
     setCurrentSection(section);
@@ -109,7 +111,7 @@ const DashboardPage: React.FC = () => {
     //     </Box>
     // </Box>
     <div style={styles.app}>
-      <NavbarHome />
+      <NavbarHome user={user || undefined} />
       <div style={styles.content}>
         <MenuCourse onSectionChange={handleSectionChange} />
         <MainContent currentSection={currentSection} />

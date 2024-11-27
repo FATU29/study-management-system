@@ -11,10 +11,10 @@ export type LoginParams = {
 
 
 export type AuthValuesType = {
-    loading: boolean
-    logout: () => void
+    loadingInAuth: boolean
     user: TUser | null
-    setLoading: (value: boolean) => void
+    setLoadingInAuth: (value: boolean) => void
     setUser: (value: TUser | null) => void
-    login: (params: LoginParams) => void
+    logout: () => Promise<void>
+    login: (params: LoginParams) => Promise<void>
   }
