@@ -1,30 +1,32 @@
 import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import IconifyIcon from '../utils/icon/index';
+import { TUser } from "../../types/userType";
+import { toFullName } from "../../helpers/toFullName";
+import { useAuth } from "../../contexts/AuthContext";
+import { Typography } from "@mui/material";
 // import { Bell } from "lucide-react";
 
-interface UserInfo {
-  name: string;
-  role: string;
-  avatarUrl?: string;
-}
 
 interface NavbarHomeProps {
-  user?: UserInfo;
+  user?: TUser;
   notificationCount?: number;
 }
 
 
 const NavbarHome: React.FC<NavbarHomeProps> = ({ 
-  
   user = {
-    name: "Nguyễn Văn",
-    role: "Sinh viên",
-    avatarUrl: "https://placehold.co/200"
+    id: "",
+    lastName:"",
+    firstName:"",
+    avatar:"",
+    email:"",
+    role:"",
   },
   notificationCount = 3 
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const {logout} = useAuth();
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -63,15 +65,15 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
           {/* User Info */}
             <div className="flex items-center space-x-4 nav-item m-2">
             <div className="text-right flex-col">
-              <div className="text-xl font-bold text-primary">{user.name}</div>
+              <div className="text-xl font-bold text-primary">{toFullName(String(user.firstName),String(user.lastName))}</div>
               <div className="text-xs text-gray-500 text-green-400">{user.role}</div>
             </div>
             <div className="relative">
                 <img
                   id="avatarButton"
                   onClick={toggleDropdown}
-                  src={user.avatarUrl}
-                  alt={`${user.name}'s profile`}
+                  src={user?.avatar}
+                  alt={`${toFullName(String(user.firstName),String(user.lastName))}'s profile`}
                   className="h-10 w-10 rounded-full object-cover border-2 border-blue-600 cursor-pointer"/>
 
                 <div
@@ -79,17 +81,17 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
                   className={`z-10 ${isDropdownOpen ? '' : 'hidden'} mt-1 absolute right-0 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600`}>
                   <div className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownInformationButton">
                     <div>
-                      <Link to="#" className="block no-underline px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Bảng tin</Link>
+                      <Typography fontSize={"100%"} className="block no-underline px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Bảng tin</Typography>
                     </div>
                     <div>
-                      <Link to="#" className="block no-underline px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cài đặt</Link>
+                      <Typography fontSize={"100%"} className="block no-underline px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Cài đặt</Typography>
                     </div>
                     <div>
-                      <Link to="#" className="block no-underline px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Thông tin cá nhân</Link>
+                      <Typography fontSize={"100%"} className="block no-underline px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Thông tin cá nhân</Typography>
                     </div>
                   </div>
                   <div className="py-2">
-                    <Link to="#" className="block no-underline px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Thoát</Link>
+                    <Typography fontSize={"100%"} onClick={() => logout()} className="block no-underline px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Thoát</Typography>
                   </div>
                 </div>
               </div>
