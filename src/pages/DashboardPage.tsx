@@ -35,13 +35,14 @@ const initialSections: MenuSection[] = [
     icon: "solar:home-linear",
     badge: 0,
     component: <Main />,
+    parentSectionId: null,
   },
   {
     id: "course",
     name: "Khóa học",
     icon: "hugeicons:course",
     badge: 2,
-    component: <></>,
+    parentSectionId: null,
   },
   {
     id: "course-1",
@@ -50,6 +51,14 @@ const initialSections: MenuSection[] = [
     badge: 0,
     component: <CourseClass courseName="Nhập môn CNPM" />,
     parentSectionId: "course",
+  },
+  {
+    id: "course-1-edit",
+    name: "Chỉnh sửa",
+    icon: "fluent:class-20-regular",
+    badge: 0,
+    component: <CourseClass courseName="Edit course" />,
+    parentSectionId: "course-1",
   },
   {
     id: "course-2",
@@ -65,6 +74,7 @@ const initialSections: MenuSection[] = [
     icon: "proicons:chat",
     badge: 3,
     component: <MessagePage />,
+    parentSectionId: null,
   },
   {
     id: "file",
@@ -72,6 +82,7 @@ const initialSections: MenuSection[] = [
     icon: "formkit:file",
     badge: 0,
     component: <div>Tệp riêng tư content</div>,
+    parentSectionId: null,
   },
 ];
 
