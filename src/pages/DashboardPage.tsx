@@ -11,24 +11,81 @@ import MessagePage from "./MessagePage";
 // import { alpha } from "@mui/material/styles";
 
 import { MenuSection } from "../components/types/menu-section";
+import CourseClass from "../components/Dashboard/CourseClass";
 
-type MainContentProps = {
-  currentSection: MenuSection;
-};
+// const MainContent: React.FC<MainContentProps> = ({ currentSection }) => {
+//   switch (currentSection) {
+//     case "home":
+//       return <Main />;
+//     case "course":
+//       return <CourseClass courseName="Nhập môn CNPM" />;
+//     case "chat":
+//       return <MessagePage />;
+//     case "file":
+//       return <></>;
+//     default:
+//       return <></>;
+//   }
+// };
 
-const MainContent: React.FC<MainContentProps> = ({ currentSection }) => {
-  switch (currentSection) {
-    case "home":
-      return <Main />;
-    case "course":
-      return <></>;
-    case "chat":
-      return <MessagePage />;
-    case "file":
-      return <></>;
-    default:
-      return <></>;
+const initialSections: MenuSection[] = [
+  {
+    id: "home",
+    name: "Trang chủ",
+    icon: "solar:home-linear",
+    badge: 0,
+    component: <Main />,
+  },
+  {
+    id: "course",
+    name: "Khóa học",
+    icon: "hugeicons:course",
+    badge: 2,
+    component: <></>,
+  },
+  {
+    id: "course-1",
+    name: "Nhập môn CNPM",
+    icon: "fluent:class-20-regular",
+    badge: 0,
+    component: <CourseClass courseName="Nhập môn CNPM" />,
+    parentSectionId: "course",
+  },
+  {
+    id: "course-2",
+    name: "Phân tích thiết kế HTTT",
+    icon: "fluent:class-20-regular",
+    badge: 0,
+    component: <CourseClass courseName="Phân tích thiết kế HTTT" />,
+    parentSectionId: "course",
+  },
+  {
+    id: "chat",
+    name: "Trò chuyện",
+    icon: "proicons:chat",
+    badge: 3,
+    component: <MessagePage />,
+  },
+  {
+    id: "file",
+    name: "Tệp riêng tư",
+    icon: "formkit:file",
+    badge: 0,
+    component: <div>Tệp riêng tư content</div>,
+  },
+];
+
+const MainContent: React.FC<{
+  currentSectionId: string;
+  sections: MenuSection[];
+}> = ({ currentSectionId, sections }) => {
+  const section = sections.find((sec) => sec.id === currentSectionId);
+
+  if (!section) {
+    return <div>Section not found</div>;
   }
+
+  return <>{section.component ?? null}</>;
 };
 
 const DashboardPage: React.FC = () => {
@@ -68,10 +125,11 @@ const DashboardPage: React.FC = () => {
   // );
   // const [isScrolledOut, setIsScrolledOut] = useState(false);
 
-  const [currentSection, setCurrentSection] = useState<MenuSection>("home");
+  const [sections, setSections] = useState<MenuSection[]>(initialSections);
+  const [currentSectionId, setCurrentSectionId] = useState<string>("home");
 
-  function handleSectionChange(section: MenuSection) {
-    setCurrentSection(section);
+  function handleSectionChange(sectionId: string) {
+    setCurrentSectionId(sectionId);
   }
 
   const styles = {
@@ -111,8 +169,8 @@ const DashboardPage: React.FC = () => {
     <div style={styles.app}>
       <NavbarHome />
       <div style={styles.content}>
-        <MenuCourse onSectionChange={handleSectionChange} />
-        <MainContent currentSection={currentSection} />
+        <MenuCourse onSectionChange={handleSectionChange} sections={sections} />
+        <MainContent currentSectionId={currentSectionId} sections={sections} />
         {/* <RightSidebar /> */}
       </div>
     </div>
