@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { TextField, Button, FormControlLabel, Checkbox } from '@mui/material';
+import { TextField, Button, FormControlLabel, Checkbox, Divider, Box, IconButton, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -9,6 +9,8 @@ import { useAuth } from '../contexts/AuthContext';
 import { LoginParams } from '../contexts/types';
 import Spinner from '../helpers/Spinner';
 import CustomModalAlert from '../components/CustomModalAlert';
+import IconifyIcon from '../components/utils/icon';
+import { getAuthGoogleUrl } from '../services/auth';
 
 interface LoginFormData {
   email: string;
@@ -45,6 +47,7 @@ const LoginPage = () => {
   const [fadeIn, setFadeIn] = useState(true);
   const [isOpenModelAlert,setIsOpenModalAlert] = useState<boolean>(false);
   const {login} = useAuth();
+  const urlGoogle = useMemo(() => getAuthGoogleUrl(),[])
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -233,6 +236,14 @@ return (
               {isSubmitting ? 'Đang đăng nhập...' : 'Đăng nhập'}
             </Button>
           </form>
+          <Divider />
+          <Typography marginTop={2} textAlign={"center"} className="text-gray-600">Hoặc đăng nhập bằng</Typography>
+          <Box className="flex justify-center items-center mt-2">
+              <Link to={urlGoogle}>
+                  <IconifyIcon icon={"logos:google-icon"} fontSize={"30px"}/>
+              </Link>
+          </Box>
+
         </div>
       </div>
     </div>

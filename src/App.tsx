@@ -22,6 +22,7 @@ import {
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import UsersVerifyMailPage from './pages/UsersVerifyMailPage';
 import { userVerifyMail, verifyResetPasswordAPI } from './services/auth';
+import GoogleLoginPage from './pages/GoogleLoginPage';
 
 const queryClient = new QueryClient()
 
@@ -49,6 +50,7 @@ const AppContent: React.FC = () => {
               <Route path='/modal' element={<ModalPage/>}/>
               <Route path='/users/verify-email' element={<UsersVerifyMailPage pageNext='/login' queryKey='verify-register' queryFnc={userVerifyMail}/>}/>
               <Route path='/users/reset-password' element={<UsersVerifyMailPage pageNext='/reset-password' queryKey='verify-forgotPassword' queryFnc={verifyResetPasswordAPI}/>}/>
+              <Route path='/users/oauth/google' element={<GoogleLoginPage/>}/>
               <Route path="*" element={<ErrorPage />} />
             </Routes>
           </div>
