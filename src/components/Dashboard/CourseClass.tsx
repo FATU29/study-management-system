@@ -1,70 +1,161 @@
-import { Box, Typography } from "@mui/material";
-import React from "react";
+import { Box, Button, Dialog, DialogTitle, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { ClassResource, ResourceType } from "../types/class-resource";
 
-type CourseClassProps = {
-  courseName: string;
+const resourceIcon = (type: ResourceType) => {
+  switch (type) {
+    case "document":
+      return "📄";
+    case "link":
+      return "🔗";
+    case "assignment":
+      return "📝";
+    case "announcement":
+      return "📢";
+    default:
+      return "❓";
+  }
 };
+const editIcon = "🖊️";
 
-const CourseClass: React.FC<CourseClassProps> = (prop: CourseClassProps) => {
+const CourseClass: React.FC<{
+  title: string;
+  teachers: string[];
+  resources: ClassResource[];
+}> = ({ title, teachers, resources }) => {
+  const labels = Array.from(
+    new Set(resources.map((resource) => resource.sectionLabel))
+  );
   return (
     <Box>
       <Typography variant="h4" gutterBottom>
-        {prop.courseName}
+        {title}
       </Typography>
 
-      <ClassSection label="Thông tin môn học">
-        <InfoSection />
-      </ClassSection>
+      <Typography variant="h6" gutterBottom>
+        Giáo viên: {teachers.join(", ")}
+      </Typography>
 
-      <ClassSection label="Tài liệu">
-        <DocumentSection />
-      </ClassSection>
-
-      <ClassSection label="Lý thuyết">
-        <TheorySection />
-      </ClassSection>
-
-      <ClassSection label="Thực hành">
-        <PracticeSection />
-      </ClassSection>
+      {labels.map((label) => {
+        const sectionResources = resources.filter(
+          (resource) => resource.sectionLabel === label
+        );
+        return (
+          <ClassSection
+            key={label}
+            label={label}
+            resources={sectionResources}
+          />
+        );
+      })}
     </Box>
   );
 };
 
-type ClassSectionProps = {
+type ResourceEditHandler = (resource: ClassResource) => void;
+type ResourceUploadHandler = (
+  resourceType: ResourceType,
+  labelName: string
+) => void;
+const resourceTypes: ResourceType[] = [
+  "document",
+  "link",
+  "assignment",
+  "announcement",
+];
+const dialogTitle = "Select the type of resource to upload";
+
+const ClassSection: React.FC<{
   label: string;
-  children: React.ReactNode;
-};
+  resources: ClassResource[];
+}> = ({ label, resources }) => {
+  const [isDialogOpened, setIsDialogOpened] = useState(false);
 
-const ClassSection: React.FC<ClassSectionProps> = ({
-  label: sectionLabel,
-  children,
-}: ClassSectionProps) => {
+  const handleEditResource: ResourceEditHandler = (resource) => {
+    alert(
+      `Resolve editting the resource "${resource.title}" with resourse type "${resource.type}"!`
+    );
+  };
+
+  const handleUploadResource: ResourceUploadHandler = (
+    resourceType,
+    labelName
+  ) => {
+    alert(
+      `Resove uploading a ${resourceType} resource, in label "${labelName}"!`
+    );
+  };
+
+  const handleDialogClose = (
+    event: {},
+    reason: "backdropClick" | "escapeKeyDown"
+  ) => {
+    setIsDialogOpened(false);
+  };
+
   return (
-    <Box mb={4}>
-      <Typography variant="h6" gutterBottom textAlign={"left"}>
-        {sectionLabel}
+    <Box>
+      <Typography
+        variant="h6"
+        gutterBottom
+        sx={{ textAlign: "left", fontWeight: "bold" }}
+      >
+        {label}
       </Typography>
+      <Box display="flex" flexDirection="column" gap={1}>
+        {resources.map((resource) => {
+          const resourceUrl =
+            resource.type === "link" ? resource.url : undefined;
 
-      {children}
+          return (
+            <Box key={resource.id} display="flex" gap={1}>
+              <Typography variant="body2">
+                {resourceIcon(resource.type)}
+              </Typography>
+              <Typography variant="body2" component="a" href={resourceUrl}>
+                {resource.title}
+              </Typography>
+              <Typography
+                onClick={() => handleEditResource(resource)}
+                variant="body2"
+                sx={{ cursor: "pointer" }}
+              >
+                {editIcon}
+              </Typography>
+            </Box>
+          );
+        })}
+
+        <Button
+          onClick={() => setIsDialogOpened(true)}
+          variant="contained"
+          color="primary"
+          sx={{ width: "200px" }}
+        >
+          Click to Upload
+        </Button>
+
+        <Dialog onClose={handleDialogClose} open={isDialogOpened}>
+          <DialogTitle>{dialogTitle}</DialogTitle>
+          <Box display="flex" flexDirection="column">
+            {resourceTypes.map((type) => (
+              <Button
+                key={type}
+                onClick={() => {
+                  setIsDialogOpened(false);
+                  handleUploadResource(type, label);
+                }}
+                variant="contained"
+                color="primary"
+              >
+                {type}
+              </Button>
+            ))}
+          </Box>
+        </Dialog>
+      </Box>
     </Box>
   );
-};
-
-const InfoSection: React.FC = () => {
-  return <></>;
-};
-
-const DocumentSection: React.FC = () => {
-  return <></>;
-};
-
-const TheorySection: React.FC = () => {
-  return <></>;
-};
-
-const PracticeSection: React.FC = () => {
-  return <></>;
 };
 
 export default CourseClass;

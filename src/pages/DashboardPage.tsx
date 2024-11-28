@@ -12,6 +12,7 @@ import MessagePage from "./MessagePage";
 
 import { MenuSection } from "../components/types/menu-section";
 import CourseClass from "../components/Dashboard/CourseClass";
+import ClassPageExample from "./ClassPageExample";
 
 // const MainContent: React.FC<MainContentProps> = ({ currentSection }) => {
 //   switch (currentSection) {
@@ -49,7 +50,7 @@ const initialSections: MenuSection[] = [
     name: "Nhập môn CNPM",
     icon: "fluent:class-20-regular",
     badge: 0,
-    component: <CourseClass courseName="Nhập môn CNPM" />,
+    component: <ClassPageExample />,
     parentSectionId: "course",
   },
   {
@@ -57,7 +58,7 @@ const initialSections: MenuSection[] = [
     name: "Chỉnh sửa",
     icon: "fluent:class-20-regular",
     badge: 0,
-    component: <CourseClass courseName="Edit course" />,
+    component: <></>,
     parentSectionId: "course-1",
   },
   {
@@ -65,7 +66,7 @@ const initialSections: MenuSection[] = [
     name: "Phân tích thiết kế HTTT",
     icon: "fluent:class-20-regular",
     badge: 0,
-    component: <CourseClass courseName="Phân tích thiết kế HTTT" />,
+    component: <></>,
     parentSectionId: "course",
   },
   {
