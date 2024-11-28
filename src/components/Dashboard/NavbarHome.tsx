@@ -65,7 +65,7 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
           {/* User Info */}
             <div className="flex items-center space-x-4 nav-item m-2">
             <div className="text-right flex-col">
-              <div className="text-xl font-bold text-primary">{toFullName(String(user.firstName),String(user.lastName))}</div>
+              <div className="text-xl font-bold text-primary">{toFullName(user.firstName || "",user.lastName || "")}</div>
               <div className="text-xs text-gray-500 text-green-400">{user.role}</div>
             </div>
             <div className="relative">
@@ -73,7 +73,7 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
                   id="avatarButton"
                   onClick={toggleDropdown}
                   src={user?.avatar}
-                  alt={`${toFullName(String(user.firstName),String(user.lastName))}'s profile`}
+                  alt={`${toFullName(user.firstName || "", user.lastName || "")}'s profile`}
                   className="h-10 w-10 rounded-full object-cover border-2 border-blue-600 cursor-pointer"/>
 
                 <div

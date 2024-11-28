@@ -1,6 +1,6 @@
+
 import { API_ROUTE } from "../configs/BASEURL";
 import { getLocalUserData, setLocalUserData } from "../helpers/LocalStorage";
-import { parseToken } from "../helpers/parseToken";
 import { LOGIN_USER_API, REGISTER_USER_API } from "./typeForService/authType";
 
 export const registerUserAPI = async (user:REGISTER_USER_API) => {
@@ -190,4 +190,25 @@ export const resetPasswordAPI = async ({password, confirmPassword}: {password: s
         console.log("Error in resetPassword: ", error.message);
         throw error
     }
+}
+
+
+
+export const getAuthGoogleUrl = () => {
+    const oauth2Endpoint = `https://accounts.google.com/o/oauth2/v2/auth`;
+    const params = {
+        'client_id': String(process.env.REACT_APP_GOOGLE_CLIENT_ID),
+        'redirect_uri':String(process.env.REACT_APP_GOOGLE_AUTH_REDIRECT_URL),
+        'response_type': 'code',
+        'scope': [
+            'https://www.googleapis.com/auth/userinfo.profile',
+            'https://www.googleapis.com/auth/userinfo.email'
+        ].join(' '),
+        'prompt':'consent',
+        'access_type':'offline'
+    };
+
+    const paramsString = new URLSearchParams(params);
+
+    return `${oauth2Endpoint}?${paramsString}`
 }

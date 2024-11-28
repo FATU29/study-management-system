@@ -9,9 +9,11 @@ export default function ErrorPage() {
         w-screen
         h-screen
         flex
+        flex-col
         justify-center
         items-center
-        flex-col 
+        flex-col,
+        fixed
     ">
       <h1>Oops!</h1>
       <p>Sorry, an unexpected error has occurred.</p>
