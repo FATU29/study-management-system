@@ -15,7 +15,7 @@ import RegisterPage from "./pages/RegisterPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPassword from "./pages/ResetPassword";
 import MessagePage from "./pages/MessagePage";
-import ModalPage from "./pages/Modal";
+import ModalPage from "./pages/ModalTest";
 import { ThemeProviderWrapper } from "./contexts/ThemeContext";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import DashboardPage from "./pages/DashboardPage";

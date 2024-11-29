@@ -32,7 +32,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
       aria-labelledby="profile-modal-title"
       aria-describedby="profile-modal-description"
     >
-      <Box
+      <Box // FOR THE WHOLE MODAL
         sx={{
           position: 'absolute',
           top: '50%',
@@ -45,41 +45,57 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
           p: 4,
           display: 'flex',
           borderRadius: 8,
+
+          // border: '1px solid #ff0099',
         }}
       >
-        <Box
+        <Box  // FOR AVATAR, PASSWORD CHANGE BUTTON AND 2-STEP VERIFICATION BUTTON
           sx={{
             flex: 1,
             display: 'flex',
             justifyContent: 'flex-start', // Align items at the top
             alignItems: 'center', // Center horizontally
             flexDirection: 'column',
+
+            // border: '1px solid #ff0099',
           }}
         >
           <Avatar alt="Avatar" src="https://avatar.iran.liara.run/public/25" sx={{ width: 150, height: 150 }} />
-          <Typography sx={{ mt: 2, textAlign: 'center', fontSize: '16px', fontWeight: 'bold', color:'Highlight' }}>Học sinh</Typography> {/* Margin top to add space */}
-          <Box sx={{
-            flex:1,
-            display:'flex',
-            justifyContent:'flex-end',
-            alignItem:'center',
-            flexDirection:'column'
+          <Typography sx={{ mt: 2, textAlign: 'center', fontSize: '16px', fontWeight: 'bold', color: 'Highlight' }}>Học sinh</Typography> {/* Margin top to add space */}
+          <Box sx={{  // FOR THE BUTTONS
+            flex: 1,
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItem: 'center',
+            flexDirection: 'column',
+
+            // border: '1px solid #ff0099',
           }}>
-            <Button variant="contained" color="primary" onClick={handleSave} sx={{ height: 54, width: 160, fontSize: '1rem', padding: '0 10px', borderRadius: '8px', textTransform: 'none', mb:2, backgroundColor:'red' }}>
+            <Button variant="contained" color="primary" onClick={handleSave} sx={{ height: 54, width: 160, fontSize: '1rem', padding: '0 10px', borderRadius: '8px', textTransform: 'none', mb: 2, backgroundColor: 'red' }}>
               Đổi mật khẩu
             </Button>
-            <Button variant="contained" color="primary" onClick={handleSave} sx={{ height: 54, width: 160, fontSize: '1rem', padding: '0 10px', borderRadius: '8px', textTransform: 'none', backgroundColor:'white', color:'red', border:'1px solid red' }}>
+            <Button variant="contained" color="primary" onClick={handleSave} sx={{ height: 54, width: 160, fontSize: '1rem', padding: '0 10px', borderRadius: '8px', textTransform: 'none', backgroundColor: 'white', color: 'red', border: '1px solid red' }}>
               Xác thực 2 bước
             </Button>
           </Box>
         </Box>
 
-        <Box sx={{ flex: 2 }}>
-          <Typography variant="h6" component="h2" sx={{textAlign:'center'}}>
+        <Box  // FOR THE MAIN FORM
+          sx={{
+            flex: 2,
+            // border: '1px solid #ff0099',
+          }}>
+          <Typography variant="h6" component="h2" sx={{ textAlign: 'center' }}>
             Cập nhật thông tin cá nhân
           </Typography>
-          <Box component="form" noValidate autoComplete="off">
-            <Box sx={{ display: 'flex', gap: 2 }}>
+          <Box component="form" noValidate autoComplete="off">  // FOR NAMES
+            <Box
+              sx={{
+                display: 'flex',
+                gap: 2,
+                // border: '1px solid #ff0099',
+              }}
+            >
               <TextField
                 label="Họ và tên đệm"
                 value={middleName}
