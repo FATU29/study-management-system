@@ -18,7 +18,7 @@ export type ClassResource = {
   description?: string; // File-only resource may not need description
   openDate?: Date | null;
   dueDate?: Date | null;
-  submissions?: Submission[]; // For "submission" type
+  submissions?: Submission[]; // For "submission" type, or save submissionIds
 };
 
 export type Submission = {

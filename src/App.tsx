@@ -23,6 +23,8 @@ import { Modal } from "@mui/material";
 import CourseClass from "./components/Dashboard/CourseClass";
 import Main from "./components/Dashboard/Main";
 import ClassPageExample, { classLoader } from "./pages/ClassPageExample";
+import AssignmentPage from "./pages/AssignmentPage";
+import ResourceUploadDispatcher from "./components/Dashboard/ResourceUploadDispatcher";
 
 const AppContent: React.FC = () => {
   const location = useLocation();
@@ -57,7 +59,10 @@ const AppContent: React.FC = () => {
               element={<ClassPageExample />}
               // loader={classLoader}
             />
-            <Route path=":courseId/resource/add/assignment/:label" />
+            <Route
+              path="upload-resource"
+              element={<ResourceUploadDispatcher />}
+            />
           </Route>
         </Route>
       </Routes>

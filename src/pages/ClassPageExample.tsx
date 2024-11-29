@@ -20,6 +20,7 @@ const ClassPageExample: React.FC = () => {
   if (currentClass) {
     return (
       <CourseClass
+        classId={currentClass.id}
         title={currentClass.title}
         teachers={currentClass.teachers}
         resources={currentClass.resources}

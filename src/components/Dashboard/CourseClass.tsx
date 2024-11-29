@@ -1,6 +1,7 @@
 import { Box, Button, Dialog, DialogTitle, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { ClassResource, ResourceType } from "../types/class-resource";
+import { useNavigate } from "react-router-dom";
 
 const resourceIcon = (type: ResourceType) => {
   switch (type) {
@@ -19,10 +20,11 @@ const resourceIcon = (type: ResourceType) => {
 const editIcon = "🖊️";
 
 const CourseClass: React.FC<{
+  classId: string;
   title: string;
   teachers: string[];
   resources: ClassResource[];
-}> = ({ title, teachers, resources }) => {
+}> = ({ classId, title, teachers, resources }) => {
   const labels = Array.from(
     new Set(resources.map((resource) => resource.sectionLabel))
   );
@@ -43,6 +45,7 @@ const CourseClass: React.FC<{
         return (
           <ClassSection
             key={label}
+            classId={classId}
             label={label}
             resources={sectionResources}
           />
@@ -66,9 +69,11 @@ const resourceTypes: ResourceType[] = [
 const dialogTitle = "Select the type of resource to upload";
 
 const ClassSection: React.FC<{
+  classId: string;
   label: string;
   resources: ClassResource[];
-}> = ({ label, resources }) => {
+}> = ({ classId, label, resources }) => {
+  const navigate = useNavigate();
   const [isDialogOpened, setIsDialogOpened] = useState(false);
 
   const handleEditResource: ResourceEditHandler = (resource) => {
@@ -81,8 +86,9 @@ const ClassSection: React.FC<{
     resourceType,
     labelName
   ) => {
-    alert(
-      `Resove uploading a ${resourceType} resource, in label "${labelName}"!`
+    const noExplicitSpaceLabel = labelName.replace(/\s/g, "-");
+    navigate(
+      `upload-resource/?classId=${classId}&label=${noExplicitSpaceLabel}&type=${resourceType}`
     );
   };
 
