@@ -87,8 +87,8 @@ const ClassSection: React.FC<{
   };
 
   const handleDialogClose = (
-    event: {},
-    reason: "backdropClick" | "escapeKeyDown"
+    _event: {},
+    _reason: "backdropClick" | "escapeKeyDown"
   ) => {
     setIsDialogOpened(false);
   };

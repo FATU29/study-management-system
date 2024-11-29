@@ -1,33 +1,10 @@
-import React, { /* useEffect, */ useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { Button, Typography, Box } from "@mui/material";
-// import SideMenu from "../components/Dashboard/SideMenu";
-// import NavigatorBar from "../components/Dashboard/NavigatorBar";
-// import MainGrid from "../components/Dashboard/MainGrid";
+import React from "react";
 import NavbarHome from "../components/Dashboard/NavbarHome";
 import MenuCourse from "../components/Dashboard/MenuCourse";
-import Main from "../components/Dashboard/Main";
-import MessagePage from "./MessagePage";
 // import { alpha } from "@mui/material/styles";
 
 import { MenuSection } from "../components/types/menu-section";
-import CourseClass from "../components/Dashboard/CourseClass";
-import ClassPageExample from "./ClassPageExample";
-
-// const MainContent: React.FC<MainContentProps> = ({ currentSection }) => {
-//   switch (currentSection) {
-//     case "home":
-//       return <Main />;
-//     case "course":
-//       return <CourseClass courseName="Nhập môn CNPM" />;
-//     case "chat":
-//       return <MessagePage />;
-//     case "file":
-//       return <></>;
-//     default:
-//       return <></>;
-//   }
-// };
+import { Outlet, useNavigate } from "react-router-dom";
 
 const initialSections: MenuSection[] = [
   {
@@ -35,7 +12,7 @@ const initialSections: MenuSection[] = [
     name: "Trang chủ",
     icon: "solar:home-linear",
     badge: 0,
-    component: <Main />,
+    url: "/home",
     parentSectionId: null,
   },
   {
@@ -50,15 +27,15 @@ const initialSections: MenuSection[] = [
     name: "Nhập môn CNPM",
     icon: "fluent:class-20-regular",
     badge: 0,
-    component: <ClassPageExample />,
+    // url: "course/cs101",
+    url: "course/?classId=cs101",
     parentSectionId: "course",
   },
   {
     id: "course-1-edit",
-    name: "Chỉnh sửa",
+    name: "Chỉnh sửa (for illustration use only)",
     icon: "fluent:class-20-regular",
     badge: 0,
-    component: <></>,
     parentSectionId: "course-1",
   },
   {
@@ -66,7 +43,6 @@ const initialSections: MenuSection[] = [
     name: "Phân tích thiết kế HTTT",
     icon: "fluent:class-20-regular",
     badge: 0,
-    component: <></>,
     parentSectionId: "course",
   },
   {
@@ -74,7 +50,7 @@ const initialSections: MenuSection[] = [
     name: "Trò chuyện",
     icon: "proicons:chat",
     badge: 3,
-    component: <MessagePage />,
+    url: "message",
     parentSectionId: null,
   },
   {
@@ -82,23 +58,9 @@ const initialSections: MenuSection[] = [
     name: "Tệp riêng tư",
     icon: "formkit:file",
     badge: 0,
-    component: <div>Tệp riêng tư content</div>,
     parentSectionId: null,
   },
 ];
-
-const MainContent: React.FC<{
-  currentSectionId: string;
-  sections: MenuSection[];
-}> = ({ currentSectionId, sections }) => {
-  const section = sections.find((sec) => sec.id === currentSectionId);
-
-  if (!section) {
-    return <div>Section not found</div>;
-  }
-
-  return <>{section.component ?? null}</>;
-};
 
 const DashboardPage: React.FC = () => {
   // const navigate = useNavigate();
@@ -137,11 +99,12 @@ const DashboardPage: React.FC = () => {
   // );
   // const [isScrolledOut, setIsScrolledOut] = useState(false);
 
-  const [sections, setSections] = useState<MenuSection[]>(initialSections);
-  const [currentSectionId, setCurrentSectionId] = useState<string>("home");
+  const navigate = useNavigate();
 
-  function handleSectionChange(sectionId: string) {
-    setCurrentSectionId(sectionId);
+  function handleSectionChange(section: MenuSection) {
+    if (section.url) {
+      navigate(section.url);
+    }
   }
 
   const styles = {
@@ -181,8 +144,11 @@ const DashboardPage: React.FC = () => {
     <div style={styles.app}>
       <NavbarHome />
       <div style={styles.content}>
-        <MenuCourse onSectionChange={handleSectionChange} sections={sections} />
-        <MainContent currentSectionId={currentSectionId} sections={sections} />
+        <MenuCourse
+          onSectionChange={handleSectionChange}
+          sections={initialSections}
+        />
+        <Outlet />
         {/* <RightSidebar /> */}
       </div>
     </div>

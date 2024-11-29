@@ -5,6 +5,6 @@ export type MenuSection = {
   name: string;
   icon?: string;
   badge?: number;
-  component?: React.ReactNode;
+  url?: string;
   parentSectionId: string | null;
 };

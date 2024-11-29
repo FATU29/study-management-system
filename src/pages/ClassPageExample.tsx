@@ -1,5 +1,37 @@
+import { LoaderFunction, useSearchParams } from "react-router-dom";
 import CourseClass from "../components/Dashboard/CourseClass";
 import { Class, ClassResource } from "../components/types/class-resource";
+
+// loader can't be use with Route component
+export const classLoader: LoaderFunction = async ({ params }) => {
+  if (params.courseId && params.courseId === "cs101") {
+    return mockedClass;
+  }
+  return null;
+};
+
+const ClassPageExample: React.FC = () => {
+  // const currentClass = useLoaderData() as Class;
+
+  const [searchParams] = useSearchParams();
+  const currentClassId = searchParams.get("classId");
+  const currentClass = currentClassId === "cs101" ? mockedClass : null;
+
+  if (currentClass) {
+    return (
+      <CourseClass
+        title={currentClass.title}
+        teachers={currentClass.teachers}
+        resources={currentClass.resources}
+      />
+    );
+  }
+  return <div>Course not found! Course="{currentClass}"</div>;
+};
+
+export default ClassPageExample;
+
+// Mock data
 
 const classTitle = "Nhập môn công nghệ phần mềm 22_3";
 
@@ -53,22 +85,10 @@ const classResources: ClassResource[] = [
   },
 ];
 
-const currentClass: Class = {
+export const mockedClass: Class = {
   id: "cs101",
   title: classTitle,
   teachers: classTeachers,
   students: [],
   resources: classResources,
 };
-
-const ClassPageExample: React.FC = () => {
-  return (
-    <CourseClass
-      title={currentClass.title}
-      teachers={currentClass.teachers}
-      resources={currentClass.resources}
-    />
-  );
-};
-
-export default ClassPageExample;

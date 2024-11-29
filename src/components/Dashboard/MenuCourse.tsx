@@ -30,7 +30,7 @@ const getLevelStyle = (level: number) =>
   };
 
 const MenuCourse: React.FC<{
-  onSectionChange: (sectionId: string) => void;
+  onSectionChange: (section: MenuSection) => void;
   sections: MenuSection[];
 }> = ({ onSectionChange, sections }) => {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -66,15 +66,13 @@ const MenuCourse: React.FC<{
             {/* Section Button */}
             <button
               onClick={() => {
-                if (hasSubsection) {
-                  if (!isActive && section.component) {
-                    setActiveItem(section.id);
-                    onSectionChange(section.id);
-                  }
-                  toggleSubSection(section.id);
-                } else {
+                if (section.url) {
                   setActiveItem(section.id);
-                  onSectionChange(section.id);
+                  onSectionChange(section);
+                }
+
+                if (hasSubsection) {
+                  toggleSubSection(section.id);
                 }
               }}
               className={`group mb-2 flex w-full items-center rounded-lg p-2 text-sm font-medium transition-all duration-200
