@@ -107,6 +107,7 @@ const RegisterPage = () => {
   const onSubmit = async (data: RegisterFormData) => {
     const { firstName, lastName, email, password,confirmPassword } = data;
 
+
     const dataRequest = {
       firstName,
       lastName,
@@ -193,9 +194,11 @@ const RegisterPage = () => {
                 <Controller
                   name="lastName"
                   control={control}
-                  render={({ field }) => (
+                  render={({ field : {value,onBlur,onChange} }) => (
                     <TextField
-                      {...field}
+                      value={value}
+                      onChange={onChange}
+                      onBlur={onBlur}
                       fullWidth
                       label="Họ"
                       variant="outlined"
@@ -207,9 +210,11 @@ const RegisterPage = () => {
                 <Controller
                   name="firstName"
                   control={control}
-                  render={({ field }) => (
+                  render={({ field : {value,onBlur,onChange} }) => (
                     <TextField
-                      {...field}
+                      value={value}
+                      onChange={onChange}
+                      onBlur={onBlur}
                       fullWidth
                       label="Tên"
                       variant="outlined"
@@ -223,9 +228,11 @@ const RegisterPage = () => {
                 <Controller
                   name="email"
                   control={control}
-                  render={({ field }) => (
+                  render={({ field : {value,onChange,onBlur} }) => (
                     <TextField
-                      {...field}
+                    value={value}
+                    onChange={onChange}
+                    onBlur={onBlur}
                       fullWidth
                       label="Email"
                       variant="outlined"
@@ -239,9 +246,11 @@ const RegisterPage = () => {
                 <Controller
                   name="password"
                   control={control}
-                  render={({ field }) => (
+                  render={({ field:{value,onChange,onBlur} }) => (
                     <TextField
-                      {...field}
+                    value={value}
+                    onChange={onChange}
+                    onBlur={onBlur}
                       fullWidth
                       label="Mật khẩu"
                       type="password"
@@ -256,9 +265,11 @@ const RegisterPage = () => {
                 <Controller
                   name="confirmPassword"
                   control={control}
-                  render={({ field }) => (
+                  render={({ field : {onChange,onBlur,value} }) => (
                     <TextField
-                      {...field}
+                    value={value}
+                    onChange={onChange}
+                    onBlur={onBlur}
                       fullWidth
                       label="Xác nhận mật khẩu"
                       type="password"

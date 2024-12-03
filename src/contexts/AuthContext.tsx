@@ -48,25 +48,29 @@ const AuthProvider = ({ children }: Props) => {
           setUser(response.data);
         })
         .catch(() => {
-          clearLocalUserData();
-          navigate("/", { replace: true });
-        })
-        .finally(() => {
           setLoadingInAuth(false);
-        });
-    };
+          clearLocalUserData();
+          navigate("/login", { replace: true });
+        })
+      setLoadingInAuth(false);
+      };
     getMeChange();
   }, []);
+  
 
   const handleLogin = async (params: LoginParams) => {
     setLoadingInAuth(true);
       await loginUserAPI(params).then((reponse) => {
         const data = reponse.data;
-        const { accessToken, refreshToken } = data;
+        const { accessToken, refreshToken } = data.result;
         const payload: TParseToken | undefined = parseToken(accessToken);
-       
+        setUser(data.user)
         setLocalUserData(payload?.user_id,accessToken, refreshToken);
-        navigate("/home");
+        if(data.user.role === "USER"){
+          navigate("/home");
+        } else if(data.user.role === "ADMIN"){
+          navigate("/admin");
+        }
       }).catch((error) => {
         throw new Error("Lỗi đăng nhập");
       }).finally(() => {
