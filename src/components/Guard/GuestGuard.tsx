@@ -10,9 +10,6 @@ interface TProps {
 const GuestGuard = ({ children }: TProps) => {
   const { user, loadingInAuth } = useAuth();
   const navigate = useNavigate();
-
-  console.log("Hello")
-
  
   if (user) {
     if (user.role === "USER") {

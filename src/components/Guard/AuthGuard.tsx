@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import Spinner from "../../helpers/Spinner";
@@ -12,7 +12,7 @@ const AuthGuard = ({ children, roleRequires = [] }: TProps) => {
   const { user, loadingInAuth } = useAuth();
   const navigate = useNavigate();
 
-  if (loadingInAuth) {
+  if (loadingInAuth || !user) {
     return <Spinner />;
   }
 
@@ -22,7 +22,7 @@ const AuthGuard = ({ children, roleRequires = [] }: TProps) => {
   }
 
 
-  if (user.role && !roleRequires.includes(user.role)) {
+  if (user.role && !roleRequires.includes(user.role as string)) {
     navigate("/no-access", { replace: true });
     return;
   }
