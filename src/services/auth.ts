@@ -1,5 +1,6 @@
 
 import { API_ROUTE } from "../configs/BASEURL";
+import { instanceAxios } from "../contexts/instanceAxios";
 import { getLocalUserData, setLocalUserData } from "../helpers/LocalStorage";
 import { LOGIN_USER_API, REGISTER_USER_API } from "./typeForService/authType";
 
@@ -77,18 +78,18 @@ export const getMeAPI = async () => {
     const {userData,accessToken} = getLocalUserData();
     if(userData){
         const url = `${API_ROUTE.USERS}/get-me`
-        const response = await fetch(url,{
+        const response = await instanceAxios(url,{
             method:"GET",
             headers:{
                 "Content-Type":"Application/json",
                 "Authorization":`Bearer ${accessToken}`
             }
         });
-        if (!response.ok) {
+        if (response.status !== 200) {
             throw new Error("Lấy dữ liệu của tôi thất bại");
         }
 
-        const data = await response.json();
+        const data = await response.data;
         return data;
     }
    }catch(error:any){
@@ -212,3 +213,4 @@ export const getAuthGoogleUrl = () => {
 
     return `${oauth2Endpoint}?${paramsString}`
 }
+

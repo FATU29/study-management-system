@@ -16,7 +16,7 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPassword from "./pages/ResetPassword";
 import ModalPage from "./pages/Modal";
 import { ThemeProviderWrapper } from "./contexts/ThemeContext";
-import CourseManagementPage from "./components/CourseManagement/CourseManagement";
+import CourseManagementPage from "./pages/CourseManagement";
 import DashboardPage from "./pages/DashboardPage";
 import AuthProvider from "./contexts/AuthContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -27,6 +27,7 @@ import GoogleLoginPage from "./pages/GoogleLoginPage";
 import NoAccess from "./pages/NoAcess";
 import AuthGuard from "./components/Guard/AuthGuard";
 import GuestGuard from "./components/Guard/GuestGuard";
+import InstanceAxiosProvider from "./contexts/instanceAxios";
 
 const queryClient = new QueryClient();
 
@@ -138,12 +139,14 @@ const App: React.FC = () => {
             {
               path: "*",
               element: (
-                <QueryClientProvider client={queryClient}>
-                  <AuthProvider>
-                    <AppContent />
-                  </AuthProvider>
-                  <ReactQueryDevtools initialIsOpen={false} />
-                </QueryClientProvider>
+                <InstanceAxiosProvider>
+                  <QueryClientProvider client={queryClient}>
+                    <AuthProvider>
+                      <AppContent />
+                    </AuthProvider>
+                    <ReactQueryDevtools initialIsOpen={false} />
+                  </QueryClientProvider>
+                </InstanceAxiosProvider>
               ),
             },
           ])}

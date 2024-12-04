@@ -45,7 +45,7 @@ const AuthProvider = ({ children }: Props) => {
       setLoadingInAuth(true);
       await getMeAPI()
         .then((response) => {
-          setUser(response.data);
+          setUser(response?.data);
         })
         .catch(() => {
           setLoadingInAuth(false);
