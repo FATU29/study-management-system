@@ -1,5 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Modal, TextField, Button, Typography, Avatar, Divider } from '@mui/material';
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Modal,
+  TextField,
+  Button,
+  Typography,
+  Avatar,
+  Divider,
+} from "@mui/material";
 
 interface ProfileModalProps {
   isOpen: boolean;
@@ -7,13 +15,13 @@ interface ProfileModalProps {
 }
 
 const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
-  const [middleName, setMiddleName] = useState<string>('Nguyễn Minh');
-  const [firstName, setFirstName] = useState<string>('Trực');
-  const [fullName, setFullName] = useState<string>('');
-  const [dateOfBirth, setDateOfBirth] = useState<string>('01/01/2004');
-  const [email, setEmail] = useState<string>('minhtruc1234@gmail.com');
-  const [id, setID] = useState<string>('22120394');
-  const [grade, setGrade] = useState<string>('2022');
+  const [middleName, setMiddleName] = useState<string>("Nguyễn Minh");
+  const [firstName, setFirstName] = useState<string>("Trực");
+  const [fullName, setFullName] = useState<string>("");
+  const [dateOfBirth, setDateOfBirth] = useState<string>("01/01/2004");
+  const [email, setEmail] = useState<string>("minhtruc1234@gmail.com");
+  const [id, setID] = useState<string>("22120394");
+  const [grade, setGrade] = useState<string>("2022");
 
   useEffect(() => {
     setFullName(`${middleName} ${firstName}`);
@@ -21,8 +29,16 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
 
   const handleSave = () => {
     // Xử lý logic lưu thông tin tại đây
-    console.log('Thông tin cá nhân đã cập nhật:', { middleName, firstName, fullName });
+    console.log("Thông tin cá nhân đã cập nhật:", {
+      middleName,
+      firstName,
+      fullName,
+    });
     onClose();
+  };
+
+  const handleChangePassword = () => {
+    window.location.href = "/ResetPassword";
   };
 
   return (
@@ -34,64 +50,115 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
     >
       <Box // FOR THE WHOLE MODAL
         sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
           width: 900,
-          bgcolor: 'white',
+          bgcolor: "white",
           //border: '2px solid #000',
           boxShadow: 2,
           p: 4,
-          display: 'flex',
+          display: "flex",
           borderRadius: 8,
 
           // border: '1px solid #ff0099',
         }}
       >
-        <Box  // FOR AVATAR, PASSWORD CHANGE BUTTON AND 2-STEP VERIFICATION BUTTON
+        <Box // FOR AVATAR, PASSWORD CHANGE BUTTON AND 2-STEP VERIFICATION BUTTON
           sx={{
             flex: 1,
-            display: 'flex',
-            justifyContent: 'flex-start', // Align items at the top
-            alignItems: 'center', // Center horizontally
-            flexDirection: 'column',
+            display: "flex",
+            justifyContent: "flex-start", // Align items at the top
+            alignItems: "center", // Center horizontally
+            flexDirection: "column",
 
             // border: '1px solid #ff0099',
           }}
         >
-          <Avatar alt="Avatar" src="https://avatar.iran.liara.run/public/25" sx={{ width: 150, height: 150 }} />
-          <Typography sx={{ mt: 2, textAlign: 'center', fontSize: '16px', fontWeight: 'bold', color: 'Highlight' }}>Học sinh</Typography> {/* Margin top to add space */}
-          <Box sx={{  // FOR THE BUTTONS
-            flex: 1,
-            display: 'flex',
-            justifyContent: 'flex-end',
-            alignItem: 'center',
-            flexDirection: 'column',
+          <Avatar
+            alt="Avatar"
+            src="https://avatar.iran.liara.run/public/25"
+            sx={{ width: 150, height: 150 }}
+          />
+          <Typography
+            sx={{
+              mt: 2,
+              textAlign: "center",
+              fontSize: "16px",
+              fontWeight: "bold",
+              color: "Highlight",
+            }}
+          >
+            Học sinh
+          </Typography>{" "}
+          {/* Margin top to add space */}
+          <Box
+            sx={{
+              // FOR THE BUTTONS
+              flex: 1,
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItem: "center",
+              flexDirection: "column",
 
-            // border: '1px solid #ff0099',
-          }}>
-            <Button variant="contained" color="primary" onClick={handleSave} sx={{ height: 54, width: 160, fontSize: '1rem', padding: '0 10px', borderRadius: '8px', textTransform: 'none', mb: 2, backgroundColor: 'red' }}>
+              // border: '1px solid #ff0099',
+            }}
+          >
+            {/*<Button variant="contained" color="primary" onClick={handleSave} sx={{ height: 54, width: 160, fontSize: '1rem', padding: '0 10px', borderRadius: '8px', textTransform: 'none', mb: 2, backgroundColor: 'red' }}> */}
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleChangePassword}
+              sx={{
+                height: 54,
+                width: 160,
+                fontSize: "1rem",
+                padding: "0 10px",
+                borderRadius: "8px",
+                textTransform: "none",
+                mb: 2,
+                backgroundColor: "red",
+              }}
+            >
               Đổi mật khẩu
             </Button>
-            <Button variant="contained" color="primary" onClick={handleSave} sx={{ height: 54, width: 160, fontSize: '1rem', padding: '0 10px', borderRadius: '8px', textTransform: 'none', backgroundColor: 'white', color: 'red', border: '1px solid red' }}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleSave}
+              sx={{
+                height: 54,
+                width: 160,
+                fontSize: "1rem",
+                padding: "0 10px",
+                borderRadius: "8px",
+                textTransform: "none",
+                backgroundColor: "white",
+                color: "red",
+                border: "1px solid red",
+              }}
+            >
               Xác thực 2 bước
             </Button>
           </Box>
         </Box>
 
-        <Box  // FOR THE MAIN FORM
+        <Box // FOR THE MAIN FORM
           sx={{
             flex: 2,
             // border: '1px solid #ff0099',
-          }}>
-          <Typography variant="h6" component="h2" sx={{ textAlign: 'center' }}>
+          }}
+        >
+          <Typography variant="h6" component="h2" sx={{ textAlign: "center" }}>
             Cập nhật thông tin cá nhân
           </Typography>
-          <Box component="form" noValidate autoComplete="off">  // FOR NAMES
+          <Box component="form" noValidate autoComplete="off">
+            {" "}
+            // FOR NAMES
             <Box
               sx={{
-                display: 'flex',
+                display: "flex",
                 gap: 2,
                 // border: '1px solid #ff0099',
               }}
@@ -102,7 +169,10 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
                 onChange={(e) => setMiddleName(e.target.value)}
                 margin="normal"
                 fullWidth
-                sx={{ height: 40, '& .MuiInputBase-input': { height: '0.875em' } }}
+                sx={{
+                  height: 40,
+                  "& .MuiInputBase-input": { height: "0.875em" },
+                }}
               />
               <TextField
                 label="Tên"
@@ -110,7 +180,10 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
                 onChange={(e) => setFirstName(e.target.value)}
                 margin="normal"
                 fullWidth
-                sx={{ height: 40, '& .MuiInputBase-input': { height: '0.875em' } }}
+                sx={{
+                  height: 40,
+                  "& .MuiInputBase-input": { height: "0.875em" },
+                }}
               />
             </Box>
             <TextField
@@ -120,33 +193,51 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
               InputProps={{
                 readOnly: true,
                 sx: {
-                  backgroundColor: 'white',
-                  '& .MuiOutlinedInput-notchedOutline': { borderTop: 'none', borderLeft: 'none', borderRight: 'none', borderBottom: '1px dashed gray' },
-                  '& .MuiInputBase-input': { color: 'gray', pointerEvents: 'unset' },
-                  style: { padding: '3px 3px', fontSize: '0.875rem' },
+                  backgroundColor: "white",
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    borderTop: "none",
+                    borderLeft: "none",
+                    borderRight: "none",
+                    borderBottom: "1px dashed gray",
+                  },
+                  "& .MuiInputBase-input": {
+                    color: "gray",
+                    pointerEvents: "unset",
+                  },
+                  style: { padding: "3px 3px", fontSize: "0.875rem" },
                 },
               }}
-              sx={{ height: 20, '& .MuiInputBase-input': { padding: '5px 12px' }, mb: 2 }}
+              sx={{
+                height: 20,
+                "& .MuiInputBase-input": { padding: "5px 12px" },
+                mb: 2,
+              }}
             />
           </Box>
           <Box>
-            <Box sx={{ display: 'flex', gap: 4 }}>
+            <Box sx={{ display: "flex", gap: 4 }}>
               <TextField
                 label="Ngày sinh"
                 value={dateOfBirth}
                 margin="normal"
                 fullWidth
-                sx={{ height: 40, '& .MuiInputBase-input': { height: '0.875em' } }}
+                sx={{
+                  height: 40,
+                  "& .MuiInputBase-input": { height: "0.875em" },
+                }}
               />
               <TextField
                 label="Email cá nhân"
                 value={email}
                 margin="normal"
                 fullWidth
-                sx={{ height: 40, '& .MuiInputBase-input': { height: '0.875em' } }}
+                sx={{
+                  height: 40,
+                  "& .MuiInputBase-input": { height: "0.875em" },
+                }}
               />
             </Box>
-            <Box sx={{ display: 'flex', gap: 4 }}>
+            <Box sx={{ display: "flex", gap: 4 }}>
               <TextField
                 fullWidth
                 label="Mã số học sinh/học viên"
@@ -154,10 +245,13 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
                 margin="normal"
                 InputProps={{
                   readOnly: true,
-                  sx: { backgroundColor: '#f0f0f0' },
-                  style: { padding: '3px 3px', fontSize: '0.875rem' },
+                  sx: { backgroundColor: "#f0f0f0" },
+                  style: { padding: "3px 3px", fontSize: "0.875rem" },
                 }}
-                sx={{ height: 40, '& .MuiInputBase-input': { height: '0.875em' } }}
+                sx={{
+                  height: 40,
+                  "& .MuiInputBase-input": { height: "0.875em" },
+                }}
               />
               <TextField
                 fullWidth
@@ -166,25 +260,53 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
                 margin="normal"
                 InputProps={{
                   readOnly: true,
-                  sx: { backgroundColor: '#f0f0f0' },
-                  style: { padding: '3px 3px', fontSize: '0.875rem' },
+                  sx: { backgroundColor: "#f0f0f0" },
+                  style: { padding: "3px 3px", fontSize: "0.875rem" },
                 }}
-                sx={{ height: 40, '& .MuiInputBase-input': { height: '0.875em' } }}
+                sx={{
+                  height: 40,
+                  "& .MuiInputBase-input": { height: "0.875em" },
+                }}
               />
             </Box>
           </Box>
           <Box
             sx={{
-              display: 'flex',
-              justifyContent: 'center',
+              display: "flex",
+              justifyContent: "center",
               gap: 2,
               mt: 3,
             }}
           >
-            <Button variant="contained" color="primary" onClick={handleSave} sx={{ height: 54, width: 160, fontSize: '1rem', padding: '0 10px', borderRadius: '8px', textTransform: 'none' }}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleSave}
+              sx={{
+                height: 54,
+                width: 160,
+                fontSize: "1rem",
+                padding: "0 10px",
+                borderRadius: "8px",
+                textTransform: "none",
+              }}
+            >
               Lưu thay đổi
             </Button>
-            <Button variant="contained" onClick={onClose} sx={{ height: 54, width: 160, fontSize: '1rem', padding: '0 10px', borderRadius: '8px', textTransform: 'none', backgroundColor: 'white', color: 'red' }}>
+            <Button
+              variant="contained"
+              onClick={onClose}
+              sx={{
+                height: 54,
+                width: 160,
+                fontSize: "1rem",
+                padding: "0 10px",
+                borderRadius: "8px",
+                textTransform: "none",
+                backgroundColor: "white",
+                color: "red",
+              }}
+            >
               Hủy
             </Button>
           </Box>

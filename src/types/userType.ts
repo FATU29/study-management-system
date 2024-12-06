@@ -1,9 +1,9 @@
 export interface TUser {
-    id: number
-    name: string
-    email: string
-    password: string,
-    role: string
-    status: string,
-    avatar: string
+    _id?: number
+    lastName?: string
+    firstName?:string
+    email?: string
+    role?: string
+    verify?: number,
+    avatar?: string
   }

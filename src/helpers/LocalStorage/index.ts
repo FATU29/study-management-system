@@ -1,11 +1,11 @@
-import { ACCESS_TOKEN, REFRESH_TOKEN, USER_DATA } from "../../configs/localStorageCongig";
+import { ACCESS_TOKEN, REFRESH_TOKEN, USER_DATA } from "../../configs/localStorageConfig";
 
 
-export const setLocalUserData = (userData: string, accessToken: string, refreshToken: string) => {
+export const setLocalUserData = (userData?: string, accessToken?: string, refreshToken?: string) => {
     if (typeof window !== "undefined") { 
-        window.localStorage.setItem(USER_DATA, userData);
-        window.localStorage.setItem(ACCESS_TOKEN, accessToken);
-        window.localStorage.setItem(REFRESH_TOKEN, refreshToken);
+        window.localStorage.setItem(USER_DATA, userData || "");
+        window.localStorage.setItem(ACCESS_TOKEN, accessToken || "");
+        window.localStorage.setItem(REFRESH_TOKEN, refreshToken || "");
 
         return {
             userData,

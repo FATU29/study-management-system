@@ -1,10 +1,9 @@
 import React from "react";
 import NavbarHome from "../components/Dashboard/NavbarHome";
 import MenuCourse from "../components/Dashboard/MenuCourse";
-// import { alpha } from "@mui/material/styles";
-
 import { MenuSection } from "../components/types/menu-section";
 import { Outlet, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const initialSections: MenuSection[] = [
   {
@@ -63,43 +62,8 @@ const initialSections: MenuSection[] = [
 ];
 
 const DashboardPage: React.FC = () => {
-  // const navigate = useNavigate();
-  // const [isScrolledOut, setIsScrolledOut] = useState(false);
-  // const handleLoginClick = () => {
-  //   navigate('/login');
-  // };
-
-  // return (
-  //   <Box
-  //     sx={{
-  //       display: 'flex',
-  //       flexDirection: 'column',
-  //       alignItems: 'center',
-  //       justifyContent: 'center',
-  //       minHeight: '100vh',
-  //       padding: 3,
-  //     }}
-  //   >
-  //     <Typography variant="h2" component="h1" gutterBottom>
-  //       Welcome to Our App
-  //     </Typography>
-  //     <Typography variant="h5" component="h2" gutterBottom>
-  //       This is the modified home page of your application.
-  //     </Typography>
-  //     <Button
-  //       variant="contained"
-  //       color="primary"
-  //       size="large"
-  //       onClick={handleLoginClick}
-  //       sx={{ marginTop: 4 }}
-  //     >
-  //       Go to Login
-  //     </Button>
-  //   </Box>
-  // );
-  // const [isScrolledOut, setIsScrolledOut] = useState(false);
-
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   function handleSectionChange(section: MenuSection) {
     if (section.url) {
@@ -121,28 +85,8 @@ const DashboardPage: React.FC = () => {
   };
 
   return (
-    // <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-    //   { /* Box */ }
-    //     { /* SideMenu */ }
-    //     { /* AppNavbar */ }
-    //     { /* Box */ }
-    //       { /* Stack */ }
-    //         { /* Header */ }
-    //         { /* MainGrid */ }
-
-    // { /* <Box component="replacing_div" sx={{ //CSS-like-style }}> BoxContent </Box>
-    // sx: width, height, borderRadius, bgcolor
-
-    // */ }
-    //   <Header isScrolledOut={isScrolledOut} />
-    //   <NavigatorBar />
-    //     <Box sx={{ display: 'flex', flex: 1 }}>
-    //         <SideMenu />
-    //         <MainGrid />
-    //     </Box>
-    // </Box>
     <div style={styles.app}>
-      <NavbarHome />
+      <NavbarHome user={user || undefined} />
       <div style={styles.content}>
         <MenuCourse
           onSectionChange={handleSectionChange}

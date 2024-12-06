@@ -1,9 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { TextField, Button, FormControlLabel, Checkbox } from '@mui/material';
+import { TextField, Button, FormControlLabel, Checkbox, Divider, Box, IconButton, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useAuth } from '../contexts/AuthContext';
+import { LoginParams } from '../contexts/types';
+import Spinner from '../helpers/Spinner';
+import CustomModalAlert from '../components/CustomModalAlert';
+import IconifyIcon from '../components/utils/icon';
+import { getAuthGoogleUrl } from '../services/auth';
 
 interface LoginFormData {
   email: string;
@@ -28,7 +35,6 @@ const validationSchema = yup.object({
 });
 
 const LoginPage = () => {
-  const navigate = useNavigate();
   const quotes = [
     "Học hỏi là chìa khóa mở ra cánh cửa thành công",
     "Giáo dục là vũ khí mạnh nhất để thay đổi thế giới",
@@ -39,7 +45,9 @@ const LoginPage = () => {
 
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
   const [fadeIn, setFadeIn] = useState(true);
-  const [loginError, setLoginError] = useState<string | null>(null);
+  const [isOpenModelAlert,setIsOpenModalAlert] = useState<boolean>(false);
+  const {login} = useAuth();
+  const urlGoogle = useMemo(() => getAuthGoogleUrl(),[])
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -53,40 +61,41 @@ const LoginPage = () => {
     return () => clearInterval(intervalId);
   }, [quotes.length]);
 
-  const { control, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginFormData>({
+  const { control ,handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginFormData>({
     defaultValues: {
-      email: 'test@example.com', // Default email for testing
-      password: 'password123', // Default password for testing
+      email: '', 
+      password: '', 
       remember: true,
     },
     resolver: yupResolver(validationSchema),
     mode: 'onChange'
   });
 
+  const {isPending,isError,mutate} = useMutation({
+    mutationKey:['login-user'],
+    mutationFn: login,
+  })
+
   const onSubmit = async (data: LoginFormData) => {
-    try {
-      setLoginError(null);
-      console.log('Form submitted:', data);
-      
-      // Check if the login credentials match the default account
-      if (data.email === 'test@example.com' && data.password === 'password123') {
-        // Simulate API call delay
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        // Navigate to home page on successful login
-        navigate('/home');
-      } else {
-        setLoginError('Email hoặc mật khẩu không chính xác');
+    mutate(data,{
+      onError:() => {
+        setIsOpenModalAlert(true);
       }
-    } catch (error) {
-      setLoginError('Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin.');
-      console.error('Login error:', error);
-    }
+    })
   };
 
 
 
 return (
+ <>
+  {isPending && <Spinner/>}
+  {isError && <CustomModalAlert
+    headerTitle='Thông báo'
+    bodyContent='Lỗi đăng nhập. Vui lòng kiểm tra email và mật khẩu'
+    isOpen={isOpenModelAlert}
+    setIsOpen={setIsOpenModalAlert}
+    doOk={() => setIsOpenModalAlert(false)}
+  />}
   <div className="flex items-center justify-center bg-white min-h-screen p-4">
     {/* Fixed height container */}
     <div 
@@ -149,27 +158,23 @@ return (
             <Link to="/Register" className="text-blue-500 ml-1">Đăng ký</Link>
           </p>
 
-          {loginError && (
-            <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md">
-              {loginError}
-            </div>
-          )}
-
           <form onSubmit={handleSubmit(onSubmit)} noValidate>
             <div className="mb-4">
               <Controller
                 name="email"
                 control={control}
-                render={({ field }) => (
+                render={({ field:{onChange,onBlur,value} }) => (
                   <TextField
-                    {...field}
                     fullWidth
+                    value={value}
                     label="Email"
                     variant="outlined"
                     error={!!errors.email}
                     helperText={errors.email?.message}
                     disabled={isSubmitting}
                     autoComplete="email"
+                    onChange={onChange}
+                    onBlur={onBlur}
                   />
                 )}
               />
@@ -178,11 +183,13 @@ return (
               <Controller
                 name="password"
                 control={control}
-                render={({ field }) => (
+                render={({ field:{onChange,value,onBlur} }) => (
                   <TextField
-                    {...field}
                     fullWidth
                     label="Mật khẩu"
+                    value={value}
+                    onChange={onChange}
+                    onBlur={onBlur}
                     type="password"
                     variant="outlined"
                     error={!!errors.password}
@@ -229,10 +236,19 @@ return (
               {isSubmitting ? 'Đang đăng nhập...' : 'Đăng nhập'}
             </Button>
           </form>
+          <Divider />
+          <Typography marginTop={2} textAlign={"center"} className="text-gray-600">Hoặc đăng nhập bằng</Typography>
+          <Box className="flex justify-center items-center mt-2">
+              <Link to={urlGoogle}>
+                  <IconifyIcon icon={"logos:google-icon"} fontSize={"30px"}/>
+              </Link>
+          </Box>
+
         </div>
       </div>
     </div>
   </div>
+ </>
 );
 };
 
