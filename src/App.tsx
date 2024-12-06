@@ -15,6 +15,9 @@ import RegisterPage from "./pages/RegisterPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPassword from "./pages/ResetPassword";
 import ModalPage from "./pages/Modal";
+import MainCourse from "./components/CourseMain/Main";
+import CoursePage from "./pages/CoursePage";
+import ShellCourse from "./components/CourseMain/Shell";
 import { ThemeProviderWrapper } from "./contexts/ThemeContext";
 import CourseManagementPage from "./pages/CourseManagement";
 import DashboardPage from "./pages/DashboardPage";
@@ -28,6 +31,7 @@ import NoAccess from "./pages/NoAcess";
 import AuthGuard from "./components/Guard/AuthGuard";
 import GuestGuard from "./components/Guard/GuestGuard";
 import InstanceAxiosProvider from "./contexts/instanceAxios";
+import DrivePage from "./pages/DrivePage";
 
 const queryClient = new QueryClient();
 
@@ -94,7 +98,7 @@ const AppContent: React.FC = () => {
             </AuthGuard>
           }
         />
-        <Route path="/modal" element={<ModalPage />} />
+        <Route path="/modal" element={<DrivePage/>} />
         <Route
           path="/users/verify-email"
           element={
