@@ -25,6 +25,10 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
     onClose();
   };
 
+  const handleChangePassword = () => {
+    window.location.href = '/ResetPassword';
+  };
+
   return (
     <Modal
       open={isOpen}
@@ -65,7 +69,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
             alignItem:'center',
             flexDirection:'column'
           }}>
-            <Button variant="contained" color="primary" onClick={handleSave} sx={{ height: 54, width: 160, fontSize: '1rem', padding: '0 10px', borderRadius: '8px', textTransform: 'none', mb:2, backgroundColor:'red' }}>
+            <Button variant="contained" color="primary" onClick={handleChangePassword} sx={{ height: 54, width: 160, fontSize: '1rem', padding: '0 10px', borderRadius: '8px', textTransform: 'none', mb:2, backgroundColor:'red' }}>
               Đổi mật khẩu
             </Button>
             <Button variant="contained" color="primary" onClick={handleSave} sx={{ height: 54, width: 160, fontSize: '1rem', padding: '0 10px', borderRadius: '8px', textTransform: 'none', backgroundColor:'white', color:'red', border:'1px solid red' }}>
