@@ -1,46 +1,84 @@
-import React, { /* useEffect, */ useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { Button, Typography, Box } from "@mui/material";
-// import SideMenu from "../components/Dashboard/SideMenu";
-// import NavigatorBar from "../components/Dashboard/NavigatorBar";
-// import MainGrid from "../components/Dashboard/MainGrid";
+import React from "react";
 import NavbarHome from "../components/Dashboard/NavbarHome";
 import MenuCourse from "../components/Dashboard/MenuCourse";
-import Main from "../components/Dashboard/Main";
-import MessagePage from "./MessagePage";
-// import { alpha } from "@mui/material/styles";
-
 import { MenuSection } from "../components/types/menu-section";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import MainCourse from "../components/CourseMain/Main";
-import MainDrive from "../components/Drive/Main";
 
-type MainContentProps = {
-  currentSection: MenuSection;
-};
-
-const MainContent: React.FC<MainContentProps> = ({ currentSection }) => {
-  switch (currentSection) {
-    case "home":
-      return <Main />;
-    case "course":
-      return <MainCourse name="Course Name" />;
-    case "chat":
-      return <MessagePage />;
-    case "file":
-      return <MainDrive/>
-    default:
-      return <></>;
-  }
-};
+const initialSections: MenuSection[] = [
+  {
+    id: "home",
+    name: "Trang chủ",
+    icon: "solar:home-linear",
+    badge: 0,
+    url: "/home",
+    parentSectionId: null,
+  },
+  {
+    id: "modal-test",
+    name: "Modal test",
+    icon: "solar:home-linear",
+    badge: 0,
+    url: "modal-test",
+    parentSectionId: "home",
+  },
+  {
+    id: "course",
+    name: "Khóa học",
+    icon: "hugeicons:course",
+    badge: 2,
+    parentSectionId: null,
+  },
+  {
+    id: "course-1",
+    name: "Nhập môn CNPM",
+    icon: "fluent:class-20-regular",
+    badge: 0,
+    // url: "course/cs101",
+    url: "course/?classId=cs101",
+    parentSectionId: "course",
+  },
+  {
+    id: "course-1-edit",
+    name: "Chỉnh sửa (for illustration use only)",
+    icon: "fluent:class-20-regular",
+    badge: 0,
+    parentSectionId: "course-1",
+  },
+  {
+    id: "course-2",
+    name: "Lớp của Anh Trực",
+    icon: "fluent:class-20-regular",
+    badge: 0,
+    url: "/home/course-ver-2",
+    parentSectionId: "course",
+  },
+  {
+    id: "chat",
+    name: "Trò chuyện",
+    icon: "proicons:chat",
+    badge: 3,
+    url: "message",
+    parentSectionId: null,
+  },
+  {
+    id: "file",
+    name: "Tệp riêng tư",
+    icon: "formkit:file",
+    badge: 0,
+    url: "drive",
+    parentSectionId: null,
+  },
+];
 
 const DashboardPage: React.FC = () => {
-
-  const [currentSection, setCurrentSection] = useState<MenuSection>("home");
-  const {user} = useAuth();
+  const navigate = useNavigate();
+  const { user } = useAuth();
 
   function handleSectionChange(section: MenuSection) {
-    setCurrentSection(section);
+    if (section.url) {
+      navigate(section.url);
+    }
   }
 
   const styles = {
@@ -57,12 +95,14 @@ const DashboardPage: React.FC = () => {
   };
 
   return (
-
     <div style={styles.app}>
       <NavbarHome user={user || undefined} />
       <div style={styles.content}>
-        <MenuCourse onSectionChange={handleSectionChange} />
-        <MainContent currentSection={currentSection} />
+        <MenuCourse
+          onSectionChange={handleSectionChange}
+          sections={initialSections}
+        />
+        <Outlet />
         {/* <RightSidebar /> */}
       </div>
     </div>
