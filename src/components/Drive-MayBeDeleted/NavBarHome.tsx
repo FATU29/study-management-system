@@ -6,6 +6,7 @@
 // import { useAuth } from "../../contexts/AuthContext";
 // import { Button, Typography } from "@mui/material";
 // import ProfileModal from "../Modals/ProfileModal";
+
 // // import { Bell } from "lucide-react";
 
 // interface NavbarHomeProps {

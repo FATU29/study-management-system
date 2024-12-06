@@ -15,13 +15,13 @@ import RegisterPage from "./pages/RegisterPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPassword from "./pages/ResetPassword";
 import MessagePage from "./pages/MessagePage";
-import ModalPage from "./pages/ModalTest";
+import ModalTestPage from "./pages/ModalTest";
 import DashboardPage from "./pages/DashboardPage";
 import Main from "./components/Dashboard/Main";
 import ClassPageExample, { classLoader } from "./pages/ClassPageExample";
 import ResourceUploadDispatcher from "./components/Dashboard/ResourceUploadDispatcher";
 // import ModalPage from "./pages/Modal";
-// import MainCourse from "./components/CourseMain/Main";
+import MainCourse from "./components/CourseMain/Main";
 // import CoursePage from "./pages/CoursePage";
 // import ShellCourse from "./components/CourseMain/Shell";
 import { ThemeProviderWrapper } from "./contexts/ThemeContext";
@@ -36,7 +36,8 @@ import NoAccess from "./pages/NoAcess";
 import AuthGuard from "./components/Guard/AuthGuard";
 import GuestGuard from "./components/Guard/GuestGuard";
 import InstanceAxiosProvider from "./contexts/instanceAxios";
-import DrivePage from "./pages/DrivePage";
+import MainDrive from "./components/Dashboard/Drive";
+// import DrivePage from "./pages/DrivePage";
 
 const queryClient = new QueryClient();
 
@@ -65,8 +66,13 @@ const AppContent: React.FC = () => {
         >
           {/* Change start here! */}
           <Route index element={<Main />} />
+          <Route
+            path="course-ver-2"
+            element={<MainCourse name="TODO: Do not pass prop here" />}
+          />
           <Route path="message" element={<MessagePage />} />
-          <Route path="modal" element={<ModalPage />} />
+          <Route path="modal-test" element={<ModalTestPage />} />
+          <Route path="drive" element={<MainDrive />} />
           <Route path="course">
             <Route index element={<ClassPageExample />} />
             <Route
@@ -120,7 +126,7 @@ const AppContent: React.FC = () => {
             </AuthGuard>
           }
         />
-        <Route path="/modal" element={<DrivePage />} />
+        {/* <Route path="/modal" element={<DrivePage />} /> */}
         <Route
           path="/users/verify-email"
           element={

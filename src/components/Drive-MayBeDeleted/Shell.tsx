@@ -1,50 +1,48 @@
 // import React, { useState } from "react";
-// import IconifyIcon from "../utils/icon/index";
-
-// import { MenuSection } from "../types/menu-section";
+// import IconifyIcon from '../utils/icon';
+// import {MenuSection} from '../types/menu-section';
 
 // type MenuCourseProps = {
-//   onSectionChange: (section: MenuSection) => void;
-// };
+//     onSectionChange: (section: MenuSection) => void;
+//   };
 
-// const mainListItems: {
-//   icon: string;
-//   section: MenuSection;
-//   text: string;
-//   badge: number;
-// }[] = [
-//   {
-//     icon: "solar:home-linear",
-//     section: "home",
-//     text: "Trang chủ",
-//     badge: 0,
-//   },
-//   {
-//     icon: "hugeicons:course",
-//     section: "course",
-//     text: "Khóa học",
-//     badge: 3,
-//   },
-//   {
-//     icon: "proicons:chat",
-//     section: "chat",
-//     text: "Trò chuyện",
-//     badge: 5,
-//   },
-//   {
-//     icon: "formkit:file",
-//     section: "file",
-//     text: "Tệp riêng tư",
-//     badge: 0,
-//   },
-// ];
+//   const mainListItems: {
+//     icon: string;
+//     section: MenuSection;
+//     text: string;
+//     badge: number;
+//   }[] = [
+//     {
+//       icon: "solar:home-linear",
+//       section: "home",
+//       text: "Trang chủ",
+//       badge: 0,
+//     },
+//     {
+//       icon: "hugeicons:course",
+//       section: "course",
+//       text: "Khóa học",
+//       badge: 3,
+//     },
+//     {
+//       icon: "proicons:chat",
+//       section: "chat",
+//       text: "Trò chuyện",
+//       badge: 5,
+//     },
+//     {
+//       icon: "formkit:file",
+//       section: "file",
+//       text: "Tệp riêng tư",
+//       badge: 0,
+//     },
+//   ];
 
-// const MenuCourse: React.FC<MenuCourseProps> = ({ onSectionChange }) => {
-//   const [isExpanded, setIsExpanded] = useState(true);
-//   const [activeItem, setActiveItem] = useState(0);
-
-//   return (
-//     <aside
+// const ShellCourse :React.FC<MenuCourseProps> = ({ onSectionChange }) => {
+//     const [isExpanded, setIsExpanded] = useState(true);
+//     const [activeItem, setActiveItem] = useState(0);
+//     return (
+//         <aside
 //       className={`
 //       relative min-h-screen bg-white border-r border-gray-200 transition-all duration-300 ease-in-out
 //       ${isExpanded ? "w-64" : "w-20"}
@@ -138,7 +136,7 @@
 //         </div>
 //       )}
 //     </aside>
-//   );
-// };
+//     );
+// }
 
-// export default MenuCourse;
+// export default ShellCourse;

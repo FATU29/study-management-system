@@ -1,6 +1,5 @@
 import { useSearchParams } from "react-router-dom";
 import AssignmentPage from "../../pages/AssignmentPage";
-import { Modal } from "@mui/material";
 import ModalTest from "../../pages/ModalTest";
 
 const ResourceUploadDispatcher: React.FC = () => {

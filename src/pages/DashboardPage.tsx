@@ -15,6 +15,14 @@ const initialSections: MenuSection[] = [
     parentSectionId: null,
   },
   {
+    id: "modal-test",
+    name: "Modal test",
+    icon: "solar:home-linear",
+    badge: 0,
+    url: "modal-test",
+    parentSectionId: "home",
+  },
+  {
     id: "course",
     name: "Khóa học",
     icon: "hugeicons:course",
@@ -39,9 +47,10 @@ const initialSections: MenuSection[] = [
   },
   {
     id: "course-2",
-    name: "Phân tích thiết kế HTTT",
+    name: "Lớp của Anh Trực",
     icon: "fluent:class-20-regular",
     badge: 0,
+    url: "/home/course-ver-2",
     parentSectionId: "course",
   },
   {
@@ -57,6 +66,7 @@ const initialSections: MenuSection[] = [
     name: "Tệp riêng tư",
     icon: "formkit:file",
     badge: 0,
+    url: "drive",
     parentSectionId: null,
   },
 ];
