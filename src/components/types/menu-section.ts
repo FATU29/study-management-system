@@ -1,1 +1,1 @@
-export type MenuSection = "home" | "course" | "chat" | "file";
+export type MenuSection = "home" | "course" | "chat" | "file" | "student";
