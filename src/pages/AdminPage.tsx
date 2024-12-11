@@ -13,7 +13,7 @@ type MainContentProps = {
   };
   
   const MainContent: React.FC<MainContentProps> = ({ currentSection }) => {
-    switch (currentSection) {
+    switch (currentSection.id) {
       case "course":
         return <CourseAdminPanel/>;
       case "student":
@@ -25,7 +25,11 @@ type MainContentProps = {
   
   const AdminPage: React.FC = () => {
   
-    const [currentSection, setCurrentSection] = useState<MenuSection>("course");
+    const [currentSection, setCurrentSection] = useState<MenuSection>({
+      id: "course",
+      name: "Khóa học",
+      parentSectionId: null,
+    });
     const {user} = useAuth();
   
     function handleSectionChange(section: MenuSection) {

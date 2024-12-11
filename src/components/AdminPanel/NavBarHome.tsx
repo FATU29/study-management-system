@@ -5,7 +5,7 @@ import { TUser } from "../../types/userType";
 import { toFullName } from "../../helpers/toFullName";
 import { useAuth } from "../../contexts/AuthContext";
 import { Button, Typography } from "@mui/material";
-import ProfileModal from "../ModalUpdateProfile/ProfileModal";
+import ProfileModal from "../Modals/ProfileModal";
 // import { Bell } from "lucide-react";
 
 
