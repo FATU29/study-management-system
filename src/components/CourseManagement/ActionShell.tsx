@@ -19,7 +19,7 @@ const ActionsCell: React.FC<ActionsCellProps> = ({ data, value, onChange }) => (
       height: "100%",
     }}
   >
-    <Select value={value} onChange={onChange} sx={{ minWidth: 120 }}>
+    <Select value={value} onChange={onChange} sx={{ minWidth: 200 }}>
       {data.map((item) => (
         <MenuItem key={item} value={item}>
           {item}
