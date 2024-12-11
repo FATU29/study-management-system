@@ -122,7 +122,7 @@ const AppContent: React.FC = () => {
           path="/admin"
           element={
             <AuthGuard roleRequires={["ADMIN"]}>
-              <CourseManagementPage />
+              <AdminPage />
             </AuthGuard>
           }
         />
