@@ -37,7 +37,7 @@ import AuthGuard from "./components/Guard/AuthGuard";
 import GuestGuard from "./components/Guard/GuestGuard";
 import InstanceAxiosProvider from "./contexts/instanceAxios";
 import MainDrive from "./components/Dashboard/Drive";
-// import DrivePage from "./pages/DrivePage";
+import AdminPage from "./pages/AdminPage";
 
 const queryClient = new QueryClient();
 
@@ -122,11 +122,11 @@ const AppContent: React.FC = () => {
           path="/admin"
           element={
             <AuthGuard roleRequires={["ADMIN"]}>
-              <CourseManagementPage />
+              <AdminPage />
             </AuthGuard>
           }
         />
-        {/* <Route path="/modal" element={<DrivePage />} /> */}
+        <Route path="/modal" element={<AdminPage/>} />
         <Route
           path="/users/verify-email"
           element={
