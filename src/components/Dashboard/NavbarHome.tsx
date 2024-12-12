@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import IconifyIcon from "../utils/icon/index";
 import { TUser } from "../../types/userType";
@@ -8,16 +8,14 @@ import { Button, Typography } from "@mui/material";
 import ProfileModal from "../Modals/ProfileModal";
 import { useNotification } from "../../contexts/NotificationContext";
 
-interface Notification {
-  id: string;
-  title: string;
-  timestamp: string;
-  read: boolean;
-}
 
 interface NavbarHomeProps {
   user?: TUser;
-  notifications?: Notification[];
+}
+
+const formatTime = (time: Date) => {
+  const date = new Date(time);
+  return date.toLocaleString();
 }
 
 const NavbarHome: React.FC<NavbarHomeProps> = ({
@@ -29,44 +27,6 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
     email: "",
     role: "",
   },
-  // notifications = [
-  //   {
-  //     id: "1",
-  //     title: "Doctor đã thêm bạn vào lớp CSC100323",
-  //     timestamp: "Thứ ba, 23/2",
-  //     read: false
-  //   },
-  //   {
-  //     id: "2",
-  //     title: "Bài tập 1 đã được giao",
-  //     timestamp: "22 giờ trước",
-  //     read: false
-  //   },
-  //   {
-  //     id: "3",
-  //     title: "Bài tập 2 đã được giao",
-  //     timestamp: "10 giờ trước",
-  //     read: false
-  //   },
-  //   {
-  //     id: "4",
-  //     title: "CSC100323: Thay đổi lịch học",
-  //     timestamp: "Hôm qua",
-  //     read: true
-  //   },
-  //   {
-  //     id: "5",
-  //     title: "Invoice #9333E93 was paid",
-  //     timestamp: "Jan 23, 2  023 at 10:15am",
-  //     read: true
-  //   },
-  //   {
-  //     id: "6",
-  //     title: "Invoice #9333E93 was paid",
-  //     timestamp: "Jan 23, 2023 at 10:15am",
-  //     read: true
-  //   }
-  // ]
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -82,17 +42,17 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
     setIsNotificationOpen(!isNotificationOpen);
   };
 
-  const { notifications, markAsRead } = useNotification();
-  const unreadNotifications = notifications.filter(noti => !noti.read);
+  const { notifications, fetchNotifications} = useNotification();
 
+  useEffect(() => {
+    fetchNotifications();
+  }, [fetchNotifications]);
+
+  const unreadNotifications = notifications.filter(noti => !noti.read);
   const handleViewAllNotifications = () => {
     navigate('/notifications');
     setIsNotificationOpen(false);
   };
-
-  // const handleMarkAsRead = () => {
-  //   markAsRead(notifications[0].id);
-  // };
 
   return (
     <nav className="bg-white border-1 border-black-600">
@@ -146,13 +106,18 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
                         <div>
                           <div className="flex items-center justify-between">
                             <span className="font-semibold text-lg">CSC100323</span>
-                            <span className="text-xs text-gray-500 text-right">{notification.timestamp}</span>
+                            <span className="text-xs text-gray-500 text-right">{formatTime(notification.time)}</span>
                           </div>
                         </div>
                         <span className="text-base block mt-1 text-left">{notification.title}</span>
                       </div>
                     </div>
                   ))}
+                  {notifications.length === 0 && (
+                    <div className="px-4 py-2 text-center">
+                      <span>Không có thông báo mới</span>
+                    </div>
+                  )}
                 </div>
                 <div className="px-4 py-2 border-t text-center">
                   <button
@@ -162,8 +127,7 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
                   </button>
                 </div>
               </div>
-            
-            )}
+              )}
           </div>
           {/* User Info */}
           <div className="flex items-center space-x-4 nav-item m-2">
