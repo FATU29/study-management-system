@@ -6,6 +6,7 @@ import { toFullName } from "../../helpers/toFullName";
 import { useAuth } from "../../contexts/AuthContext";
 import { Button, Typography } from "@mui/material";
 import ProfileModal from "../Modals/ProfileModal";
+import { useNotification } from "../../contexts/NotificationContext";
 
 interface Notification {
   id: string;
@@ -28,44 +29,44 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
     email: "",
     role: "",
   },
-  notifications = [
-    {
-      id: "1",
-      title: "Doctor đã thêm bạn vào lớp CSC100323",
-      timestamp: "Jan 23, 2023 at 10:15am",
-      read: false
-    },
-    {
-      id: "2",
-      title: "CSC100323: Bài tập 1 đã được giao",
-      timestamp: "Jan 23, 2023 at 10:15am",
-      read: false
-    },
-    {
-      id: "3",
-      title: "CSC100323: Bài tập 2 đã được giao",
-      timestamp: "Jan 23, 2023 at 10:15am",
-      read: false
-    },
-    {
-      id: "4",
-      title: "CSC100323: Thay đổi lịch học",
-      timestamp: "Jan 23, 2023 at 10:15am",
-      read: true
-    },
-    {
-      id: "5",
-      title: "Invoice #9333E93 was paid",
-      timestamp: "Jan 23, 2023 at 10:15am",
-      read: true
-    },
-    {
-      id: "6",
-      title: "Invoice #9333E93 was paid",
-      timestamp: "Jan 23, 2023 at 10:15am",
-      read: true
-    }
-  ]
+  // notifications = [
+  //   {
+  //     id: "1",
+  //     title: "Doctor đã thêm bạn vào lớp CSC100323",
+  //     timestamp: "Thứ ba, 23/2",
+  //     read: false
+  //   },
+  //   {
+  //     id: "2",
+  //     title: "Bài tập 1 đã được giao",
+  //     timestamp: "22 giờ trước",
+  //     read: false
+  //   },
+  //   {
+  //     id: "3",
+  //     title: "Bài tập 2 đã được giao",
+  //     timestamp: "10 giờ trước",
+  //     read: false
+  //   },
+  //   {
+  //     id: "4",
+  //     title: "CSC100323: Thay đổi lịch học",
+  //     timestamp: "Hôm qua",
+  //     read: true
+  //   },
+  //   {
+  //     id: "5",
+  //     title: "Invoice #9333E93 was paid",
+  //     timestamp: "Jan 23, 2  023 at 10:15am",
+  //     read: true
+  //   },
+  //   {
+  //     id: "6",
+  //     title: "Invoice #9333E93 was paid",
+  //     timestamp: "Jan 23, 2023 at 10:15am",
+  //     read: true
+  //   }
+  // ]
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -81,6 +82,7 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
     setIsNotificationOpen(!isNotificationOpen);
   };
 
+  const { notifications, markAsRead } = useNotification();
   const unreadNotifications = notifications.filter(noti => !noti.read);
 
   const handleViewAllNotifications = () => {
@@ -88,9 +90,9 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
     setIsNotificationOpen(false);
   };
 
-  const handleMarkAsRead = () => {
-    // Update notification read status here
-  };
+  // const handleMarkAsRead = () => {
+  //   markAsRead(notifications[0].id);
+  // };
 
   return (
     <nav className="bg-white border-1 border-black-600">
@@ -108,7 +110,7 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
         </div>
 
         {/* Right side: User Info and Notifications */}
-        <div className="flex items-center nav-right mr-8">
+        <div className="flex align-items-center nav-right mr-8">
           {/* Notification Dropdown */}
           <div className="relative">
             <button
@@ -129,37 +131,30 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
 
             {/* Notification Dropdown Content */}
             {isNotificationOpen && (
-              <div className="absolute right-0 mt-2 w-96 bg-white border rounded-xl shadow-xl z-20">
-                <div className="px-3 py-3 border-b flex justify-between items-center">
-                  <h3 className="text-lg font-semibold">Thông báo</h3>
-                  <button 
-                    onClick={handleMarkAsRead}
-                    className="text-blue-600 text-sm hover:underline"
-                  >
-                    Đánh dấu đã đọc
-                  </button>
+              <div className="absolute right-0 mt-1 w-96 bg-white border rounded-xl shadow-xl z-20">
+                <div className="border-b py-2">
+                  <h3 className="text-lg font-semibold">Các Thông báo</h3>
                 </div>
                 <div className="max-h-96">
-                  {notifications.slice(0, 3).map((notification) => (
-                    <div 
-                      key={notification.id} 
-                      className={`p-4 border-b hover:bg-gray-50 cursor-pointer ${
+                  {notifications.slice(0, 4).map((notification) => (
+                    <div
+                      key={notification.id}
+                      className={`px-4 py-2 border-b hover:bg-gray-50 cursor-pointer ${
                         !notification.read ? 'bg-blue-50' : ''
                       }`}>
                       <div>
-                        <div className="flex justify-content-end">
-                          <h4 className="font-semibold text-xl">{notification.title}</h4>
+                        <div>
+                          <div className="flex items-center justify-between">
+                            <span className="font-semibold text-lg">CSC100323</span>
+                            <span className="text-xs text-gray-500 text-right">{notification.timestamp}</span>
+                          </div>
                         </div>
-                        <div className="flex justify-content-center">
-                          <span className="text-xs text-gray-500">
-                            {notification.timestamp}
-                          </span>
-                        </div>
+                        <span className="text-base block mt-1 text-left">{notification.title}</span>
                       </div>
                     </div>
                   ))}
                 </div>
-                <div className="p-4 border-t text-center">
+                <div className="px-4 py-2 border-t text-center">
                   <button
                     onClick={handleViewAllNotifications}
                     className="text-blue-600 text-sm hover:underline">
@@ -167,6 +162,7 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
                   </button>
                 </div>
               </div>
+            
             )}
           </div>
           {/* User Info */}

@@ -36,6 +36,7 @@ import NoAccess from "./pages/NoAcess";
 import AuthGuard from "./components/Guard/AuthGuard";
 import GuestGuard from "./components/Guard/GuestGuard";
 import InstanceAxiosProvider from "./contexts/instanceAxios";
+import NotificationProvider from "./contexts/NotificationContext";
 import MainDrive from "./components/Dashboard/Drive";
 import AdminPage from "./pages/AdminPage";
 
@@ -60,7 +61,9 @@ const AppContent: React.FC = () => {
           path="/home"
           element={
             // <AuthGuard roleRequires={["USER", "TEACHER", "ADMIN"]}>
-              <DashboardPage />
+              <NotificationProvider>
+                <DashboardPage />
+              </NotificationProvider>
             // </AuthGuard>
           }
         >
@@ -122,7 +125,9 @@ const AppContent: React.FC = () => {
           path="/admin"
           element={
             // <AuthGuard roleRequires={["ADMIN"]}>
-              <AdminPage />
+              <NotificationProvider>
+                <AdminPage />
+              </NotificationProvider>
             // </AuthGuard>
           }
         />
