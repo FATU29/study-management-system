@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import IconifyIcon from "../utils/icon/index";
 import { TUser } from "../../types/userType";
 import { toFullName } from "../../helpers/toFullName";
@@ -7,11 +7,16 @@ import { useAuth } from "../../contexts/AuthContext";
 import { Button, Typography } from "@mui/material";
 import ProfileModal from "../Modals/ProfileModal";
 
-// import { Bell } from "lucide-react";
+interface Notification {
+  id: string;
+  title: string;
+  timestamp: string;
+  read: boolean;
+}
 
 interface NavbarHomeProps {
   user?: TUser;
-  notificationCount?: number;
+  notifications?: Notification[];
 }
 
 const NavbarHome: React.FC<NavbarHomeProps> = ({
@@ -23,15 +28,70 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
     email: "",
     role: "",
   },
-  notificationCount = 3,
+  notifications = [
+    {
+      id: "1",
+      title: "Doctor đã thêm bạn vào lớp CSC100323",
+      timestamp: "Jan 23, 2023 at 10:15am",
+      read: false
+    },
+    {
+      id: "2",
+      title: "CSC100323: Bài tập 1 đã được giao",
+      timestamp: "Jan 23, 2023 at 10:15am",
+      read: false
+    },
+    {
+      id: "3",
+      title: "CSC100323: Bài tập 2 đã được giao",
+      timestamp: "Jan 23, 2023 at 10:15am",
+      read: false
+    },
+    {
+      id: "4",
+      title: "CSC100323: Thay đổi lịch học",
+      timestamp: "Jan 23, 2023 at 10:15am",
+      read: true
+    },
+    {
+      id: "5",
+      title: "Invoice #9333E93 was paid",
+      timestamp: "Jan 23, 2023 at 10:15am",
+      read: true
+    },
+    {
+      id: "6",
+      title: "Invoice #9333E93 was paid",
+      timestamp: "Jan 23, 2023 at 10:15am",
+      read: true
+    }
+  ]
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const { logout } = useAuth();
+  const navigate = useNavigate();
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+
+  const toggleNotifications = () => {
+    setIsNotificationOpen(!isNotificationOpen);
+  };
+
+  const unreadNotifications = notifications.filter(noti => !noti.read);
+
+  const handleViewAllNotifications = () => {
+    navigate('/notifications');
+    setIsNotificationOpen(false);
+  };
+
+  const handleMarkAsRead = () => {
+    // Update notification read status here
+  };
+
   return (
     <nav className="bg-white border-1 border-black-600">
       <div className="flex w-100 justify-content-between m-2">
@@ -44,30 +104,74 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
               className="h-10 w-10"
             />
           </Link>
-
           <span className="text-xl font-bold text-blue-600">Moodle</span>
         </div>
 
         {/* Right side: User Info and Notifications */}
         <div className="flex items-center nav-right mr-8">
-          {/* Notification Icon */}
-          <button
-            className="relative p-2 hover:bg-gray-100 rounded-full"
-            aria-label="Notifications"
-          >
-            <IconifyIcon
-              icon="mdi-light:bell"
-              className="h-8 w-8 text-gray-600"
-            />
-            {notificationCount > 0 && (
-              <span className="absolute top-0 right-0 h-4 w-4 bg-red-500 rounded-full text-xs text-white flex items-center justify-center">
-                {notificationCount > 99 ? "99+" : notificationCount}
-              </span>
-            )}
-          </button>
+          {/* Notification Dropdown */}
+          <div className="relative">
+            <button
+              className="relative p-2 hover:bg-gray-100 rounded-full"
+              aria-label="Notifications"
+              onClick={toggleNotifications}
+            >
+              <IconifyIcon
+                icon="mdi-light:bell"
+                className="h-8 w-8 text-gray-600"
+              />
+              {unreadNotifications.length > 0 && (
+                <span className="absolute top-0 right-0 h-4 w-4 bg-red-500 rounded-full text-xs text-white flex items-center justify-center">
+                  {unreadNotifications.length > 99 ? "99+" : unreadNotifications.length}
+                </span>
+              )}
+            </button>
 
+            {/* Notification Dropdown Content */}
+            {isNotificationOpen && (
+              <div className="absolute right-0 mt-2 w-96 bg-white border rounded-xl shadow-xl z-20">
+                <div className="px-3 py-3 border-b flex justify-between items-center">
+                  <h3 className="text-lg font-semibold">Thông báo</h3>
+                  <button 
+                    onClick={handleMarkAsRead}
+                    className="text-blue-600 text-sm hover:underline"
+                  >
+                    Đánh dấu đã đọc
+                  </button>
+                </div>
+                <div className="max-h-96">
+                  {notifications.slice(0, 3).map((notification) => (
+                    <div 
+                      key={notification.id} 
+                      className={`p-4 border-b hover:bg-gray-50 cursor-pointer ${
+                        !notification.read ? 'bg-blue-50' : ''
+                      }`}>
+                      <div>
+                        <div className="flex justify-content-end">
+                          <h4 className="font-semibold text-xl">{notification.title}</h4>
+                        </div>
+                        <div className="flex justify-content-center">
+                          <span className="text-xs text-gray-500">
+                            {notification.timestamp}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="p-4 border-t text-center">
+                  <button
+                    onClick={handleViewAllNotifications}
+                    className="text-blue-600 text-sm hover:underline">
+                    Xem tất cả
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
           {/* User Info */}
           <div className="flex items-center space-x-4 nav-item m-2">
+            {/* (Rest of the existing user info and dropdown remains the same) */}
             <div className="text-right flex-col">
               <div className="text-xl font-bold text-primary">
                 {toFullName(user.firstName || "", user.lastName || "")}
