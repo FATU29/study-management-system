@@ -12,9 +12,10 @@ interface CourseTableProps {
   perPage: number;
   setCurrentPage: (page: number) => void;
   setPerPage: (size: number) => void;
+  pageSizeOptions: Array<number>
 }
 
-const CourseTable: React.FC<CourseTableProps> = ({ rows, currentPage, perPage, setCurrentPage, setPerPage }) => {
+const CourseTable: React.FC<CourseTableProps> = ({ rows,pageSizeOptions, currentPage, perPage, setCurrentPage, setPerPage }) => {
   const theme = useTheme();
 
   const [teacherId, setTeacherId] = React.useState<string>("");
@@ -22,6 +23,9 @@ const CourseTable: React.FC<CourseTableProps> = ({ rows, currentPage, perPage, s
 
   const handleChangeTeacherId = (event: SelectChangeEvent<string>) => setTeacherId(event.target.value as string);
   const handleChangeEnrollmentId = (event: SelectChangeEvent<string>) => setEnrollmentId(event.target.value as string);
+
+
+
 
   const columns: GridColDef<(typeof rows)[number]>[] = [
     {
@@ -56,13 +60,14 @@ const CourseTable: React.FC<CourseTableProps> = ({ rows, currentPage, perPage, s
       disableColumnMenu: true,
       headerAlign: "center",
       align: "center",
-      renderCell: (params) => (
-        <ActionsCell
-          data={params.row.teacherId}
+      renderCell: (params) => {
+
+       return <ActionsCell
+          data={params.row.teacherDetails}
           value={teacherId}
           onChange={handleChangeTeacherId}
         />
-      ),
+      },
     },
     {
       field: "enrollment",
@@ -75,7 +80,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ rows, currentPage, perPage, s
       align: "center",
       renderCell: (params) => (
         <ActionsCell
-          data={params.row.enrollmentId}
+          data={params.row.enrollmentDetails}
           value={enrollmentId}
           onChange={handleChangeEnrollmentId}
         />
@@ -105,6 +110,7 @@ const CourseTable: React.FC<CourseTableProps> = ({ rows, currentPage, perPage, s
       <DataGrid
         rows={rows}
         columns={columns}
+        getRowId={(row) => row._id}
         sx={{
           "--DataGrid-containerBackground": "none",
           "& .MuiDataGrid-columnSeparator": {
@@ -121,11 +127,12 @@ const CourseTable: React.FC<CourseTableProps> = ({ rows, currentPage, perPage, s
             <PaginationComponent
               currentPage={currentPage}
               perPage={perPage}
-              totalItems={rows.length}
+              totalItems={rows?.length}
               onChangePagination={(page, size) => {
                 setCurrentPage(page);
                 setPerPage(size);
               }}
+              pageSizeOptions={pageSizeOptions}
             />
           ),
         }}
