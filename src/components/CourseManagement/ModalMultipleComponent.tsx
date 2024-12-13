@@ -1,8 +1,12 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import { IconButton, Typography } from "@mui/material";
+import { IconButton, TextField, Typography, useTheme, Checkbox } from "@mui/material";
 import IconifyIcon from "../utils/icon";
+import { useQuery } from "@tanstack/react-query";
+import useDebounce from "../../hooks/useDebounce";
+import { searchTeacherNotJoinCourse, searchUsersNotJoinCourse } from "../../services/courses";
+import { toFullName } from "../../helpers/toFullName";
 
 const style = {
   position: "absolute",
@@ -18,13 +22,61 @@ const style = {
 
 interface TProps {
   open: boolean;
-  setOpen:React.Dispatch<React.SetStateAction<boolean>>;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   title: string;
-  key?:string
+  propKey?: string;
+  setArrayData?: React.Dispatch<React.SetStateAction<any[]>>;
+  courseId?: string;
 }
 
-const ModalMultipleComponent = ({ key,open, setOpen, title }: TProps) => {
+const ModalMultipleComponent = ({
+  propKey,
+  open,
+  setOpen,
+  title,
+  setArrayData,
+  courseId
+}: TProps) => {
   const handleClose = () => setOpen(false);
+  const theme = useTheme();
+  const [input, setInput] = React.useState<string>("");
+  const deBounce = useDebounce(input, 600);
+  const [selectedUsers, setSelectedUsers] = React.useState<{ [key: string]: boolean }>({});
+
+  const handleAPI = async () => {
+    if (propKey === "add-teacher") {
+      return searchTeacherNotJoinCourse(deBounce, courseId);
+    } else if (propKey === "add-student") {
+      return searchUsersNotJoinCourse(deBounce, courseId);
+    }
+    return null;
+  };
+
+  const { data } = useQuery({
+    queryKey: [propKey + "multiple", deBounce],
+    queryFn: async () => {
+      const response = await handleAPI();
+      return response.data;
+    },
+  });
+
+  const handleCheckboxChange = (itemId: string) => {
+    setSelectedUsers((prev) => ({
+      ...prev,
+      [itemId]: !prev[itemId], 
+    }));
+  };
+
+  const handleSave = () => {
+    if (setArrayData) {
+      const selectedData = Object.keys(selectedUsers)
+        .filter((key) => selectedUsers[key])
+        .map((key) => data.find((item: any) => item._id === key));
+      
+      setArrayData((oldData) => [...oldData, ...selectedData]);
+    }
+    handleClose();
+  };
 
   return (
     <div>
@@ -50,10 +102,60 @@ const ModalMultipleComponent = ({ key,open, setOpen, title }: TProps) => {
               fontWeight: "bold",
               fontSize: "1.5rem",
               letterSpacing: 2,
+              mb: 4,
             }}
           >
             {title}
           </Typography>
+          <Box sx={{ mb: 2 }}>
+            <TextField
+              variant="outlined"
+              fullWidth
+              id="find-one-user-1"
+              label="Tìm kiếm"
+              onChange={(e) => setInput(e.target.value)}
+            />
+          </Box>
+          <Box
+            sx={{
+              maxHeight: "15rem",
+              overflowY: "auto",
+              mb: 2,
+              bgcolor: "white",
+              borderRadius: "5px",
+              boxShadow: 2,
+            }}
+          >
+            {data?.map((item: any) => (
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  mb: 1,
+                  cursor: "pointer",
+                  "&:hover": {
+                    backgroundColor: theme.palette.grey[200],
+                  },
+                }}
+                key={item._id}
+              >
+                <Checkbox
+                  checked={!!selectedUsers[item._id]}
+                  onChange={() => handleCheckboxChange(item._id)}
+                />
+                <Typography>
+                  {toFullName(item.firstName, item.lastName)}
+                </Typography>
+                <Typography>{item.email}</Typography>
+              </Box>
+            ))}
+          </Box>
+          <Box sx={{ textAlign: "center" }}>
+            <IconButton onClick={handleSave} color="primary">
+              <Typography variant="button">Lưu</Typography>
+            </IconButton>
+          </Box>
         </Box>
       </Modal>
     </div>

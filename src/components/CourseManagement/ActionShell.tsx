@@ -9,17 +9,25 @@ import {
 } from "@mui/material";
 import IconifyIcon from "../utils/icon";
 import { toFullName } from "../../helpers/toFullName";
+import ModalActionComponent from "./ModalAction";
 
 interface ActionsCellProps {
   data: string[];
   value: string;
   onChange: (event: SelectChangeEvent<string>) => void;
+  propKey?:string;
+  courseId?:string;
 }
 
-const ActionsCell: React.FC<ActionsCellProps> = ({ data, value, onChange }) => {
+const ActionsCell: React.FC<ActionsCellProps> = ({ courseId,propKey,data, value, onChange }) => {
+  const [openAdd,setOpenAdd] = React.useState<boolean>(false);
+  const [openDelete,setOpenDelete] = React.useState<boolean>(false);
+
 
   return (
     <>
+      <ModalActionComponent action="Thêm" courseId={courseId} propKey={propKey} open={openAdd} setOpen={setOpenAdd}/>
+      <ModalActionComponent action="Xóa" courseId={courseId} propKey={propKey} open={openDelete} setOpen={setOpenDelete}/>
       <Box
         sx={{
           display: "flex",
@@ -38,12 +46,16 @@ const ActionsCell: React.FC<ActionsCellProps> = ({ data, value, onChange }) => {
         </Select>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Tooltip title="add">
-            <IconButton>
+            <IconButton onClick={() => {
+              setOpenAdd(true);
+            }}>
               <IconifyIcon icon="material-symbols:add" fontSize={20} />
             </IconButton>
           </Tooltip>
           <Tooltip title="delete">
-            <IconButton>
+            <IconButton onClick={() => {
+              setOpenDelete(true);
+            }}>
               <IconifyIcon
                 icon="material-symbols:delete-outline"
                 fontSize={20}

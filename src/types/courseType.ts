@@ -1,10 +1,8 @@
-
-
 export interface COURSE {
-    _id:string,
+    _id?:string,
     title:string,
     description:string,
-    teacherId:Array<string>,
-    enrollmentId:Array<string>,
+    teacherIds:Array<string>,
+    enrollmentIds:Array<string>,
     slug:string,
 }

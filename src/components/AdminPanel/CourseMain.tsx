@@ -10,11 +10,11 @@ const pageSizeOptions = [5, 10, 15, 20];
 
 const CourseAdminPanel = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [perPage, setPerPage] = useState<number>(10);
+  const [perPage, setPerPage] = useState<number>(pageSizeOptions[0]);
   const [searchText, setSearchText] = useState<string>("");
   const [openModal, setOpenModal] = useState<boolean>(false);
 
-  const { data, isFetching } = useQuery({
+  const { data, isFetching, refetch } = useQuery({
     queryKey: ["courses-table", currentPage, perPage],
     queryFn: async () => {
       const data = await getCourses(currentPage, perPage);
@@ -39,6 +39,7 @@ const CourseAdminPanel = () => {
       <ModalCreateCourseComponent
         open={openModal}
         setOpen={setOpenModal}
+        refetch={refetch}
       />
 
       <Box sx={{ width: "100%" }}>
@@ -76,6 +77,7 @@ const CourseAdminPanel = () => {
             setCurrentPage={setCurrentPage}
             setPerPage={setPerPage}
             pageSizeOptions={pageSizeOptions}
+            totalItems={data?.totalItems}
           />
         </Box>
       </Box>

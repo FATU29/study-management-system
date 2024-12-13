@@ -1,7 +1,13 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Typography, Tooltip, IconButton, useTheme, SelectChangeEvent } from "@mui/material";
+import {
+  Typography,
+  Tooltip,
+  IconButton,
+  useTheme,
+  SelectChangeEvent,
+} from "@mui/material";
 import IconifyIcon from "../utils/icon";
 import ActionsCell from "./ActionShell";
 import PaginationComponent from "./PaginationComponent";
@@ -10,22 +16,30 @@ interface CourseTableProps {
   rows: any[];
   currentPage: number;
   perPage: number;
-  setCurrentPage: (page: number) => void;
-  setPerPage: (size: number) => void;
-  pageSizeOptions: Array<number>
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+  setPerPage: React.Dispatch<React.SetStateAction<number>>;
+  pageSizeOptions: Array<number>;
+  totalItems: number;
 }
 
-const CourseTable: React.FC<CourseTableProps> = ({ rows,pageSizeOptions, currentPage, perPage, setCurrentPage, setPerPage }) => {
+const CourseTable: React.FC<CourseTableProps> = ({
+  totalItems,
+  rows,
+  pageSizeOptions,
+  currentPage,
+  perPage,
+  setCurrentPage,
+  setPerPage,
+}) => {
   const theme = useTheme();
 
   const [teacherId, setTeacherId] = React.useState<string>("");
   const [enrollmentId, setEnrollmentId] = React.useState<string>("");
 
-  const handleChangeTeacherId = (event: SelectChangeEvent<string>) => setTeacherId(event.target.value as string);
-  const handleChangeEnrollmentId = (event: SelectChangeEvent<string>) => setEnrollmentId(event.target.value as string);
-
-
-
+  const handleChangeTeacherId = (event: SelectChangeEvent<string>) =>
+    setTeacherId(event.target.value as string);
+  const handleChangeEnrollmentId = (event: SelectChangeEvent<string>) =>
+    setEnrollmentId(event.target.value as string);
 
   const columns: GridColDef<(typeof rows)[number]>[] = [
     {
@@ -61,12 +75,15 @@ const CourseTable: React.FC<CourseTableProps> = ({ rows,pageSizeOptions, current
       headerAlign: "center",
       align: "center",
       renderCell: (params) => {
-
-       return <ActionsCell
-          data={params.row.teacherDetails}
-          value={teacherId}
-          onChange={handleChangeTeacherId}
-        />
+        return (
+          <ActionsCell
+            data={params.row.teacherDetails}
+            value={teacherId}
+            onChange={handleChangeTeacherId}
+            propKey={"giáo viên"}
+            courseId={params.row._id}
+          />
+        );
       },
     },
     {
@@ -83,6 +100,8 @@ const CourseTable: React.FC<CourseTableProps> = ({ rows,pageSizeOptions, current
           data={params.row.enrollmentDetails}
           value={enrollmentId}
           onChange={handleChangeEnrollmentId}
+          propKey={"học sinh"}
+          courseId={params.row._id}
         />
       ),
     },
@@ -127,12 +146,12 @@ const CourseTable: React.FC<CourseTableProps> = ({ rows,pageSizeOptions, current
             <PaginationComponent
               currentPage={currentPage}
               perPage={perPage}
-              totalItems={rows?.length}
               onChangePagination={(page, size) => {
                 setCurrentPage(page);
                 setPerPage(size);
               }}
               pageSizeOptions={pageSizeOptions}
+              totalItems={totalItems}
             />
           ),
         }}

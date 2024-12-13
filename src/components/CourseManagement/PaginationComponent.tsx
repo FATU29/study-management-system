@@ -5,10 +5,9 @@ interface PaginationComponentProps {
   currentPage: number;
   perPage: number;
   totalItems: number;
-  pageSizeOptions:Array<number>;
+  pageSizeOptions: Array<number>;
   onChangePagination: (page: number, size: number) => void;
 }
-
 
 const PaginationComponent: React.FC<PaginationComponentProps> = ({
   currentPage,
@@ -16,7 +15,6 @@ const PaginationComponent: React.FC<PaginationComponentProps> = ({
   totalItems,
   pageSizeOptions,
   onChangePagination,
-
 }) => (
   <CustomPagination
     currentPage={currentPage}

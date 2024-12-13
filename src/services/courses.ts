@@ -201,97 +201,214 @@ export const deleteEnrollmentInCourse = async (
   }
 };
 
+export const deleteSomeTeacherInCourse = async (
+  courseId: string,
+  ids: Array<string>
+) => {
+  try {
+    const url = API_ROUTE.COURSE + "/deleteSomeTeacherInCourse";
+    const { accessToken } = getLocalUserData();
 
-export const deleteSomeTeacherInCourse = async (courseId:string,ids:Array<string>) => {
-    try {
-        const url = API_ROUTE.COURSE + "/deleteSomeTeacherInCourse";
-        const { accessToken } = getLocalUserData();
-    
-        const response = await instanceAxios(url, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "Application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          data: {
-            courseId,
-            teacherIds: ids,
-          },
-        });
-    
-        return response.data;
-      } catch (error) {
-        console.log("error in deleteSomeTeacherInCourse");
-        throw error;
+    const response = await instanceAxios(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "Application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data: {
+        courseId,
+        teacherIds: ids,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("error in deleteSomeTeacherInCourse");
+    throw error;
+  }
+};
+
+export const deleteSomeEnrollmentsInCourse = async (
+  courseId: string,
+  ids: Array<string>
+) => {
+  try {
+    const url = API_ROUTE.COURSE + "/deleteSomeEnrollmentsInCourse";
+    const { accessToken } = getLocalUserData();
+
+    const response = await instanceAxios(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "Application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data: {
+        courseId,
+        enrollmentIds: ids,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("error in deleteSomeEnrollmentsInCourse");
+    throw error;
+  }
+};
+
+export const deleteCourse = async (courseId: string) => {
+  try {
+    const url = API_ROUTE.COURSE + "/deleteCourse";
+    const { accessToken } = getLocalUserData();
+
+    const response = await instanceAxios(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "Application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data: {
+        courseId,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error in deleteCourse");
+    throw error;
+  }
+};
+
+export const getCourse = async (slug: string) => {
+  try {
+    const url = API_ROUTE.COURSE + "/deleteCourse/" + slug;
+    const { accessToken } = getLocalUserData();
+
+    const response = await instanceAxios(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "Application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error in getCourse");
+    throw error;
+  }
+};
+
+export const searchTeacherNotJoinCourse = async (
+  content: string,
+  courseId?: string
+) => {
+  try {
+    const url = API_ROUTE.SEARCH_IN_COURSE + "/teachers";
+    const { accessToken } = getLocalUserData();
+
+    const response = await instanceAxios(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "Application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data:{
+        content:content,
+        courseId: courseId
       }
-}
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error in searchTeacherNotJoinCourse");
+    throw error;
+  }
+};
 
 
-export const deleteSomeEnrollmentsInCourse = async (courseId:string,ids:Array<string>) => {
-    try {
-        const url = API_ROUTE.COURSE + "/deleteSomeEnrollmentsInCourse";
-        const { accessToken } = getLocalUserData();
-    
-        const response = await instanceAxios(url, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "Application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          data: {
-            courseId,
-            enrollmentIds: ids,
-          },
-        });
-    
-        return response.data;
-      } catch (error) {
-        console.log("error in deleteSomeEnrollmentsInCourse");
-        throw error;
+export const searchUsersNotJoinCourse = async (
+  content: string,
+  courseId?: string
+) => {
+  try {
+    const url = API_ROUTE.SEARCH_IN_COURSE + "/users";
+    const { accessToken } = getLocalUserData();
+
+    const response = await instanceAxios(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "Application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data:{
+        content:content,
+        courseId: courseId
       }
-}
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error in searchUsersNotJoinCourse");
+    throw error;
+  }
+};
 
 
-export const deleteCourse = async (courseId:string) => {
-    try {
-        const url = API_ROUTE.COURSE + "/deleteCourse";
-        const { accessToken } = getLocalUserData();
-    
-        const response = await instanceAxios(url, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "Application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          data: {
-            courseId,
-          },
-        });
-    
-        return response.data;
-    } catch (error) {
-        console.log('Error in deleteCourse');
-        throw error;
-    }
-}
+
+export const searchTeacherJoinCourse = async (
+  content: string,
+  courseId?: string
+) => {
+  try {
+    const url = API_ROUTE.SEARCH_IN_COURSE + "/teachersInCourse";
+    const { accessToken } = getLocalUserData();
+
+    const response = await instanceAxios(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "Application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data:{
+        content:content,
+        courseId: courseId
+      }
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error in searchTeacherJoinCourse");
+    throw error;
+  }
+};
 
 
-export const getCourse = async (slug:string) => {
-    try {
-        const url = API_ROUTE.COURSE + "/deleteCourse/" + slug;
-        const { accessToken } = getLocalUserData();
-    
-        const response = await instanceAxios(url, {
-          method: "GET",
-          headers: {
-            "Content-Type": "Application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-    
-        return response.data;
-    } catch (error) {
-        console.log('Error in getCourse');
-        throw error;
-    }
-}
+
+
+
+export const usersInCourse = async (
+  content: string,
+  courseId?: string
+) => {
+  try {
+    const url = API_ROUTE.SEARCH_IN_COURSE + "/usersInCourse";
+    const { accessToken } = getLocalUserData();
+
+    const response = await instanceAxios(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "Application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data:{
+        content:content,
+        courseId: courseId
+      }
+    });
+
+    return response.data;
+  } catch (error) {
+    console.log("Error in usersInCourse");
+    throw error;
+  }
+};
