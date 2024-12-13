@@ -8,33 +8,67 @@ import {
   Avatar,
   Divider,
 } from "@mui/material";
-
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
+// import { updateProfileAPI } from "../../services/auth"
+import { useAuth } from "../../contexts/AuthContext"
 interface ProfileModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
 const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
-  const [middleName, setMiddleName] = useState<string>("Nguyễn Minh");
-  const [firstName, setFirstName] = useState<string>("Trực");
-  const [fullName, setFullName] = useState<string>("");
-  const [dateOfBirth, setDateOfBirth] = useState<string>("01/01/2004");
-  const [email, setEmail] = useState<string>("minhtruc1234@gmail.com");
+  // const [middleName, setMiddleName] = useState<string>("Nguyễn Minh");
+  // const [firstName, setFirstName] = useState<string>("Trực");
+  // const [fullName, setFullName] = useState<string>("");
+  // const [dateOfBirth, setDateOfBirth] = useState<string>("01/01/2004");
+  // const [email, setEmail] = useState<string>("minhtruc1234@gmail.com");
   const [id, setID] = useState<string>("22120394");
   const [grade, setGrade] = useState<string>("2022");
+
+  const { user, updateProfile } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [firstName, setFirstName] = useState<string>(user?.firstName || "");
+  const [middleName, setMiddleName] = useState<string>(user?.lastName || "");
+  const [fullName, setFullName] = useState<string>("");
+  const [dateOfBirth, setDateOfBirth] = useState<string>(user?.dateOfBirth || "");
+  const [email, setEmail] = useState<string>(user?.email || "");
 
   useEffect(() => {
     setFullName(`${middleName} ${firstName}`);
   }, [middleName, firstName]);
 
-  const handleSave = () => {
-    // Xử lý logic lưu thông tin tại đây
-    console.log("Thông tin cá nhân đã cập nhật:", {
-      middleName,
-      firstName,
-      fullName,
-    });
-    onClose();
+  // const handleSave = () => {
+  //   // Xử lý logic lưu thông tin tại đây
+  //   console.log("Thông tin cá nhân đã cập nhật:", {
+  //     middleName,
+  //     firstName,
+  //     fullName,
+  //   });
+  //   onClose();
+  // };
+
+  const handleSave = async () => {
+    try {
+      setIsLoading(true);
+
+      const updateData = {
+        firstName: firstName.trim(),
+        lastName: middleName.trim(),
+        dateOfBirth,
+        email: email.trim()
+      };
+
+      await updateProfile(updateData);
+      onClose();
+    } catch (error) {
+      console.error('Update failed:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChangePassword = () => {
@@ -216,7 +250,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
           </Box>
           <Box>
             <Box sx={{ display: "flex", gap: 4 }}>
-              <TextField
+              {/* <TextField
                 label="Ngày sinh"
                 value={dateOfBirth}
                 margin="normal"
@@ -225,12 +259,38 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
                   height: 40,
                   "& .MuiInputBase-input": { height: "0.875em" },
                 }}
-              />
+              /> */}
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  label="Ngày sinh"
+                  value={dateOfBirth ? dayjs(dateOfBirth) : null}
+                  onChange={(newValue) => {
+                    setDateOfBirth(newValue ? newValue.format('YYYY-MM-DD') : '');
+                  }}
+                  format="DD/MM/YYYY"
+                  slotProps={{
+                    textField: {
+                      fullWidth: true,
+                      margin: "normal",
+                      sx: {
+                        height: 40,
+                        "& .MuiInputBase-input": { height: "0.875em" },
+                      }
+                    }
+                  }}
+                />
+              </LocalizationProvider>
+              
               <TextField
                 label="Email cá nhân"
                 value={email}
                 margin="normal"
                 fullWidth
+                InputProps={{
+                  readOnly: true,
+                  sx: { backgroundColor: "#f0f0f0" },
+                  style: { padding: "3px 3px", fontSize: "0.875rem" },
+                }}
                 sx={{
                   height: 40,
                   "& .MuiInputBase-input": { height: "0.875em" },

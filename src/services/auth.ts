@@ -118,7 +118,29 @@ export const userVerifyMail = async (token:string) => {
    }
 }
 
+export const updateProfileAPI = async (userData: any) => {
+  try {
+    const { accessToken } = getLocalUserData();
+    const url = `${API_ROUTE.USERS}/update-profile`;
+    const response = await instanceAxios(url, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${accessToken}`
+      },
+      data: userData
+    });
 
+    if (response.status !== 200) {
+      throw new Error("Update profile failed");
+    }
+
+    return response.data;
+  } catch (error: any) {
+    console.log("Error in updateProfileAPI: ", error.message);
+    throw error;
+  }
+}
 
 export const forgotPasswordAPI = async (email:string) => {
     try {

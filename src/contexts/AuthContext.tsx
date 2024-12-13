@@ -4,7 +4,7 @@ import {
   getLocalUserData,
   setLocalUserData,
 } from "../helpers/LocalStorage";
-import { getMeAPI, loginUserAPI, logoutUserAPI } from "../services/auth";
+import { getMeAPI, loginUserAPI, logoutUserAPI, updateProfileAPI } from "../services/auth";
 import { TUser } from "../types/userType";
 import { AuthValuesType, LoginParams } from "./types";
 import {
@@ -24,7 +24,8 @@ const defaultProvider: AuthValuesType = {
   user: null,
   loadingInAuth: false,
   setUser: () => null,
-  setLoadingInAuth: () => {},
+  updateProfile: () => Promise.resolve(),
+  setLoadingInAuth: () => { },
   login: () => Promise.resolve(),
   logout: () => Promise.resolve(),
 };
@@ -53,52 +54,79 @@ const AuthProvider = ({ children }: Props) => {
           navigate("/login", { replace: true });
         })
       setLoadingInAuth(false);
-      };
+    };
     getMeChange();
   }, []);
-  
+
 
   const handleLogin = async (params: LoginParams) => {
     setLoadingInAuth(true);
-      await loginUserAPI(params).then((reponse) => {
-        const data = reponse.data;
-        const { accessToken, refreshToken } = data.result;
-        const payload: TParseToken | undefined = parseToken(accessToken);
-        setUser(data.user)
-        setLocalUserData(payload?.user_id,accessToken, refreshToken);
-        if(data.user.role === "USER"){
-          navigate("/home");
-        } else if(data.user.role === "ADMIN"){
-          navigate("/admin");
-        }
-      }).catch((error) => {
-        throw new Error("Lỗi đăng nhập");
-      }).finally(() => {
-        setLoadingInAuth(false);
-      });
-     
-  
+    await loginUserAPI(params).then((reponse) => {
+      const data = reponse.data;
+      const { accessToken, refreshToken } = data.result;
+      const payload: TParseToken | undefined = parseToken(accessToken);
+      setUser(data.user)
+      setLocalUserData(payload?.user_id, accessToken, refreshToken);
+      if (data.user.role === "USER") {
+        navigate("/home");
+      } else if (data.user.role === "ADMIN") {
+        navigate("/admin");
+      }
+    }).catch((error) => {
+      throw new Error("Lỗi đăng nhập");
+    }).finally(() => {
+      setLoadingInAuth(false);
+    });
+
+
   };
 
   const handleLogout = async () => {
     setLoadingInAuth(true);
     await logoutUserAPI().then(() => {
-        setUser(null);
-        clearLocalUserData();
-        navigate("/");
+      setUser(null);
+      clearLocalUserData();
+      navigate("/");
     }).catch((error) => {
-        throw error
+      throw error
     })
-    .finally(() => {
+      .finally(() => {
         setLoadingInAuth(false);
-    });
- 
+      });
+
+  };
+
+  const handleUpdateProfile = async (userData: {
+    firstName: string;
+    lastName: string;
+    dateOfBirth?: string;
+    email: string;
+  }) => {
+    try {
+      setLoadingInAuth(true);
+
+      const response = await updateProfileAPI(userData);
+
+      // Update local user state with new data
+      setUser(prevUser => ({
+        ...prevUser,
+        ...response.data
+      }));
+
+      return response.data;
+    } catch (error) {
+      console.error('Profile update failed:', error);
+      throw error;
+    } finally {
+      setLoadingInAuth(false);
+    }
   };
 
   const values: AuthValuesType = {
     user,
     loadingInAuth,
     setUser,
+    updateProfile: handleUpdateProfile,
     setLoadingInAuth,
     login: handleLogin,
     logout: handleLogout,
