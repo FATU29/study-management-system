@@ -19,15 +19,18 @@ interface NotificationContextType {
 
 const NotificationContext = createContext<NotificationContextType | null>(null);
 
+export const useNotificationContext = () => {
+    const context = useContext(NotificationContext);
+    if (!context) {
+      throw new Error('useNotificationContext must be used within a NotificationProvider');
+    }
+    return context;
+};
+
 const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     // Simulated user - replace with actual authentication
     const user = {
         _id: "673ff3e1223a09365a7c5673",
-        lastName: "teacher@gmail.com",
-        firstName: "hello",
-        avatar: "haha",
-        email: "aa",
-        role: "aa",
     };
     
     const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -116,12 +119,7 @@ const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     return (
         <NotificationContext.Provider
-            value={{ 
-                notifications, 
-                fetchNotifications, 
-                markAsRead 
-            }}
-        >
+            value={{notifications, fetchNotifications, markAsRead}}>
             {children}
         </NotificationContext.Provider>
     );
