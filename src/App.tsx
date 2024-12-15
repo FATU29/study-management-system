@@ -60,11 +60,11 @@ const AppContent: React.FC = () => {
         <Route
           path="/home"
           element={
-            // <AuthGuard roleRequires={["USER", "TEACHER", "ADMIN"]}>
+            <AuthGuard roleRequires={["USER", "TEACHER", "ADMIN"]}>
               <NotificationProvider>
                 <DashboardPage />
               </NotificationProvider>
-            // </AuthGuard>
+            </AuthGuard>
           }
         >
           {/* Change start here! */}
@@ -124,11 +124,11 @@ const AppContent: React.FC = () => {
         <Route
           path="/admin"
           element={
-            // <AuthGuard roleRequires={["ADMIN"]}>
+            <AuthGuard roleRequires={["ADMIN"]}>
               <NotificationProvider>
                 <AdminPage />
               </NotificationProvider>
-            // </AuthGuard>
+            </AuthGuard>
           }
         />
         <Route path="/modal" element={<AdminPage/>} />
