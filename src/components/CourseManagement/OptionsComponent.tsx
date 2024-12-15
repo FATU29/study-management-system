@@ -53,12 +53,18 @@ const StyledMenu = styled((props: MenuProps) => (
 interface TProps {
   title: string;
   propKey: string;
-   setArrayData?: React.Dispatch<React.SetStateAction<any[]>>
-  action?:string
-  courseId?:string
+  setArrayData?: React.Dispatch<React.SetStateAction<any[]>>;
+  action?: string;
+  courseId?: string;
 }
 
-const OptionsComponent = ({ action,title,propKey ,setArrayData,courseId}: TProps) => {
+const OptionsComponent = ({
+  action,
+  title,
+  propKey,
+  setArrayData,
+  courseId,
+}: TProps) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [openOne, setOpenOne] = React.useState<boolean>(false);
   const [openMultiple, setOpenMultiple] = React.useState<boolean>(false);
@@ -71,12 +77,24 @@ const OptionsComponent = ({ action,title,propKey ,setArrayData,courseId}: TProps
     setAnchorEl(null);
   };
 
-
-
   return (
     <>
-     <ModalOneComponent courseId={courseId} setArrayData={setArrayData}  propKey={propKey} title={title} open={openOne} setOpen={setOpenOne}/>
-     <ModalMultipleComponent courseId={courseId} setArrayData={setArrayData} propKey={propKey} title={title} open={openMultiple} setOpen={setOpenMultiple}/>
+      <ModalOneComponent
+        courseId={courseId}
+        setArrayData={setArrayData}
+        propKey={propKey}
+        title={title}
+        open={openOne}
+        setOpen={setOpenOne}
+      />
+      <ModalMultipleComponent
+        courseId={courseId}
+        setArrayData={setArrayData}
+        propKey={propKey}
+        title={title}
+        open={openMultiple}
+        setOpen={setOpenMultiple}
+      />
       <div>
         <Button
           id="demo-customized-button"
@@ -86,6 +104,7 @@ const OptionsComponent = ({ action,title,propKey ,setArrayData,courseId}: TProps
           variant="contained"
           disableElevation
           onClick={handleClick}
+          fullWidth
         >
           {title}
         </Button>
@@ -98,17 +117,23 @@ const OptionsComponent = ({ action,title,propKey ,setArrayData,courseId}: TProps
           open={open}
           onClose={handleClose}
         >
-          <MenuItem onClick={() => {
-            setOpenOne(true);
-            handleClose();
-          }} disableRipple>
+          <MenuItem
+            onClick={() => {
+              setOpenOne(true);
+              handleClose();
+            }}
+            disableRipple
+          >
             {action}
           </MenuItem>
           <Divider sx={{ my: 0.5 }} />
-          <MenuItem onClick={() => {
-             setOpenMultiple(true);
-             handleClose();
-          }} disableRipple>
+          <MenuItem
+            onClick={() => {
+              setOpenMultiple(true);
+              handleClose();
+            }}
+            disableRipple
+          >
             {action} nhiều
           </MenuItem>
         </StyledMenu>

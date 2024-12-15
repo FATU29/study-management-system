@@ -11,6 +11,10 @@ import {
 import IconifyIcon from "../utils/icon";
 import ActionsCell from "./ActionShell";
 import PaginationComponent from "./PaginationComponent";
+import CustomModalAlert from "../CustomModalAlert";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteCourse } from "../../services/courses";
+import Spinner from "../../helpers/Spinner";
 
 interface CourseTableProps {
   rows: any[];
@@ -32,6 +36,8 @@ const CourseTable: React.FC<CourseTableProps> = ({
   setPerPage,
 }) => {
   const theme = useTheme();
+  const [openModal, setOpenModal] = React.useState<boolean>(false);
+  const [idDelete, setIdDelete] = React.useState<string>("");
 
   const [teacherId, setTeacherId] = React.useState<string>("");
   const [enrollmentId, setEnrollmentId] = React.useState<string>("");
@@ -40,6 +46,17 @@ const CourseTable: React.FC<CourseTableProps> = ({
     setTeacherId(event.target.value as string);
   const handleChangeEnrollmentId = (event: SelectChangeEvent<string>) =>
     setEnrollmentId(event.target.value as string);
+  const queryClient = useQueryClient();
+
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["delete-course"],
+    mutationFn: async (idDelete: string) => {
+      await deleteCourse(idDelete);
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["courses-table"] });
+    },
+  });
 
   const columns: GridColDef<(typeof rows)[number]>[] = [
     {
@@ -114,9 +131,14 @@ const CourseTable: React.FC<CourseTableProps> = ({
       disableColumnMenu: true,
       headerAlign: "center",
       align: "center",
-      renderCell: () => (
+      renderCell: (params) => (
         <Tooltip title="delete">
-          <IconButton>
+          <IconButton
+            onClick={() => {
+              setIdDelete(params.row._id);
+              setOpenModal(true);
+            }}
+          >
             <IconifyIcon icon="streamline:delete-1-solid" />
           </IconButton>
         </Tooltip>
@@ -125,42 +147,57 @@ const CourseTable: React.FC<CourseTableProps> = ({
   ];
 
   return (
-    <Box sx={{ height: 400, width: "100%" }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        getRowId={(row) => row._id}
-        sx={{
-          "--DataGrid-containerBackground": "none",
-          "& .MuiDataGrid-columnSeparator": {
-            display: "none",
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            background: "none",
-            backgroundColor: `${theme.palette.primary.main} !important`,
-            color: "#fff",
-          },
+    <>
+      {isPending && <Spinner />}
+      <CustomModalAlert
+        headerTitle="Thông báo"
+        bodyContent="Bạn có chắc chắn muốn xóa"
+        isOpen={openModal}
+        setIsOpen={setOpenModal}
+        doOk={() => {
+          mutate(idDelete);
+          setOpenModal(false);
+          setIdDelete("");
         }}
-        slots={{
-          pagination: () => (
-            <PaginationComponent
-              currentPage={currentPage}
-              perPage={perPage}
-              onChangePagination={(page, size) => {
-                setCurrentPage(page);
-                setPerPage(size);
-              }}
-              pageSizeOptions={pageSizeOptions}
-              totalItems={totalItems}
-            />
-          ),
-        }}
-        rowHeight={80}
-        autoHeight
-        checkboxSelection
-        disableRowSelectionOnClick
       />
-    </Box>
+
+      <Box sx={{ height: 400, width: "100%" }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          getRowId={(row) => row._id}
+          sx={{
+            "--DataGrid-containerBackground": "none",
+            "& .MuiDataGrid-columnSeparator": {
+              display: "none",
+            },
+            "& .MuiDataGrid-columnHeaders": {
+              background: "none",
+              backgroundColor: `${theme.palette.primary.main} !important`,
+              color: "#fff",
+            },
+          }}
+          slots={{
+            pagination: () => (
+              <PaginationComponent
+                currentPage={currentPage}
+                perPage={perPage}
+                onChangePagination={(page, size) => {
+                  setCurrentPage(page);
+                  setPerPage(size);
+                }}
+                pageSizeOptions={pageSizeOptions}
+                totalItems={totalItems}
+              />
+            ),
+          }}
+          rowHeight={80}
+          autoHeight
+          checkboxSelection
+          disableRowSelectionOnClick
+        />
+      </Box>
+    </>
   );
 };
 

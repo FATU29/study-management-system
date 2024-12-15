@@ -1,6 +1,7 @@
 import {
   Avatar,
   Box,
+  Button,
   IconButton,
   List,
   ListItem,
@@ -12,7 +13,7 @@ import IconifyIcon from "../utils/icon";
 import OptionsComponent from "./OptionsComponent";
 import { useState } from "react";
 import { toFullName } from "../../helpers/toFullName";
-import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
+import { QueryObserverResult, RefetchOptions, useMutation, useQueryClient } from "@tanstack/react-query";
 interface TProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,18 +23,31 @@ interface TProps {
   propKey?: string;
   courseId?: string;
   action?:string;
+  actionFn?: any;
 }
 
 const ModalActionComponent = ({
   propKey = "defaultTitle",
   open,
   setOpen,
-  refetch,
   action,
-  courseId
+  courseId,
+  actionFn
 }: TProps) => {
   const handleOnClose = () => setOpen(false);
   const [arrayId, setArrayId] = useState<Array<any>>([]);
+  const query = useQueryClient();
+
+  const {mutate} = useMutation({
+    mutationKey:[action],
+    mutationFn: async (arrayId:any) => {
+      const arrayIds = arrayId.map((item:any) => item._id);
+      await actionFn()(courseId,arrayIds);
+    },
+    onSuccess: () => {
+      query.invalidateQueries({ queryKey: ["courses-table"] })
+    }
+  })
 
   return (
     <>
@@ -132,6 +146,10 @@ const ModalActionComponent = ({
                   })}
                 </List>
               </Box>
+              <Button fullWidth onClick={() => {
+                mutate(arrayId)
+                setOpen(false)
+              }} variant="contained">{action}</Button>
             </Box>
           </Box>
         </Box>

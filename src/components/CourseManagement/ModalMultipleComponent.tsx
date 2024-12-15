@@ -1,11 +1,21 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import { IconButton, TextField, Typography, useTheme, Checkbox } from "@mui/material";
+import {
+  IconButton,
+  TextField,
+  Typography,
+  useTheme,
+  Checkbox,
+} from "@mui/material";
 import IconifyIcon from "../utils/icon";
 import { useQuery } from "@tanstack/react-query";
 import useDebounce from "../../hooks/useDebounce";
-import { searchTeacherNotJoinCourse, searchUsersNotJoinCourse } from "../../services/courses";
+import {
+  searchTeacherJoinCourse,
+  searchTeacherNotJoinCourse,
+  searchUsersNotJoinCourse,
+} from "../../services/courses";
 import { toFullName } from "../../helpers/toFullName";
 
 const style = {
@@ -35,21 +45,28 @@ const ModalMultipleComponent = ({
   setOpen,
   title,
   setArrayData,
-  courseId
+  courseId,
 }: TProps) => {
   const handleClose = () => setOpen(false);
   const theme = useTheme();
   const [input, setInput] = React.useState<string>("");
   const deBounce = useDebounce(input, 600);
-  const [selectedUsers, setSelectedUsers] = React.useState<{ [key: string]: boolean }>({});
+  const [selectedUsers, setSelectedUsers] = React.useState<{
+    [key: string]: boolean;
+  }>({});
 
   const handleAPI = async () => {
-    if (propKey === "add-teacher") {
+    if (propKey === "add-teacher" || propKey === "Thêm giáo viên") {
       return searchTeacherNotJoinCourse(deBounce, courseId);
-    } else if (propKey === "add-student") {
+    } else if (propKey === "add-student" || propKey === "Thêm giáo viên") {
       return searchUsersNotJoinCourse(deBounce, courseId);
+    } else if (propKey === "Xóa giáo viên") {
+      return searchTeacherJoinCourse(deBounce, courseId);
+    } else if (propKey?.trim() === "Xóa học sinh") {
+      return searchTeacherJoinCourse(deBounce, courseId);
     }
     return null;
+  
   };
 
   const { data } = useQuery({
@@ -63,7 +80,7 @@ const ModalMultipleComponent = ({
   const handleCheckboxChange = (itemId: string) => {
     setSelectedUsers((prev) => ({
       ...prev,
-      [itemId]: !prev[itemId], 
+      [itemId]: !prev[itemId],
     }));
   };
 
@@ -72,7 +89,7 @@ const ModalMultipleComponent = ({
       const selectedData = Object.keys(selectedUsers)
         .filter((key) => selectedUsers[key])
         .map((key) => data.find((item: any) => item._id === key));
-      
+
       setArrayData((oldData) => [...oldData, ...selectedData]);
     }
     handleClose();

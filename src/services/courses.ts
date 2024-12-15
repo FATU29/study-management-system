@@ -280,7 +280,7 @@ export const deleteCourse = async (courseId: string) => {
 
 export const getCourse = async (slug: string) => {
   try {
-    const url = API_ROUTE.COURSE + "/deleteCourse/" + slug;
+    const url = API_ROUTE.COURSE + "/" + slug;
     const { accessToken } = getLocalUserData();
 
     const response = await instanceAxios(url, {
@@ -312,10 +312,10 @@ export const searchTeacherNotJoinCourse = async (
         "Content-Type": "Application/json",
         Authorization: `Bearer ${accessToken}`,
       },
-      data:{
-        content:content,
-        courseId: courseId
-      }
+      data: {
+        content: content,
+        courseId: courseId,
+      },
     });
 
     return response.data;
@@ -324,7 +324,6 @@ export const searchTeacherNotJoinCourse = async (
     throw error;
   }
 };
-
 
 export const searchUsersNotJoinCourse = async (
   content: string,
@@ -340,10 +339,10 @@ export const searchUsersNotJoinCourse = async (
         "Content-Type": "Application/json",
         Authorization: `Bearer ${accessToken}`,
       },
-      data:{
-        content:content,
-        courseId: courseId
-      }
+      data: {
+        content: content,
+        courseId: courseId,
+      },
     });
 
     return response.data;
@@ -352,8 +351,6 @@ export const searchUsersNotJoinCourse = async (
     throw error;
   }
 };
-
-
 
 export const searchTeacherJoinCourse = async (
   content: string,
@@ -369,10 +366,10 @@ export const searchTeacherJoinCourse = async (
         "Content-Type": "Application/json",
         Authorization: `Bearer ${accessToken}`,
       },
-      data:{
-        content:content,
-        courseId: courseId
-      }
+      data: {
+        content: content,
+        courseId: courseId,
+      },
     });
 
     return response.data;
@@ -382,14 +379,7 @@ export const searchTeacherJoinCourse = async (
   }
 };
 
-
-
-
-
-export const usersInCourse = async (
-  content: string,
-  courseId?: string
-) => {
+export const usersInCourse = async (content: string, courseId?: string) => {
   try {
     const url = API_ROUTE.SEARCH_IN_COURSE + "/usersInCourse";
     const { accessToken } = getLocalUserData();
@@ -400,12 +390,38 @@ export const usersInCourse = async (
         "Content-Type": "Application/json",
         Authorization: `Bearer ${accessToken}`,
       },
-      data:{
-        content:content,
-        courseId: courseId
-      }
+      data: {
+        content: content,
+        courseId: courseId,
+      },
     });
 
+    return response.data;
+  } catch (error) {
+    console.log("Error in usersInCourse");
+    throw error;
+  }
+};
+
+export const searchCourse = async (content: string, page:number = 1, perPage:number = 5) => {
+  try {
+    const url = API_ROUTE.SEARCH_IN_COURSE + "/courses";
+    const { accessToken } = getLocalUserData();
+
+    const response = await instanceAxios(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "Application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      data: {
+        content: content,
+      },
+      params:{
+        page,
+        perPage
+      }
+    });
     return response.data;
   } catch (error) {
     console.log("Error in usersInCourse");

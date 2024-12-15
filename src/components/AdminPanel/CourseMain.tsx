@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import CourseTable from "../CourseManagement/Table";
 import { useQuery } from "@tanstack/react-query";
-import { getCourses } from "../../services/courses";
+import { getCourses, searchCourse } from "../../services/courses";
 import Spinner from "../../helpers/Spinner";
 import ModalCreateCourseComponent from "../CourseManagement/ModalCreateCourse";
+import useDebounce from "../../hooks/useDebounce";
 
 const pageSizeOptions = [5, 10, 15, 20];
 
@@ -12,7 +13,10 @@ const CourseAdminPanel = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<number>(pageSizeOptions[0]);
   const [searchText, setSearchText] = useState<string>("");
+  const [totalItems,setTotalItems] = useState<number>(0);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const debounceVal = useDebounce(searchText);
+  const [rows, setRows] = useState<any[]>([]);
 
   const { data, isFetching, refetch } = useQuery({
     queryKey: ["courses-table", currentPage, perPage],
@@ -22,7 +26,23 @@ const CourseAdminPanel = () => {
     },
   });
 
-  const rows = data?.data;
+  const courseSearch = useQuery({
+    queryKey: ["search-courses", debounceVal,currentPage, perPage],
+    queryFn: async () => {
+      const data = await searchCourse(debounceVal,currentPage,perPage);
+      return data || []
+    }
+  });
+
+  useEffect(() => {
+    if (debounceVal && courseSearch.data?.data) {
+      setRows(courseSearch.data.data);
+      setTotalItems(courseSearch.data.totalItems)
+    } else if (data?.data) {
+      setRows(data?.data);
+      setTotalItems(data?.totalItems)
+    }
+  }, [debounceVal, courseSearch?.data, data?.data, data?.totalItems]);
 
   const handleAdd = () => {
     setOpenModal(true);
@@ -34,7 +54,7 @@ const CourseAdminPanel = () => {
 
   return (
     <>
-      {isFetching && <Spinner/>}
+      {isFetching && <Spinner />}
 
       <ModalCreateCourseComponent
         open={openModal}
@@ -77,7 +97,8 @@ const CourseAdminPanel = () => {
             setCurrentPage={setCurrentPage}
             setPerPage={setPerPage}
             pageSizeOptions={pageSizeOptions}
-            totalItems={data?.totalItems}
+            totalItems={totalItems}
+            
           />
         </Box>
       </Box>

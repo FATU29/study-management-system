@@ -139,6 +139,7 @@ const ModalCreateCourseComponent = ({ open, setOpen,refetch }: TProps) => {
                   setArrayData={setTeacherId}
                   propKey="add-teacher"
                   title="Thêm giáo viên"
+                  action="Thêm"
                 />
                 <List
                   dense={true}
@@ -192,6 +193,7 @@ const ModalCreateCourseComponent = ({ open, setOpen,refetch }: TProps) => {
                   setArrayData={setTeacherId}
                   propKey="add-student"
                   title="Thêm học sinh"
+                  action="Thêm"
                 />
                 <List
                   dense={true}
@@ -241,8 +243,7 @@ const ModalCreateCourseComponent = ({ open, setOpen,refetch }: TProps) => {
                 </List>
               </Box>
             </Box>
-
-            <Button onClick={() => {
+            <Button  onClick={() => {
                 mutate();
             }} variant="contained" fullWidth>
               Thêm

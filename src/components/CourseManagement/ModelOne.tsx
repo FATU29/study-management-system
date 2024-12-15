@@ -49,9 +49,9 @@ const ModalOneComponent = ({
 
 
   const handleAPI = async () => {
-    if (propKey === "add-teacher") {
+    if (propKey === "add-teacher" || propKey === "Thêm giáo viên") {
       return searchTeacherNotJoinCourse(deBounce, courseId);
-    } else if (propKey === "add-student") {
+    } else if (propKey === "add-student" || propKey === "Thêm học sinh") {
       return searchUsersNotJoinCourse(deBounce, courseId);
     } else if (propKey === "Xóa giáo viên") {
       return searchTeacherJoinCourse(deBounce, courseId);
@@ -131,9 +131,6 @@ const ModalOneComponent = ({
                       alignItems: "center",
                       width: "100%",
                       cursor: "pointer",
-                      "&:hover": {
-                        backgroundColor: theme.palette.grey[400],
-                      },
                     }}
                   >
                     {data?.length > 0 &&
@@ -146,6 +143,9 @@ const ModalOneComponent = ({
                                 justifyContent: "space-between",
                                 alignItems: "center",
                                 gap: 5,
+                                "&:hover": {
+                                  backgroundColor: theme.palette.grey[400],
+                                },
                               }}
                               onClick={() => {
                                 setArrayData &&
