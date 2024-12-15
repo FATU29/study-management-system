@@ -26,70 +26,24 @@ export const useNotificationContext = () => {
     }
     return context;
 };
+const user = {
+    _id: "673ff3e1223a09365a7c5673",
+};
 
 const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    // Simulated user - replace with actual authentication
-    const user = {
-        _id: "673ff3e1223a09365a7c5673",
-    };
-    
+
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const socketRef = useRef<Socket | null>(null);
-    const hasFetchedRef = useRef(false);
 
     // Memoized fetch notifications with improved real-time handling
     const fetchNotifications = useCallback(async () => {
-        if (hasFetchedRef.current || !user?._id) return;
-        
         try {
-            hasFetchedRef.current = true;
             const fetchedNotifications = await getNotificationsAPI(user._id);
             setNotifications(fetchedNotifications);
         } catch (error) {
             console.error("Error fetching notifications:", error);
-        } finally {
-            // Allow future fetches after a delay
-            setTimeout(() => {
-                hasFetchedRef.current = false;
-            }, 5 * 60 * 1000); // 5 minutes cooldown
-        }
-    }, [user?._id]);
-
-    // Setup socket connection
-    const setupSocketConnection = useCallback(() => {
-        // Disconnect existing socket if any
-        if (socketRef.current) {
-            socketRef.current.disconnect();
-        }
-
-        // Create new socket connection
-        const newSocket = io("http://localhost:8080");
-        
-        // Join user-specific room
-        newSocket.emit("join", user._id);
-
-        // Listen for new notifications
-        newSocket.on("new-notification", (notification: Notification) => {
-            setNotifications((prevNotifications) => {
-                // Prevent duplicate notifications
-                const isDuplicate = prevNotifications.some(
-                    (existingNotif) => existingNotif.id === notification.id
-                );
-
-                if (isDuplicate) return prevNotifications;
-
-                // Add new notification to the beginning of the list
-                return [notification, ...prevNotifications];
-            });
-        });
-
-        // Store socket reference
-        socketRef.current = newSocket;
-
-        return () => {
-            newSocket.disconnect();
-        };
-    }, [user._id]);
+        } 
+    }, []);
 
     // Mark notification as read
     const markAsRead = useCallback((id: string) => {
@@ -102,21 +56,41 @@ const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }, []);
 
     // Initial setup and socket connection
+    const baseUrl = "http://localhost:8080";
     useEffect(() => {
         if (user?._id) {
-            // Fetch initial notifications
             fetchNotifications();
-
+    
             // Setup socket connection
-            const cleanup = setupSocketConnection();
+            const newSocket = io(baseUrl);
+    
+            // Join user-specific room
+            newSocket.on('connect', () => {
+                console.log('Socket connected successfully');
+                newSocket.emit("join", user._id);
+            });
+    
+            // Listen for new notifications
+            newSocket.on("new-notification", (notification: Notification) => {
+                console.log("New notification received:", notification);
+                setNotifications((prevNotifications) => {
+                    const isDuplicate = prevNotifications.some(
+                        (existingNotif) => existingNotif.id === notification.id
+                    );
+                    if (isDuplicate) return prevNotifications;
 
-            // Cleanup socket on component unmount
+                    return [notification, ...prevNotifications];
+                });
+            });
+    
+            socketRef.current = newSocket;
+    
             return () => {
-                cleanup();
+                newSocket.disconnect();
             };
         }
-    }, [user?._id, fetchNotifications, setupSocketConnection]);
-
+    }, [fetchNotifications]); 
+    
     return (
         <NotificationContext.Provider
             value={{notifications, fetchNotifications, markAsRead}}>

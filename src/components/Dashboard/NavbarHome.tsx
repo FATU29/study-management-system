@@ -13,10 +13,11 @@ interface NavbarHomeProps {
   user?: TUser;
 }
 
-const formatTime = (time: Date) => {
-  const date = new Date(time);
+const formatTime = (time: string | Date) => {
+  const date = typeof time === "string" ? new Date(time) : time;
   return date.toLocaleString();
-}
+};
+
 
 const NavbarHome: React.FC<NavbarHomeProps> = ({
   user = {
@@ -42,13 +43,22 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
     setIsNotificationOpen(!isNotificationOpen);
   };
 
-  const { notifications, fetchNotifications} = useNotification();
+  const { notifications, fetchNotifications } = useNotification();
+
 
   useEffect(() => {
-    fetchNotifications();
+    const interval = setInterval(() => {
+      fetchNotifications(); // Re-fetch notifications every 10 seconds
+    }, 10000); // Adjust the interval as needed
+  
+    return () => clearInterval(interval); // Cleanup on component unmount
   }, [fetchNotifications]);
+  
+
+  
 
   const unreadNotifications = notifications.filter(noti => !noti.read);
+
   const handleViewAllNotifications = () => {
     navigate('/notifications');
     setIsNotificationOpen(false);
@@ -84,7 +94,7 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
               />
               {unreadNotifications.length > 0 && (
                 <span className="absolute top-0 right-0 h-4 w-4 bg-red-500 rounded-full text-xs text-white flex items-center justify-center">
-                  {unreadNotifications.length > 99 ? "99+" : unreadNotifications.length}
+                  {Math.min(unreadNotifications.length, 99)}
                 </span>
               )}
             </button>
@@ -93,29 +103,32 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
             {isNotificationOpen && (
               <div className="absolute right-0 mt-1 w-96 bg-white border rounded-xl shadow-xl z-20">
                 <div className="border-b py-2">
-                  <h3 className="text-lg font-semibold">Các Thông báo</h3>
+                  <h3 className="text-lg font-semibold">Notifications</h3>
                 </div>
-                <div className="max-h-96">
-                  {notifications.slice(0, 4).map((notification) => (
-                    <div
-                      key={notification.id}
-                      className={`px-4 py-2 border-b hover:bg-gray-50 cursor-pointer ${
-                        !notification.read ? 'bg-blue-50' : ''
-                      }`}>
-                      <div>
-                        <div>
-                          <div className="flex items-center justify-between">
-                            <span className="font-semibold text-lg">CSC100323</span>
-                            <span className="text-xs text-gray-500 text-right">{formatTime(notification.time)}</span>
-                          </div>
+                <div className="max-h-96 overflow-y-auto">
+                  {notifications.length > 0 ? (
+                    notifications.slice(0, 4).map((notification, index) => (
+                      <div
+                        key={`${notification.id}-${index}`}
+                        className={`px-4 py-2 border-b hover:bg-gray-50 cursor-pointer ${
+                          !notification.read ? 'bg-blue-50' : ''
+                        }`}>
+                        <div className="flex items-center justify-between">
+                          <span className="font-semibold text-lg">
+                            {notification.title}
+                          </span>
+                          <span className="text-xs text-gray-500 text-right">
+                            {formatTime(notification.time)}
+                          </span>
                         </div>
-                        <span className="text-base block mt-1 text-left">{notification.title}</span>
+                        <p className="text-sm text-gray-700 mt-1 text-left">
+                          {notification.content}
+                        </p>
                       </div>
-                    </div>
-                  ))}
-                  {notifications.length === 0 && (
-                    <div className="px-4 py-2 text-center">
-                      <span>Không có thông báo mới</span>
+                    ))
+                  ) : (
+                    <div className="px-4 py-2 text-center text-gray-500">
+                      No notifications
                     </div>
                   )}
                 </div>
