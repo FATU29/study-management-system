@@ -51,7 +51,7 @@ const CourseMain = () => {
     const Icon = "cuida:caret-down-outline";
 
     return (
-        <div className="flex h-screen w-100 flex-col bg-gray-50">
+        <div className="flex h-100 w-100 flex-col bg-gray-50">
             {/* Banner Section - Fixed height */}
             <div className="p-6">
                 <div className="relative mb-8 w-full rounded-xl bg-white p-4">
@@ -86,7 +86,7 @@ const CourseMain = () => {
                 <div className="grid h-full grid-cols-12 gap-6">
                     {/* Left Content - Scrollable */}
                     <div className="col-span-8 overflow-hidden">
-                        <div className="h-full overflow-y-auto pr-4">
+                        <div className="h-full overflow-y-auto pr-4 hide-scrollbar">
                             {/* Recent Courses - Horizontal Scroll */}
                             <div className="mb-8">
                                 <h2 className="mb-4 text-xl font-medium text-gray-800">Khóa học gần đây</h2>
@@ -138,7 +138,7 @@ const CourseMain = () => {
 
                     {/* Right Sidebar - Scrollable */}
                     <div className="col-span-4 overflow-hidden">
-                        <div className="h-full overflow-y-auto">
+                        <div className="h-full overflow-y-auto hide-scrollbar">
                             <CalendarSidebar 
                                 currentDate={new Date(2020, 11)}
                                 events={[]}

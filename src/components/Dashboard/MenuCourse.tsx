@@ -139,7 +139,7 @@ const MenuCourse: React.FC<{
   return (
     <aside
       className={`
-      relative min-h-screen bg-white border-r border-gray-200 transition-all duration-300 ease-in-out
+      relative min-h-100 bg-white border-r border-gray-200 transition-all duration-300 ease-in-out
       ${isExpanded ? "w-64" : "w-20"}
     `}
     >

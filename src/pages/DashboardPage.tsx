@@ -39,15 +39,8 @@ const initialSections: MenuSection[] = [
     parentSectionId: "course",
   },
   {
-    id: "course-1-edit",
-    name: "Chỉnh sửa (for illustration use only)",
-    icon: "fluent:class-20-regular",
-    badge: 0,
-    parentSectionId: "course-1",
-  },
-  {
     id: "course-2",
-    name: "Lớp của Anh Trực",
+    name: "Hệ điều hành",
     icon: "fluent:class-20-regular",
     badge: 0,
     url: "/home/course-ver-2",
