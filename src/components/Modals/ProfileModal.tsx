@@ -12,7 +12,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
-// import { updateProfileAPI } from "../../services/auth"
+import { updateProfileAPI } from "../../services/auth"
 import { useAuth } from "../../contexts/AuthContext"
 interface ProfileModalProps {
   isOpen: boolean;
@@ -28,7 +28,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
   const [id, setID] = useState<string>("22120394");
   const [grade, setGrade] = useState<string>("2022");
 
-  const { user, updateProfile } = useAuth();
+  const { user, setUser } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
   const [firstName, setFirstName] = useState<string>(user?.firstName || "");
@@ -64,7 +64,6 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
   const handleSave = async () => {
     try {
       setIsLoading(true);
-
       console.log("Thông tin cá nhân đã cập nhật:", {
         middleName,
         firstName,
@@ -74,17 +73,16 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
       const updateData = {
         firstName: firstName.trim(),
         lastName: middleName.trim(),
-        dateOfBirth,
         email: email.trim()
       };
 
-      await updateProfile(updateData);
+      const {data} = await updateProfileAPI(updateData);
+      setIsLoading(false);
+      setUser(data?.user || null);
       onClose();
     } catch (error) {
       console.error('Update failed:', error);
-    } finally {
-      setIsLoading(false);
-    }
+    } 
   };
 
   const handleChangePassword = () => {

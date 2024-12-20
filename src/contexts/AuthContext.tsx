@@ -4,7 +4,7 @@ import {
   getLocalUserData,
   setLocalUserData,
 } from "../helpers/LocalStorage";
-import { getMeAPI, loginUserAPI, logoutUserAPI, updateProfileAPI } from "../services/auth";
+import { getMeAPI, loginUserAPI, logoutUserAPI } from "../services/auth";
 import { TUser } from "../types/userType";
 import { AuthValuesType, LoginParams } from "./types";
 import {
@@ -24,7 +24,6 @@ const defaultProvider: AuthValuesType = {
   user: null,
   loadingInAuth: false,
   setUser: () => null,
-  updateProfile: () => Promise.resolve(),
   setLoadingInAuth: () => { },
   login: () => Promise.resolve(),
   logout: () => Promise.resolve(),
@@ -96,54 +95,12 @@ const AuthProvider = ({ children }: Props) => {
 
   };
 
-  // const handleUpdateProfile = async (userData: {
-  //   firstName: string;
-  //   lastName: string;
-  //   dateOfBirth?: string;
-  //   email: string;
-  // }) => {
-  //   try {
-  //     setLoadingInAuth(true);
 
-  //     const response = await updateProfileAPI(userData);
-
-  //     // Update local user state with new data
-  //     setUser(prevUser => ({
-  //       ...prevUser,
-  //       ...response.data
-  //     }));
-
-  //     return response.data;
-  //   } catch (error) {
-  //     console.error('Profile update failed:', error);
-  //     throw error;
-  //   } finally {
-  //     setLoadingInAuth(false);
-  //   }
-  // };
-
-  const handleUpdateProfile = async (userData: {
-    firstName: string;
-    lastName: string;
-    dateOfBirth?: string;
-    email: string;
-  }) => {
-    // Make API call to update profile
-    // Assuming updateProfileAPI is a function that makes the API call
-    await updateProfileAPI(userData);
-
-    // Update the user state
-    setUser((prevUser) => ({
-      ...prevUser,
-      ...userData,
-    }));
-  };
 
   const values: AuthValuesType = {
     user,
     loadingInAuth,
     setUser,
-    updateProfile: handleUpdateProfile,
     setLoadingInAuth,
     login: handleLogin,
     logout: handleLogout,
@@ -151,26 +108,6 @@ const AuthProvider = ({ children }: Props) => {
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 };
-
-
-
-//   return (
-//     <AuthContext.Provider
-//       value={{
-//         loadingInAuth,
-//         user,
-//         updateProfile: handleUpdateProfile,
-//         setLoadingInAuth,
-//         setUser,
-//         logout: handleLogout,
-//         login: handleLogin,
-//       }}
-//     >
-//       {children}
-//     </AuthContext.Provider>
-//   );
-// };
-
 
 
 export const useAuth = (): AuthValuesType => {

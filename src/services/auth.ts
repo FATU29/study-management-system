@@ -119,28 +119,38 @@ export const userVerifyMail = async (token:string) => {
 }
 
 export const updateProfileAPI = async (userData: any) => {
-  try {
-    const { accessToken } = getLocalUserData();
-    const url = `${API_ROUTE.USERS}/update-profile`;
-    const response = await instanceAxios(url, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${accessToken}`
-      },
-      data: userData
-    });
-
-    if (response.status !== 200) {
-      throw new Error("Update profile failed");
+    try {
+      const { accessToken } = getLocalUserData();
+      const url = `${API_ROUTE.USERS}/update-profile`;
+  
+      // Debugging: Log the userData
+      console.log("userData: ", userData);
+  
+      const response = await instanceAxios.patch(url, userData, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${accessToken}`
+        }
+      });
+  
+      // Debugging: Log the response status and data
+      console.log("Response Status: ", response.status);
+      console.log("Response Data: ", response.data);
+  
+      if (response.status !== 200) {
+        throw new Error("Update profile failed");
+      }
+  
+      return response.data;
+    } catch (error: any) {
+      // Debugging: Log the error response
+      if (error.response) {
+        console.log("Error Response: ", error.response.data);
+      }
+      console.log("Error in updateProfileAPI: ", error.message);
+      throw error;
     }
-
-    return response.data;
-  } catch (error: any) {
-    console.log("Error in updateProfileAPI: ", error.message);
-    throw error;
   }
-}
 
 export const forgotPasswordAPI = async (email:string) => {
     try {
