@@ -37,6 +37,16 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
   const [dateOfBirth, setDateOfBirth] = useState<string>(user?.dateOfBirth || "");
   const [email, setEmail] = useState<string>(user?.email || "");
 
+  // Add this useEffect to sync with user updates
+  useEffect(() => {
+    if (user) {
+      setFirstName(user.firstName || "");
+      setMiddleName(user.lastName || "");
+      setDateOfBirth(user.dateOfBirth || "");
+      setEmail(user.email || "");
+    }
+  }, [user]); // Re-run when user data changes
+
   useEffect(() => {
     setFullName(`${middleName} ${firstName}`);
   }, [middleName, firstName]);
@@ -54,6 +64,12 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
   const handleSave = async () => {
     try {
       setIsLoading(true);
+
+      console.log("Thông tin cá nhân đã cập nhật:", {
+        middleName,
+        firstName,
+        fullName,
+      });
 
       const updateData = {
         firstName: firstName.trim(),
@@ -189,7 +205,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
           </Typography>
           <Box component="form" noValidate autoComplete="off">
             {" "}
-            // FOR NAMES
+            {/* // FOR NAMES */}
             <Box
               sx={{
                 display: "flex",
@@ -280,7 +296,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
                   }}
                 />
               </LocalizationProvider>
-              
+
               <TextField
                 label="Email cá nhân"
                 value={email}

@@ -96,30 +96,47 @@ const AuthProvider = ({ children }: Props) => {
 
   };
 
+  // const handleUpdateProfile = async (userData: {
+  //   firstName: string;
+  //   lastName: string;
+  //   dateOfBirth?: string;
+  //   email: string;
+  // }) => {
+  //   try {
+  //     setLoadingInAuth(true);
+
+  //     const response = await updateProfileAPI(userData);
+
+  //     // Update local user state with new data
+  //     setUser(prevUser => ({
+  //       ...prevUser,
+  //       ...response.data
+  //     }));
+
+  //     return response.data;
+  //   } catch (error) {
+  //     console.error('Profile update failed:', error);
+  //     throw error;
+  //   } finally {
+  //     setLoadingInAuth(false);
+  //   }
+  // };
+
   const handleUpdateProfile = async (userData: {
     firstName: string;
     lastName: string;
     dateOfBirth?: string;
     email: string;
   }) => {
-    try {
-      setLoadingInAuth(true);
+    // Make API call to update profile
+    // Assuming updateProfileAPI is a function that makes the API call
+    await updateProfileAPI(userData);
 
-      const response = await updateProfileAPI(userData);
-
-      // Update local user state with new data
-      setUser(prevUser => ({
-        ...prevUser,
-        ...response.data
-      }));
-
-      return response.data;
-    } catch (error) {
-      console.error('Profile update failed:', error);
-      throw error;
-    } finally {
-      setLoadingInAuth(false);
-    }
+    // Update the user state
+    setUser((prevUser) => ({
+      ...prevUser,
+      ...userData,
+    }));
   };
 
   const values: AuthValuesType = {
@@ -134,6 +151,27 @@ const AuthProvider = ({ children }: Props) => {
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 };
+
+
+
+//   return (
+//     <AuthContext.Provider
+//       value={{
+//         loadingInAuth,
+//         user,
+//         updateProfile: handleUpdateProfile,
+//         setLoadingInAuth,
+//         setUser,
+//         logout: handleLogout,
+//         login: handleLogin,
+//       }}
+//     >
+//       {children}
+//     </AuthContext.Provider>
+//   );
+// };
+
+
 
 export const useAuth = (): AuthValuesType => {
   const context = useContext(AuthContext);

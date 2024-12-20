@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import IconifyIcon from "../utils/icon/index";
 import { TUser } from "../../types/userType";
@@ -15,23 +15,56 @@ interface NavbarHomeProps {
 }
 
 const NavbarHome: React.FC<NavbarHomeProps> = ({
-  user = {
-    id: "",
-    lastName: "",
-    firstName: "",
-    avatar: "",
-    email: "",
-    role: "",
-  },
+  // user = {
+  //   id: "",
+  //   lastName: "",
+  //   firstName: "",
+  //   avatar: "",
+  //   email: "",
+  //   role: "",
+  // },
   notificationCount = 3,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const { logout } = useAuth();
+  const { user } = useAuth();
+  const [displayName, setDisplayName] = useState("");
+
+  // Update name when user data changes
+  useEffect(() => {
+    if (user) {
+      console.log("Thông tin cá nhân đã được nhận:", {
+        lastName: user.lastName,
+        firstName: user.firstName,
+      });
+      const newDisplayName = toFullName(user.firstName || "", user.lastName || "");
+      setDisplayName(newDisplayName);
+    }
+  }, [user]); // Depend on user changes
+
+  // Add handleUpdateProfile function
+  const handleUpdateProfile = async () => {
+    try {
+      if (!user) return;
+
+      const firstName = user?.firstName || "";
+      const lastName = user?.lastName || "";
+
+      // Update display name
+      const newDisplayName = toFullName(firstName, lastName);
+      setDisplayName(newDisplayName);
+
+      console.log("Profile updated:", newDisplayName);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+
   return (
     <nav className="bg-white border-1 border-black-600">
       <div className="flex w-100 justify-content-between m-2">
@@ -70,10 +103,10 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
           <div className="flex items-center space-x-4 nav-item m-2">
             <div className="text-right flex-col">
               <div className="text-xl font-bold text-primary">
-                {toFullName(user.firstName || "", user.lastName || "")}
+                {toFullName(user?.firstName || "", user?.lastName || "")}
               </div>
               <div className="text-xs text-gray-500 text-green-400">
-                {user.role}
+                {user?.role}
               </div>
             </div>
             <div className="relative">
@@ -82,8 +115,8 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
                 onClick={toggleDropdown}
                 src={user?.avatar || "https://avatar.iran.liara.run/public/boy"}
                 alt={`${toFullName(
-                  user.firstName || "",
-                  user.lastName || ""
+                  user?.firstName || "",
+                  user?.lastName || ""
                 )}'s profile`}
                 className="h-10 w-10 rounded-full object-cover border-2 border-blue-600 cursor-pointer"
               />
