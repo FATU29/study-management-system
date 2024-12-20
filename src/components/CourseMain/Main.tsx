@@ -43,32 +43,13 @@ const MainCourse = ({ name, isTeacher }: CourseClassProps) => {
                 <div className="col-span-2 p-4 bg-white border border-gray-300 rounded-lg border-1 overflow-y-auto hide-scrollbar">
 
 
-                <SectionTemplate title="Tài liệu" files={doc} />
-                {isTeacher && (
-                <div className="my-3">
-                    <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-                    Upload Tài liệu
-                    </button>
-                </div>
-                )}
+                <SectionTemplate title="Tài liệu" files={doc} isTeacher={true}/>
 
-                <SectionTemplate title="Lý thuyết" files={doc} />
-                {isTeacher && (
-                <div className="my-3">
-                    <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-                    Upload Tài liệu
-                    </button>
-                </div>
-                )}
+                <SectionTemplate title="Lý thuyết" files={doc} isTeacher={false} />
 
-                <SectionTemplate title="Thực hành" files={doc} />
-                {isTeacher && (
-                <div className="my-3">
-                    <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-                    Upload Tài liệu
-                    </button>
-                </div>
-                )}
+
+                <SectionTemplate title="Thực hành" files={doc} isTeacher={true}/>
+
 
                 </div>
 

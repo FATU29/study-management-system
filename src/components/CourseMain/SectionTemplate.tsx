@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import IconifyIcon from "../utils/icon";
+import AddDocumentDialog from './AddDocumentDialog';
 
 interface FileProps {
   name: string;
@@ -9,9 +10,18 @@ interface FileProps {
 interface SectionTemplateProps {
   title: string;
   files: FileProps[];
+  isTeacher?: boolean;
 }
 
-const SectionTemplate: React.FC<SectionTemplateProps> = ({ title, files }) => {
+const SectionTemplate: React.FC<SectionTemplateProps> = ({ title, files, isTeacher }) => {
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const handleSubmit = (formData: any
+  ) => {
+    console.log('Submitted:', formData);
+    setDialogOpen(false);
+  };
+
   return (
     <div>
       <div className="font-bold text-xl py-4">{title}</div>
@@ -42,18 +52,46 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({ title, files }) => {
                   style={{ color: "black" }}
                 />
               </button>
-              <button>
-                <IconifyIcon
-                  icon="material-symbols-light:edit-outline"
-                  width="20"
-                  height="20"
-                  style={{ color: "black" }}
-                />
-              </button>
+              {isTeacher && (
+                <button>
+                  <IconifyIcon
+                    icon="material-symbols-light:edit-outline"
+                    width="20"
+                    height="20"
+                    style={{ color: "black" }}
+                  />
+                </button>
+              )}
+              {isTeacher && (
+                <button className="ml-2">
+                  <IconifyIcon
+                    icon="material-symbols:delete-outline-rounded"
+                    width="20"
+                    height="20"
+                    style={{ color: "black" }}
+                  />
+                </button>
+              )}
             </a>
           </div>
         ))}
       </div>
+      {isTeacher && (
+        <>
+          <button
+            className="mt-4 p-2 bg-blue-500 text-white rounded-md"
+            onClick={() => setDialogOpen(true)}
+          >
+            Thêm tài liệu
+          </button>
+          <AddDocumentDialog
+            open={dialogOpen}
+            onClose={() => setDialogOpen(false)}
+            sectionLabel={title}
+            onSubmit={handleSubmit}
+          />
+        </>
+      )}
     </div>
   );
 };

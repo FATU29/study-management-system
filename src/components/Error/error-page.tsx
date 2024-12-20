@@ -7,7 +7,7 @@ export default function ErrorPage() {
     <div 
     className="
         w-screen
-        h-screen
+        h-100
         flex
         flex-col
         justify-center

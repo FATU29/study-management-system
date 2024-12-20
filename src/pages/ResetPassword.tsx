@@ -109,7 +109,7 @@ const ResetPassword = () => {
           }}
         />
       )}
-      <div className="flex items-center justify-center bg-white min-h-screen p-4">
+      <div className="flex items-center justify-center bg-white min-h-100 p-4">
         {/* Fixed height container */}
         <div
           style={{

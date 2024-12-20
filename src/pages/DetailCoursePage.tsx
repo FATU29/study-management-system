@@ -4,12 +4,12 @@ import MainCourse from "../components/CourseMain/Main";
 
 const DetailCoursePage: React.FC = () => {
   const location = useLocation();
-  const state = location.state as { name?: string; isAdmin?: boolean } || {};
-  const { name = "Default Course Name", isAdmin = false } = state;
+  const state = location.state as { name?: string; isTeacher?: boolean } || {};
+  const { name = "Default Course Name", isTeacher = false } = state;
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <MainCourse name={name} isTeacher={isAdmin} />
+    <div className="min-h-100 bg-gray-100">
+      <MainCourse name={name} isTeacher={isTeacher} />
     </div>
   );
 };
