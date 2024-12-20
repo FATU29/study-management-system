@@ -18,7 +18,6 @@ import MessagePage from "./pages/MessagePage";
 import ModalTestPage from "./pages/ModalTest";
 import DashboardPage from "./pages/DashboardPage";
 import Main from "./components/Dashboard/Main";
-import ClassPageExample, { classLoader } from "./pages/ClassPageExample";
 import ResourceUploadDispatcher from "./components/Dashboard/ResourceUploadDispatcher";
 // import ModalPage from "./pages/Modal";
 import MainCourse from "./components/CourseMain/Main";
@@ -39,6 +38,7 @@ import InstanceAxiosProvider from "./contexts/instanceAxios";
 import NotificationProvider from "./contexts/NotificationContext";
 import MainDrive from "./components/Dashboard/Drive";
 import AdminPage from "./pages/AdminPage";
+import DetailCoursePage from "./pages/DetailCoursePage";
 
 const queryClient = new QueryClient();
 
@@ -70,18 +70,18 @@ const AppContent: React.FC = () => {
           {/* Change start here! */}
           <Route index element={<Main />} />
           <Route
-            path="course-ver-2"
-            element={<MainCourse name="TODO: Do not pass prop here" />}
+            path="course-1"
+            // element={<MainCourse name="TODO: Do not pass prop here" isAdmin={true} />}
+            element={<DetailCoursePage />}
           />
           <Route path="message" element={<MessagePage />} />
           <Route path="modal-test" element={<ModalTestPage />} />
           <Route path="drive" element={<MainDrive />} />
+          
           <Route path="course">
-            <Route index element={<ClassPageExample />} />
             <Route
-              path=":courseId"
-              element={<ClassPageExample />}
-              // loader={classLoader}
+              path="course-1"
+              element={<DetailCoursePage />}
             />
             <Route
               path="upload-resource"

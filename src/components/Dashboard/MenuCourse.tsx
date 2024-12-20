@@ -52,7 +52,7 @@ const MenuCourse: React.FC<{
     level: number = 0
   ) => {
     return sections
-      .filter((section) => section.parentSectionId === parentSectionId) // Also true if parentSectionId is null and section.parentSectionId is null
+      .filter((section) => section.parentSectionId === parentSectionId) 
       .map((section) => {
         const isActive = section.id === activeItem;
         const isOpen = openSections.includes(section.id);

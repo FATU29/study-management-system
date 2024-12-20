@@ -34,8 +34,7 @@ const initialSections: MenuSection[] = [
     name: "Nhập môn CNPM",
     icon: "fluent:class-20-regular",
     badge: 0,
-    // url: "course/cs101",
-    url: "course/?classId=cs101",
+    url: "course-1",
     parentSectionId: "course",
   },
   {
@@ -43,7 +42,7 @@ const initialSections: MenuSection[] = [
     name: "Hệ điều hành",
     icon: "fluent:class-20-regular",
     badge: 0,
-    url: "/home/course-ver-2",
+    url: "/home/course-1",
     parentSectionId: "course",
   },
   {
@@ -70,7 +69,7 @@ const DashboardPage: React.FC = () => {
 
   function handleSectionChange(section: MenuSection) {
     if (section.url) {
-      navigate(section.url);
+      navigate(section.url, {state: {name: section.name, isTeacher: true}});
     }
   }
 
