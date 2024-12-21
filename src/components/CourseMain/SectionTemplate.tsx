@@ -11,9 +11,10 @@ interface SectionTemplateProps {
   title: string;
   files: FileProps[];
   isTeacher?: boolean;
+  onViewDetail: (lesson: FileProps) => void;
 }
 
-const SectionTemplate: React.FC<SectionTemplateProps> = ({ title, files, isTeacher }) => {
+const SectionTemplate: React.FC<SectionTemplateProps> = ({ title, files, isTeacher, onViewDetail }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleSubmit = (formData: any
@@ -28,8 +29,8 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({ title, files, isTeach
       <div className="w-full space-y-4">
         {files.map((file, index) => (
           <div
-            key={index}
-            className="flex items-center p-2 border border-gray-200 rounded-md hover:shadow-sm"
+            key={index} onClick={() => onViewDetail(file)} 
+            className="flex items-center p-2 border border-gray-200 rounded-md hover:shadow-sm cursor-pointer"
           >
             <IconifyIcon
               icon="basil:document-outline"
