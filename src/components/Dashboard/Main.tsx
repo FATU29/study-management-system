@@ -11,7 +11,9 @@ interface RecentCourseProps {
 // RecentCourse component
 const RecentCourse = ({ title, teacher, assistant }: RecentCourseProps) => (
     <div className="min-w-[280px] md:min-w-[320px] lg:min-w-[360px] rounded-lg bg-white p-6 shadow-sm transition-all hover:shadow-md">
-        <div className="mb-4 h-48 w-full bg-gray-200"></div>
+        <div className="mb-4 h-48 w-full bg-gray-200">
+            <img src="https://thaitrien.com/wp-content/uploads/2021/09/Phong-nen-hoc-online-by-Thaitrien.com-1-scaled.jpg" alt="bg-classroom" />
+        </div>
         <h3 className="mb-2 text-lg font-medium text-gray-800">{title}</h3>
         <p className="text-sm text-gray-600">GV: {teacher}</p>
         <p className="text-sm text-gray-600">GVTH: {assistant}</p>
@@ -19,7 +21,6 @@ const RecentCourse = ({ title, teacher, assistant }: RecentCourseProps) => (
 );
 
 const CourseMain = () => {
-    // Extended course list to demonstrate horizontal scroll
     const courses = [
         {
             title: "Cấu trúc dữ liệu và giải thuật",
@@ -51,29 +52,29 @@ const CourseMain = () => {
     const Icon = "cuida:caret-down-outline";
 
     return (
-        <div className="flex h-100 w-100 flex-col bg-gray-50">
+        <div className="flex h-100 w-100 flex-col bg-gray-50 border-r border-gray-200">
             {/* Banner Section - Fixed height */}
             <div className="p-6">
                 <div className="relative mb-8 w-full rounded-xl bg-white p-4">
                     <div className="flex items-center justify-between">
                         <div className="absolute left-4 top-4">
                             <img 
-                                src="https://placehold.co/100"
-                                alt="Earth icon"
+                                src="https://havamall.com/wp-content/uploads/2021/11/v%C3%B2ng-hoa-qu%E1%BA%A3-m%E1%BB%8Dng.png"
+                                alt="Decoration icon"
                                 className="h-16 w-16"
                             />
                         </div>
                         <div className="mx-auto flex items-center">
                             <img 
-                                src="https://placehold.co/200x80"
-                                alt="Checklist 7 ngày sống xanh"
-                                className="h-20"
+                                src="https://i.pinimg.com/originals/1a/0c/5e/1a0c5e2006aa60924da816fe673421f0.png"
+                                alt="Decoration text"
+                                className="h-20 object-fit-fill w-19"
                             />
                         </div>
                         <div className="absolute right-4 top-4">
                             <img 
-                                src="https://placehold.co/100"
-                                alt="Nature icon"
+                                src="https://havamall.com/wp-content/uploads/2021/11/v%C3%B2ng-hoa-qu%E1%BA%A3-m%E1%BB%8Dng.png"
+                                alt="Decoration icon"
                                 className="h-16 w-16"
                             />
                         </div>
@@ -89,7 +90,7 @@ const CourseMain = () => {
                         <div className="h-full overflow-y-auto pr-4 hide-scrollbar">
                             {/* Recent Courses - Horizontal Scroll */}
                             <div className="mb-8">
-                                <h2 className="mb-4 text-xl font-medium text-gray-800">Khóa học gần đây</h2>
+                                <h2 className="mb-4 text-2xl font-bold text-blue-600">Khóa học gần đây</h2>
                                 <div className="relative">
                                     <div className="overflow-x-auto pb-4">
                                         <div className="flex gap-6">
