@@ -103,7 +103,8 @@ const DashboardPage: React.FC = () => {
         state: { 
           name: section.name, 
           isTeacher: section.parentSectionId === "course" ? false : true,
-          courseData: course 
+          courseData: course,
+          userId: user?._id
         }
       });
     }
