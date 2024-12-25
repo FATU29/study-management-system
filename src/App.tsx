@@ -34,6 +34,7 @@ import NotificationProvider from "./contexts/NotificationContext";
 import MainDrive from "./components/Dashboard/Drive";
 import AdminPage from "./pages/AdminPage";
 import DetailCoursePage from "./pages/DetailCoursePage";
+import AssignmentPage from "./pages/AssignmentPage";
 
 const queryClient = new QueryClient();
 
@@ -64,14 +65,11 @@ const AppContent: React.FC = () => {
         >
           {/* Change start here! */}
           <Route index element={<Main />} />
-          <Route
-            path="course-1"
-            // element={<MainCourse name="TODO: Do not pass prop here" isAdmin={true} />}
-            element={<DetailCoursePage />}
-          />
+          <Route path="course/:id" element={<DetailCoursePage />} />
           <Route path="message" element={<MessagePage />} />
           <Route path="modal-test" element={<ModalTestPage />} />
           <Route path="drive" element={<MainDrive />} />
+          {/* <Route path="assignment" element={<AssignmentPage label={""} classId={""} />} /> */}
           
           <Route path="course">
             <Route

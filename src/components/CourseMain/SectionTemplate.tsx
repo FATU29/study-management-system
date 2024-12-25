@@ -38,21 +38,13 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({ title, files, isTeach
               height="20"
               style={{ color: "black" }}
             />
-            <p className="ml-2">{file.name}</p>
+            <div className="ml-2 flex-s">{file.name}</div>
             <a
               href={file.url}
               target="_blank"
               rel="noreferrer"
               className="flex ml-auto"
             >
-              <button className="px-2">
-                <IconifyIcon
-                  icon="material-symbols-light:download"
-                  width="20"
-                  height="20"
-                  style={{ color: "black" }}
-                />
-              </button>
               {isTeacher && (
                 <button>
                   <IconifyIcon
