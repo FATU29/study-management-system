@@ -19,12 +19,7 @@ import ModalTestPage from "./pages/ModalTest";
 import DashboardPage from "./pages/DashboardPage";
 import Main from "./components/Dashboard/Main";
 import ResourceUploadDispatcher from "./components/Dashboard/ResourceUploadDispatcher";
-// import ModalPage from "./pages/Modal";
-import MainCourse from "./components/CourseMain/Main";
-// import CoursePage from "./pages/CoursePage";
-// import ShellCourse from "./components/CourseMain/Shell";
 import { ThemeProviderWrapper } from "./contexts/ThemeContext";
-import CourseManagementPage from "./pages/CourseManagement";
 import AuthProvider from "./contexts/AuthContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -60,11 +55,11 @@ const AppContent: React.FC = () => {
         <Route
           path="/home"
           element={
-            // <AuthGuard roleRequires={["USER", "TEACHER", "ADMIN"]}>
+            <AuthGuard roleRequires={["USER", "TEACHER", "ADMIN"]}>
               <NotificationProvider>
                 <DashboardPage />
               </NotificationProvider>
-            // </AuthGuard>
+            </AuthGuard>
           }
         >
           {/* Change start here! */}
@@ -124,11 +119,11 @@ const AppContent: React.FC = () => {
         <Route
           path="/admin"
           element={
-            // <AuthGuard roleRequires={["ADMIN"]}>
+            <AuthGuard roleRequires={["ADMIN"]}>
               <NotificationProvider>
                 <AdminPage />
               </NotificationProvider>
-            // </AuthGuard>
+            </AuthGuard>
           }
         />
         <Route path="/modal" element={<AdminPage/>} />

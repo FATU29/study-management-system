@@ -115,7 +115,7 @@ const renderMonthView = () => (
       <thead>
         <tr>
           {weekDays.map((day) => (
-            <th key={day} className="py-2 text-center text-sm font-medium text-gray-600">
+            <th key={day} className="py-1 text-center text-sm font-medium text-gray-600">
               {day}
             </th>
           ))}
@@ -125,7 +125,7 @@ const renderMonthView = () => (
         {renderCalendarDays().map((week, weekIndex) => (
           <tr key={weekIndex}>
             {week.map((day, dayIndex) => (
-              <td key={dayIndex} className="p-2 text-center">
+              <td key={dayIndex} className="p-1 text-center">
                 {day !== null && (
                   <button
                     onClick={() => {
@@ -256,7 +256,7 @@ return (
           Month
         </button>
         <button 
-          className={`rounded px-3 py-1 text-sm ${
+          className={`rounded px-1 py-1 text-sm ${
             selectedView === 'year' ? 'bg-blue-500 text-white' : 'text-gray-600'
           }`}
           onClick={() => handleViewChange('year')}

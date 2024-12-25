@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import IconifyIcon from "../utils/icon/index";
 import { TUser } from "../../types/userType";
 import { toFullName } from "../../helpers/toFullName";
@@ -7,7 +7,6 @@ import { useAuth } from "../../contexts/AuthContext";
 import { Button, Typography } from "@mui/material";
 import ProfileModal from "../Modals/ProfileModal";
 import { useNotification } from "../../contexts/NotificationContext";
-
 
 interface NavbarHomeProps {
   user?: TUser;
@@ -69,13 +68,13 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
       <div className="flex w-100 justify-content-between m-2">
         {/* Left side: Logo and Page Name */}
         <div className="flex items-center space-x-4 nav-left ml-3">
-          <Link to="/" className="flex items-center space-x-2">
+          <a href="/" className="flex items-center space-x-2">
             <img
               src="https://flowbite.com/docs/images/logo.svg"
               alt="Logo"
               className="h-10 w-10"
             />
-          </Link>
+          </a>
           <span className="text-xl font-bold text-blue-600">Moodle</span>
         </div>
 

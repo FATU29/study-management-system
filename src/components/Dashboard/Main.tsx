@@ -85,7 +85,7 @@ const CourseMain = () => {
             <div className="flex-1 overflow-hidden px-6 pb-6">
                 <div className="grid h-full grid-cols-12 gap-6">
                     {/* Left Content - Scrollable */}
-                    <div className="col-span-8 overflow-hidden">
+                    <div className="col-span-9 overflow-hidden">
                         <div className="h-full overflow-y-auto pr-4 hide-scrollbar">
                             {/* Recent Courses - Horizontal Scroll */}
                             <div className="mb-8">
@@ -137,7 +137,7 @@ const CourseMain = () => {
                     </div>
 
                     {/* Right Sidebar - Scrollable */}
-                    <div className="col-span-4 overflow-hidden">
+                    <div className="col-span-3 w-[305px] overflow-hidden">
                         <div className="h-full overflow-y-auto hide-scrollbar">
                             <CalendarSidebar 
                                 currentDate={new Date(2020, 11)}

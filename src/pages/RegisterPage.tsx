@@ -138,7 +138,7 @@ const RegisterPage = () => {
       setIsOpen={setIsOpenModal}
       doOk={() => setIsOpenModal(false)}
       />
-      <div className="flex items-center justify-center bg-white min-h-100 p-4">
+      <div className="flex items-center justify-center bg-white min-h-screen p-4">
         <div className="w-full max-w-4xl flex flex-col md:flex-row bg-white rounded-lg shadow-lg overflow-hidden">
           <div className="w-full md:w-1/2 bg-blue-500 p-12 text-white flex flex-col">
             <div className="flex items-center mb-8">

@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { TextField, Button, FormControlLabel, Checkbox, Divider, Box, IconButton, Typography } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { TextField, Button, FormControlLabel, Checkbox, Divider, Box, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useAuth } from '../contexts/AuthContext';
-import { LoginParams } from '../contexts/types';
 import Spinner from '../helpers/Spinner';
 import CustomModalAlert from '../components/CustomModalAlert';
 import IconifyIcon from '../components/utils/icon';
@@ -96,7 +95,7 @@ return (
     setIsOpen={setIsOpenModalAlert}
     doOk={() => setIsOpenModalAlert(false)}
   />}
-  <div className="flex items-center justify-center bg-white min-h-100 p-4">
+  <div className="flex items-center justify-center bg-white min-h-screen p-4">
     {/* Fixed height container */}
     <div 
     style={{

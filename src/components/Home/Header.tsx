@@ -16,10 +16,10 @@ function Header({ isScrolledOut }: HeaderProps) {
     <header className={`fixed-header`}>
       <nav className={`border-gray-200 px-4 lg:px-6 dark:bg-gray-800 ${isScrolledOut ? 'bg-blue' : 'bg-transparent'}`}>
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-          <a href="#" className="flex items-center text-decoration-none hover:text-blue-500">
+          <div className="flex items-center text-decoration-none hover:text-blue-500">
             <img src="https://flowbite.com/docs/images/logo.svg" className="mr-3 h-6 sm:h-9" alt="Logo" />
             <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white text-decoration-none">Moodle</span>
-          </a>
+          </div>
           <div className="flex items-center lg:order-2">
             <Link to="/login" className="text-primary font-bold rounded mr-2 border border-gray-300 rounded font-medium text px-3 py-2 text-decoration-none">Đăng nhập</Link>
             <Link to="/register" className="text-white bg-primary font-bold rounded mr-2 border border-gray-300 rounded font-medium text px-3 py-2 text-decoration-none">Bắt đầu</Link>
