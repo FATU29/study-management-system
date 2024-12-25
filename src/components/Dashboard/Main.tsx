@@ -1,6 +1,9 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import {useLocation} from 'react-router-dom';
 import IconifyIcon from '../utils/icon/index';
 import CalendarSidebar from './CalendarSidebar';
+import { getLocalCourses } from '../../helpers/LocalStorage';
+
 
 interface RecentCourseProps {
     title: string;
@@ -11,43 +14,46 @@ interface RecentCourseProps {
 // RecentCourse component
 const RecentCourse = ({ title, teacher, assistant }: RecentCourseProps) => (
     <div className="min-w-[280px] md:min-w-[320px] lg:min-w-[360px] rounded-lg bg-white p-6 shadow-sm transition-all hover:shadow-md">
-        <div className="mb-4 h-48 w-full bg-gray-200">
+        <div className="mb-4 h-45 w-full bg-gray-200">
             <img src="https://thaitrien.com/wp-content/uploads/2021/09/Phong-nen-hoc-online-by-Thaitrien.com-1-scaled.jpg" alt="bg-classroom" />
         </div>
         <h3 className="mb-2 text-lg font-medium text-gray-800">{title}</h3>
-        <p className="text-sm text-gray-600">GV: {teacher}</p>
-        <p className="text-sm text-gray-600">GVTH: {assistant}</p>
     </div>
 );
 
 const CourseMain = () => {
-    const courses = [
-        {
-            title: "Cấu trúc dữ liệu và giải thuật",
-            teacher: "Nguyễn Văn A",
-            assistant: "Nguyễn Văn B"
-        },
-        {
-            title: "Hệ thống thông tin",
-            teacher: "Nguyễn Văn A",
-            assistant: "Nguyễn Văn B"
-        },
-        {
-            title: "Hệ điều hành",
-            teacher: "Nguyễn Văn A",
-            assistant: "Nguyễn Văn B"
-        },
-        {
-            title: "Lập trình Web",
-            teacher: "Nguyễn Văn C",
-            assistant: "Nguyễn Văn D"
-        },
-        {
-            title: "Trí tuệ nhân tạo",
-            teacher: "Nguyễn Văn E",
-            assistant: "Nguyễn Văn F"
-        }
-    ];
+    // const courses = [
+    //     {
+    //         title: "Cấu trúc dữ liệu và giải thuật",
+    //         teacher: "Nguyễn Văn A",
+    //         assistant: "Nguyễn Văn B"
+    //     },
+    //     {
+    //         title: "Hệ thống thông tin",
+    //         teacher: "Nguyễn Văn A",
+    //         assistant: "Nguyễn Văn B"
+    //     },
+    //     {
+    //         title: "Hệ điều hành",
+    //         teacher: "Nguyễn Văn A",
+    //         assistant: "Nguyễn Văn B"
+    //     },
+    //     {
+    //         title: "Lập trình Web",
+    //         teacher: "Nguyễn Văn C",
+    //         assistant: "Nguyễn Văn D"
+    //     },
+    //     {
+    //         title: "Trí tuệ nhân tạo",
+    //         teacher: "Nguyễn Văn E",
+    //         assistant: "Nguyễn Văn F"
+    //     }
+    // ];
+    const [courses, setCourses] = useState<RecentCourseProps[]>([]);
+    useEffect(() => {
+        const courses = getLocalCourses();
+        setCourses(courses);
+    }, []);
 
     const Icon = "cuida:caret-down-outline";
 
@@ -95,7 +101,12 @@ const CourseMain = () => {
                                     <div className="overflow-x-auto pb-4">
                                         <div className="flex gap-6">
                                             {courses.map((course, index) => (
-                                                <RecentCourse key={index} {...course} />
+                                                <RecentCourse 
+                                                    key={index}
+                                                    title={course.title}
+                                                    teacher={"Nguyễn Văn A"}
+                                                    assistant={"Nguyễn Văn B"}
+                                                />
                                             ))}
                                         </div>
                                     </div>

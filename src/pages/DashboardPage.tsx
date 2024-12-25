@@ -77,7 +77,6 @@ const DashboardPage: React.FC = () => {
               section => section.parentSectionId !== "course"
             );
             
-            // Update course badge count
             const updatedSections = sectionsWithoutCourses.map(section => 
               section.id === "course" 
                 ? { ...section, badge: response.length }
@@ -104,7 +103,7 @@ const DashboardPage: React.FC = () => {
         state: { 
           name: section.name, 
           isTeacher: section.parentSectionId === "course" ? false : true,
-          courseData: course // Pass the course data
+          courseData: course 
         }
       });
     }
@@ -132,7 +131,6 @@ const DashboardPage: React.FC = () => {
           sections={sections}
         />
         <Outlet />
-        {/* <RightSidebar /> */}
       </div>
     </div>
   );
