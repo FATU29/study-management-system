@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from "react";
 import { getNotificationsAPI } from "../services/notifications";
-import { io, Socket } from "socket.io-client";
+import io, { Socket } from "socket.io-client";
 
 interface Notification {
   id: string;
@@ -33,6 +33,7 @@ const user = {
 const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
     const [notifications, setNotifications] = useState<Notification[]>([]);
+    type Socket = any;
     const socketRef = useRef<Socket | null>(null);
 
     // Memoized fetch notifications with improved real-time handling
