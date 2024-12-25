@@ -2,7 +2,6 @@
 import { API_ROUTE } from "../configs/BASEURL";
 import { instanceAxios } from "../contexts/instanceAxios";
 import { getLocalUserData, setLocalUserData } from "../helpers/LocalStorage";
-import { LOGIN_USER_API, REGISTER_USER_API} from "./typeForService/authType";
 import { NOTIFICATIONS_API } from "./typeForService/notiType";
 
 
