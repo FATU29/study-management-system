@@ -1,12 +1,12 @@
 import {useState} from 'react';
 import TeacherTemplate from './TeacherTemplate';
 import SectionTemplate from './SectionTemplate';
-import LessonDetail from '../Lesson/LessonDetail';
+import ResouceDetail from '../ResoursesCourse/Resource';
 
 interface FileProps {
-    name: string;
-    url: string;
-  }
+  name: string;
+  url: string;
+}
 
 interface TeacherProps {
   name: string;
@@ -50,10 +50,10 @@ const MainCourse: React.FC<CourseClassProps> = ({ name, isTeacher, courseData })
         <div className="grid grid-cols-10 gap-4 h-full">
           <div className="col-span-7 p-4 bg-white border border-gray-300 rounded-lg border-1 overflow-y-auto hide-scrollbar">
             {selectedLesson ? (
-              <LessonDetail lesson={selectedLesson} onBack={handleBack} />
+              <ResouceDetail lesson={selectedLesson} onBack={handleBack} />
             ) : (
               <>
-                <SectionTemplate title="Tài liệu" files={doc} isTeacher={true} onViewDetail={handleViewDetail} />
+                <SectionTemplate title="Bài giảng" files={doc} isTeacher={true} onViewDetail={handleViewDetail} />
                 <SectionTemplate title="Lý thuyết" files={doc} isTeacher={isTeacher} onViewDetail={handleViewDetail} />
                 <SectionTemplate title="Thực hành" files={doc} isTeacher={isTeacher} onViewDetail={handleViewDetail} />
               </>

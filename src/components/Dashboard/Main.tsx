@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {useLocation} from 'react-router-dom';
 import IconifyIcon from '../utils/icon/index';
 import CalendarSidebar from './CalendarSidebar';
 import { getLocalCourses } from '../../helpers/LocalStorage';
@@ -51,7 +50,6 @@ const CourseMain = () => {
     //         assistant: "Nguyễn Văn F"
     //     }
     // ];
-    const user = useAuth();
     const [courses, setCourses] = useState<RecentCourseProps[]>([]);
     useEffect(() => {
         const courses = getLocalCourses();
