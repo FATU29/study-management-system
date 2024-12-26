@@ -8,4 +8,5 @@ export const API_ROUTE = {
     USERS: `${url}/api/users`,
     NOTIFICATIONS: `${url}/api/notifications`,
     COURSES: `${url}/api/courses`,
+    FILES: `${url}/api/files`,
 }

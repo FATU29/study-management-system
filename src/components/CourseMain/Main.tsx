@@ -59,7 +59,7 @@ const mockLesson: FileProps = {
    
   ],
   documents: [
-    { name: "Hướng dẫn sử dụng React", url: "/files/react-guide.pdf", type: "pdf" },
+    { name: "Hướng dẫn sử dụng React", url: "/files/s.pdf", type: "pdf" },
     { name: "Slide bài giảng", url: "/files/slides.pptx", type: "pptx" },
     { name: "Ghi chú", url: "/files/notes.txt", type: "txt" },
   ],

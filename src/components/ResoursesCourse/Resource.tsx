@@ -76,8 +76,7 @@ const ResourceDetail: React.FC<ResourceDetailProps> = ({ lesson, onBack }) => {
                   href={doc.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 no-underline"
-                >
+                  className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 no-underline">
                   Tải về
                 </a>
               </li>

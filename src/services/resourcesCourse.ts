@@ -13,7 +13,7 @@ export const getResourcesAPI = async (slug: string) => {
             }
         });
 
-        if (!response.ok) {
+        if (response.status !== 200) {
             throw new Error("Failed to fetch resources");
         }
 
@@ -31,7 +31,7 @@ export const getResourcesAPI = async (slug: string) => {
     }
 };
 
-export const addResourceAPI = async (slug: string, resource: any) => {
+export const addResourceAPI = async (slug: string, resourceInfo: any, title: string, resourceType: string, sectionLabel: string) => {
     try {
         const url = `${API_ROUTE.COURSES}/${slug}/res/add`;
         const {accessToken} = getLocalUserData();
@@ -42,10 +42,10 @@ export const addResourceAPI = async (slug: string, resource: any) => {
                 "Authorization": `Bearer ${accessToken}`,
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(resource)
+            body: JSON.stringify({ title, resourceType, resourceInfo, sectionLabel })
         });
 
-        if (!response.ok) {
+        if (response.status !== 200) {
             throw new Error("Failed to add resource");
         }
 
@@ -75,7 +75,7 @@ export const deleteResourceAPI = async (slug: string, resourceId: string) => {
             }
         });
 
-        if (!response.ok) {
+        if (response.status !== 200) {
             throw new Error("Failed to delete resource");
         }
 
@@ -107,7 +107,7 @@ export const updateResourceAPI = async (slug: string, resourceId: string, resour
             body: JSON.stringify(resource)
         });
 
-        if (!response.ok) {
+        if (response.status !== 200) {
             throw new Error("Failed to update resource");
         }
 
