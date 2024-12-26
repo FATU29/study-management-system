@@ -22,6 +22,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({ title, files, isTeach
     console.log('Submitted:', formData);
     setDialogOpen(false);
   };
+  
 
   return (
     <div>

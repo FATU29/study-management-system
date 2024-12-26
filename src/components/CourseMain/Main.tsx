@@ -6,8 +6,64 @@ import ResouceDetail from '../ResoursesCourse/Resource';
 interface FileProps {
   name: string;
   url: string;
+  exercise?: {
+    type: "file" | "quiz";
+    name: string;
+    fileUrl?: string;
+    questions?: {
+      question: string;
+      options: string[];
+      correctAnswer: string;
+    }[];
+  }[];
+  documents?: {
+    name: string;
+    url: string;
+    type: string;
+  }[];
 }
-
+const mockLesson: FileProps = {
+  name: "Bài học 1: Giới thiệu React",
+  url: "https://www.youtube.com/watch?v=34wqVtxCtAM", // Thay bằng URL video của bạn
+  exercise: [
+    {
+      type: "file",
+      name: "Nộp bài tập React cơ bản",
+    },
+    {
+      type: "quiz",
+      name: "Trắc nghiệm về React",
+      questions: [
+        {
+          question: "React là gì?",
+          options: [
+            "Thư viện JavaScript",
+            "Ngôn ngữ lập trình",
+            "Framework",
+            "Công cụ thiết kế",
+          ],
+          correctAnswer: "Thư viện JavaScript",
+        },
+        {
+          question: "Công ty nào phát triển React?",
+          options: ["Google", "Microsoft", "Facebook", "Apple"],
+          correctAnswer: "Facebook",
+        },
+        {
+          question: "React sử dụng mô hình nào?",
+          options: ["MVC", "MVP", "Flux", "MVVM"],
+          correctAnswer: "Flux",
+        },
+      ],
+    },
+   
+  ],
+  documents: [
+    { name: "Hướng dẫn sử dụng React", url: "/files/react-guide.pdf", type: "pdf" },
+    { name: "Slide bài giảng", url: "/files/slides.pptx", type: "pptx" },
+    { name: "Ghi chú", url: "/files/notes.txt", type: "txt" },
+  ],
+};
 interface TeacherProps {
   name: string;
   email: string;
@@ -50,7 +106,7 @@ const MainCourse: React.FC<CourseClassProps> = ({ name, isTeacher, courseData })
         <div className="grid grid-cols-10 gap-4 h-full">
           <div className="col-span-7 p-4 bg-white border border-gray-300 rounded-lg border-1 overflow-y-auto hide-scrollbar">
             {selectedLesson ? (
-              <ResouceDetail lesson={selectedLesson} onBack={handleBack} />
+              <ResouceDetail lesson={mockLesson} onBack={handleBack} />
             ) : (
               <>
                 <SectionTemplate title="Bài giảng" files={doc} isTeacher={true} onViewDetail={handleViewDetail} />
