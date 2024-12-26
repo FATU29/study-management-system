@@ -1,9 +1,5 @@
 
 import { API_ROUTE } from "../configs/BASEURL";
-import { instanceAxios } from "../contexts/instanceAxios";
-import { getLocalUserData, setLocalUserData } from "../helpers/LocalStorage";
-import { NOTIFICATIONS_API } from "./typeForService/notiType";
-
 
 export const getNotificationsAPI = async (idUser: string) => {
     try {
