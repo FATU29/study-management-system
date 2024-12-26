@@ -17,6 +17,19 @@ const formatTime = (time: string | Date) => {
   return date.toLocaleString();
 };
 
+const convertRoleToVietnamese = (role: string): string => {
+  switch (role) {
+    case "USER":
+      return "Học sinh";
+    case "TEACHER":
+      return "Giáo viên";
+    case "ADMIN":
+      return "Quản trị viên";
+    default:
+      return "Không xác định";
+  }
+};
+
 
 const NavbarHome: React.FC<NavbarHomeProps> = ({
   user = {
@@ -149,7 +162,7 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
                 {toFullName(user.firstName || "", user.lastName || "")}
               </div>
               <div className="text-xs text-gray-500 text-green-400">
-                {user.role}
+                {convertRoleToVietnamese(user.role || "")}
               </div>
             </div>
             <div className="relative">

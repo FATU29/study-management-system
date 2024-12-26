@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import IconifyIcon from "../utils/icon";
 import AddDocumentDialog from './AddDocumentDialog';
+import { addResourceAPI } from "../../services/resourcesCourse";  
 
 interface FileProps {
   name: string;
@@ -81,7 +82,6 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({ title, files, isTeach
           <AddDocumentDialog
             open={dialogOpen}
             onClose={() => setDialogOpen(false)}
-            sectionLabel={title}
             onSubmit={handleSubmit}
           />
         </>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ReactPlayer from "react-player";
 import Modal from "react-modal";
 import IconifyIcon from "../utils/icon";
-
+import { addResourceAPI } from "../../services/resourcesCourse";  
 interface FileProps {
   name: string;
   url: string;

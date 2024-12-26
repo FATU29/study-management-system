@@ -19,8 +19,8 @@ export const getResourcesAPI = async (slug: string) => {
 
         const data = await response.json();
         
-        if (data && data.data && Array.isArray(data.data.resources)) {
-            return data.data.resources; 
+        if (data && Array.isArray(data.data)) {
+            return data.data; 
         } else {
             throw new Error("Invalid response format");
         }

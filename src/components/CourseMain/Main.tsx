@@ -2,7 +2,7 @@ import {useState} from 'react';
 import TeacherTemplate from './TeacherTemplate';
 import SectionTemplate from './SectionTemplate';
 import ResouceDetail from '../ResoursesCourse/Resource';
-
+import { getResourcesAPI, addResourceAPI, deleteResourceAPI, updateResourceAPI} from '../../services/resourcesCourse';
 interface FileProps {
   name: string;
   url: string;
@@ -81,7 +81,7 @@ const MainCourse: React.FC<CourseClassProps> = ({ name, isTeacher, courseData })
     name: `${teacher.firstName} ${teacher.lastName}`,
     email: teacher.email,
   }));
-
+  // const resources = getResourcesAPI(courseData.slug);
   const doc: FileProps[] = [
     { name: "Bài giảng 1", url: "https://www.google.com" },
     { name: "Bài giảng 2", url: "https://www.google.com" },
