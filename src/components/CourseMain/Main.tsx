@@ -91,6 +91,7 @@ const MainCourse: React.FC<CourseClassProps> = ({ name, isTeacher, courseData })
   const handleViewDetail = (lesson: FileProps) => {
     setSelectedLesson(lesson);
   };
+  console.log("courseData", courseData);
 
   const handleBack = () => {
     setSelectedLesson(null);
@@ -109,9 +110,9 @@ const MainCourse: React.FC<CourseClassProps> = ({ name, isTeacher, courseData })
               <ResouceDetail lesson={mockLesson} onBack={handleBack} />
             ) : (
               <>
-                <SectionTemplate title="Bài giảng" files={doc} isTeacher={true} onViewDetail={handleViewDetail} />
-                <SectionTemplate title="Lý thuyết" files={doc} isTeacher={isTeacher} onViewDetail={handleViewDetail} />
-                <SectionTemplate title="Thực hành" files={doc} isTeacher={isTeacher} onViewDetail={handleViewDetail} />
+                <SectionTemplate title="Bài giảng" files={doc} isTeacher={true} onViewDetail={handleViewDetail} slug= {courseData.slug} />
+                <SectionTemplate title="Lý thuyết" files={doc} isTeacher={isTeacher} onViewDetail={handleViewDetail} slug= {courseData.slug}/>
+                <SectionTemplate title="Thực hành" files={doc} isTeacher={isTeacher} onViewDetail={handleViewDetail} slug= {courseData.slug}/>
               </>
             )}
           </div>

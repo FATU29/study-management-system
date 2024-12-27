@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Box, Button, Dialog, DialogTitle, Typography, IconButton } from "@mui/material";
 import { ResourceType } from "../types/class-resource";
+import { getResourcesAPI, addResourceAPI, deleteResourceAPI, updateResourceAPI} from '../../services/resourcesCourse';
 import IconifyIcon from "../utils/icon";
 
 interface AddDocumentDialogProps {
@@ -12,9 +13,10 @@ interface AddDocumentDialogProps {
     documents: { title: string; file: File }[];
     exercises: { title: string; file: File }[];
   }) => void;
+  slug: string;
 }
 
-const AddDocumentDialog: React.FC<AddDocumentDialogProps> = ({ open, onClose, onSubmit }) => {
+const AddDocumentDialog: React.FC<AddDocumentDialogProps> = ({ open, onClose, onSubmit, slug }) => {
   const [formData, setFormData] = useState({
     title: "",
     videos: [] as { title: string; url: string }[],
@@ -61,15 +63,24 @@ const AddDocumentDialog: React.FC<AddDocumentDialogProps> = ({ open, onClose, on
       [type]: prev[type].filter((_, i) => i !== index),
     }));
   };
+  const sectionLabel = "1.0";
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.title) {
       alert("Tiêu đề bài giảng không được để trống.");
       return;
     }
-    onSubmit(formData);
-    onClose();
+
+    try {
+      const response = await addResourceAPI(slug, { ...formData, sectionLabel });
+      alert("Thêm bài giảng thành công!");
+      onSubmit?.(formData); // Refresh parent data if a callback is provided
+      onClose();
+    } catch (error) {
+      console.error("Lỗi khi thêm bài giảng:", error);
+      alert("Không thể thêm bài giảng. Vui lòng thử lại.");
+    }
   };
 
   return (

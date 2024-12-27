@@ -13,18 +13,17 @@ interface SectionTemplateProps {
   files: FileProps[];
   isTeacher?: boolean;
   onViewDetail: (lesson: FileProps) => void;
+  slug: string;
 }
 
-const SectionTemplate: React.FC<SectionTemplateProps> = ({ title, files, isTeacher, onViewDetail }) => {
+const SectionTemplate: React.FC<SectionTemplateProps> = ({ title, files, isTeacher, onViewDetail, slug }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
-
   const handleSubmit = (formData: any
   ) => {
     console.log('Submitted:', formData);
     setDialogOpen(false);
   };
   
-
   return (
     <div>
       <div className="font-bold text-xl py-4">{title}</div>
@@ -83,6 +82,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({ title, files, isTeach
             open={dialogOpen}
             onClose={() => setDialogOpen(false)}
             onSubmit={handleSubmit}
+            slug={slug}
           />
         </>
       )}

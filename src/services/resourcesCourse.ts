@@ -31,28 +31,34 @@ export const getResourcesAPI = async (slug: string) => {
     }
 };
 
-export const addResourceAPI = async (slug: string, resourceInfo: any, title: string, resourceType: string, sectionLabel: string) => {
+export const addResourceAPI = async (slug: string, formData: {
+    title: string;
+    videos: { title: string; url: string }[];
+    documents: { title: string; file: File }[];
+    exercises: { title: string; file: File }[];
+    sectionLabel: string;
+  }) => {
     try {
         const url = `${API_ROUTE.COURSES}/${slug}/res/add`;
-        const {accessToken} = getLocalUserData();
+        const { accessToken } = getLocalUserData();
 
         const response = await fetch(url, {
             method: "POST",
             headers: {
-                "Authorization": `Bearer ${accessToken}`,
-                "Content-Type": "application/json"
+            "Authorization": `Bearer ${accessToken}`,
+            "Content-Type": "application/json"
             },
-            body: JSON.stringify({ title, resourceType, resourceInfo, sectionLabel })
+            body: JSON.stringify(formData)
         });
 
         if (response.status !== 200) {
             throw new Error("Failed to add resource");
         }
-
+        console.log("response", response);
         const data = await response.json();
-        
-        if (data && data.data && data.data.resource) {
-            return data.data.resource; 
+
+        if (data && data.data.acknowledged) {
+            return data.data.acknowledged;
         } else {
             throw new Error("Invalid response format");
         }
@@ -61,7 +67,7 @@ export const addResourceAPI = async (slug: string, resourceInfo: any, title: str
         console.log("Error in addResourceAPI: ", error.message);
         throw error;
     }
-}
+};
 
 export const deleteResourceAPI = async (slug: string, resourceId: string) => {
     try {
