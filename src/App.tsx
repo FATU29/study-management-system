@@ -64,7 +64,6 @@ const AppContent: React.FC = () => {
             </AuthGuard>
           }
         >
-          {/* Change start here! */}
           <Route index element={<Main />} />
           <Route
             path="course-ver-2"
@@ -78,7 +77,6 @@ const AppContent: React.FC = () => {
             <Route
               path=":courseId"
               element={<ClassPageExample />}
-              // loader={classLoader}
             />
             <Route
               path="upload-resource"
@@ -126,7 +124,7 @@ const AppContent: React.FC = () => {
             </AuthGuard>
           }
         />
-        <Route path="/modal" element={<AdminPage/>} />
+        <Route path="/modal" element={<AdminPage />} />
         <Route
           path="/users/verify-email"
           element={
