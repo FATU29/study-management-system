@@ -4,10 +4,6 @@ import {Container, Grid} from "@mui/material";
 import {useTheme} from "@mui/material/styles";
 import ChatListComponent from "../components/AppChat/ChatList";
 import ChatDetailComponent from "../components/AppChat/ChatDetail";
-import { useQuery } from "@tanstack/react-query";
-import { getAllUserMessage } from "../services/message";
-import Spinner from "../helpers/Spinner";
-
 
 
 
@@ -15,18 +11,10 @@ const MessagePage = () => {
     const [selectedUser, setSelectedUser] = useState<any>();
 
 
-    const userChat = useQuery({
-        queryKey:["user-chat"],
-        queryFn: async () => {
-            const response = await getAllUserMessage();
-            return response?.data;
-        }
-    })
-
     const theme = useTheme();
     return (
         <React.Fragment>
-            {userChat?.isFetching && <Spinner/>}
+
             <CssBaseline/>
             <Container
                 maxWidth="xl"
@@ -55,7 +43,7 @@ const MessagePage = () => {
                                 borderRight:`2px solid ${theme.customColors.textGrey}`,
                             }}
                         >
-                            <ChatListComponent selectedUser={selectedUser} setSelectedUser={setSelectedUser}  users={userChat?.data}/>
+                            <ChatListComponent selectedUser={selectedUser} setSelectedUser={setSelectedUser}/>
                         </Grid>
                         <Grid
                             item

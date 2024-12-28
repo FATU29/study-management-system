@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
-  Avatar,
   Box,
   Container,
   Grid,
@@ -11,18 +10,35 @@ import {
 import IconifyIcon from "../utils/icon";
 import { useTheme } from "@mui/material/styles";
 import { toFullName } from "../../helpers/toFullName";
+import useDebounce from "../../hooks/useDebounce";
+import { useQuery } from "@tanstack/react-query";
+import { getAllUserMessage } from "../../services/message";
+import { socket } from "../../helpers/socket";
 
 interface TProp {
-  users: any;
   setSelectedUser: React.Dispatch<any>;
   selectedUser: any;
 }
 
-const ChatListComponent = ({ users, setSelectedUser, selectedUser }: TProp) => {
+const ChatListComponent = ({  setSelectedUser, selectedUser }: TProp) => {
   const theme = useTheme();
+  const [content,setContent] = useState<string>();
+  const debounceVal = useDebounce(content);
+
+  const users = useQuery({
+    queryKey: ["user-chat", debounceVal], 
+    queryFn: async () => {
+      const response = await getAllUserMessage(debounceVal);
+      return response?.data;
+    },
+
+  });
+
+  
+
 
   const renderChatListData = () => {
-    return users?.map((item: any) => {
+    return users?.data?.map((item: any) => {
       return (
         <Grid
           key={item?._id}
@@ -151,6 +167,8 @@ const ChatListComponent = ({ users, setSelectedUser, selectedUser }: TProp) => {
             Trò chuyện
           </Typography>
           <TextField
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
             fullWidth
             id="input-with-icon-textfield"
             label="Tìm kiếm"
@@ -185,6 +203,7 @@ const ChatListComponent = ({ users, setSelectedUser, selectedUser }: TProp) => {
             }}
           >
             {renderChatListData()}
+            
           </Box>
         </Box>
       </Container>

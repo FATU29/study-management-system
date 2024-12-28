@@ -10,7 +10,7 @@ import { getLocalUserData } from "../helpers/LocalStorage";
 const BASE_URL = API_ROUTE.MESSAGE
 
 export const getMessageById = async ({
-    receiverId, page = 1, perPage = 10
+    receiverId,page = 1, perPage = 10
 } : {
     receiverId: string,
     page:number,
@@ -19,7 +19,6 @@ export const getMessageById = async ({
     try {
         const url = BASE_URL + "/"
         const {accessToken} = getLocalUserData();
-        console.log(receiverId)
         const response = await instanceAxios(url,{
             method:"GET",
             headers:{
@@ -29,7 +28,8 @@ export const getMessageById = async ({
             params:{
                 page,
                 perPage,
-                receiverId
+                receiverId,
+                
             }
         });
 
@@ -42,7 +42,7 @@ export const getMessageById = async ({
 }
 
 
-export const getAllUserMessage = async () => {
+export const getAllUserMessage = async (content?:string) => {
     try {
         const url = BASE_URL + '/getReceiverId'
         const {accessToken} = getLocalUserData();
@@ -52,6 +52,9 @@ export const getAllUserMessage = async () => {
             headers:{
                 "Content-Type":"application/json",
                 Authorization:`Bearer ${accessToken}`
+            },
+            params:{
+                content
             }
         })
 

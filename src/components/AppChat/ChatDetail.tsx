@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Grid,
   Box,
@@ -27,6 +27,23 @@ const ChatDetailComponent = ({ selectedUser }: TProps) => {
   const [messages, setMessages] = useState<any>([]);
   const { user } = useAuth();
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      try {
+        messagesEndRef.current.scrollIntoView({
+          behavior: "auto",
+          block: "nearest",
+          inline: "start",
+        });
+      } catch (error) {
+        messagesEndRef.current.scrollIntoView(false);
+      }
+    }
+  };
+
   const toggleEmojiPicker = () => {
     setShowEmojiPicker(!showEmojiPicker);
   };
@@ -45,10 +62,18 @@ const ChatDetailComponent = ({ selectedUser }: TProps) => {
   });
 
   useEffect(() => {
-    if (messageData) {
-      setMessages(messageData?.data?.data);
+    if (messageData?.data?.data) {
+      setMessages(messageData.data.data);
+
+      setTimeout(() => scrollToBottom(), 150);
     }
   }, [messageData]);
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      scrollToBottom();
+    }
+  }, [messages]);
 
   useEffect(() => {
     const handleIncomingMessage = (data: any) => {
@@ -142,13 +167,10 @@ const ChatDetailComponent = ({ selectedUser }: TProps) => {
                 <Typography variant="h6" component="div" fontWeight="bold">
                   {toFullName(selectedUser?.firstName, selectedUser?.lastName)}
                 </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  Online
-                </Typography>
               </Grid>
             </Grid>
-
             <Grid
+              ref={chatContainerRef}
               item
               xs={12}
               sx={{
@@ -173,70 +195,73 @@ const ChatDetailComponent = ({ selectedUser }: TProps) => {
                 {isLoading ? (
                   <Typography>Loading messages...</Typography>
                 ) : (
-                  messages?.map((message: any, index: any) => (
-                    <Box
-                      key={message._id || index}
-                      sx={{
-                        display: "flex",
-                        justifyContent: isOwnMessage(message.senderId)
-                          ? "flex-end"
-                          : "flex-start",
-                        alignItems: "center",
-                      }}
-                    >
+                  <>
+                    {messages?.map((message: any, index: any) => (
                       <Box
+                        key={message._id || index}
                         sx={{
                           display: "flex",
-                          flexDirection: "column",
+                          justifyContent: isOwnMessage(message.senderId)
+                            ? "flex-end"
+                            : "flex-start",
+                          alignItems: "center",
                         }}
                       >
-                        <Typography
-                          sx={{
-                            textAlign: isOwnMessage(message.senderId)
-                              ? "right"
-                              : "left",
-                            fontSize: "0.8rem",
-                          }}
-                          component={"div"}
-                        >
-                          {isOwnMessage(message.senderId)
-                            ? toFullName(
-                                user?.firstName || "",
-                                user?.lastName || ""
-                              )
-                            : toFullName(
-                                selectedUser?.firstName || "",
-                                selectedUser?.lastName || ""
-                              )}
-                        </Typography>
                         <Box
                           sx={{
-                            padding: "20px",
-                            backgroundColor: isOwnMessage(message.senderId)
-                              ? theme.palette.primary.main
-                              : theme.palette.grey[100],
-                            maxWidth: "18rem",
-                            borderRadius: "10px",
-                            boxShadow:
-                              "rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px",
+                            display: "flex",
+                            flexDirection: "column",
                           }}
                         >
                           <Typography
                             sx={{
-                              whiteSpace: "pre-wrap",
-                              wordBreak: "break-word",
-                              color: isOwnMessage(message.senderId)
-                                ? "white"
-                                : "inherit",
-                              textAlign: "left",
+                              textAlign: isOwnMessage(message.senderId)
+                                ? "right"
+                                : "left",
+                              fontSize: "0.8rem",
+                            }}
+                            component={"div"}
+                          >
+                            {isOwnMessage(message.senderId)
+                              ? toFullName(
+                                  user?.firstName || "",
+                                  user?.lastName || ""
+                                )
+                              : toFullName(
+                                  selectedUser?.firstName || "",
+                                  selectedUser?.lastName || ""
+                                )}
+                          </Typography>
+                          <Box
+                            sx={{
+                              padding: "20px",
+                              backgroundColor: isOwnMessage(message.senderId)
+                                ? theme.palette.primary.main
+                                : theme.palette.grey[100],
+                              maxWidth: "18rem",
+                              borderRadius: "10px",
+                              boxShadow:
+                                "rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px",
                             }}
                           >
-                            {message?.content}
-                          </Typography>
+                            <Typography
+                              sx={{
+                                whiteSpace: "pre-wrap",
+                                wordBreak: "break-word",
+                                color: isOwnMessage(message.senderId)
+                                  ? "white"
+                                  : "inherit",
+                                textAlign: "left",
+                              }}
+                            >
+                              {message?.content}
+                            </Typography>
+                          </Box>
                         </Box>
                       </Box>
-                    </Box>
-                  ))
+                    ))}
+                    <div ref={messagesEndRef} />
+                  </>
                 )}
               </Box>
             </Grid>
@@ -297,7 +322,7 @@ const ChatDetailComponent = ({ selectedUser }: TProps) => {
                   sx={{
                     width: "20%",
                     display: "flex",
-                    justifyContent: "space-between", 
+                    justifyContent: "space-between",
                     alignItems: "center",
                     padding: "0.5rem",
                   }}
@@ -311,16 +336,21 @@ const ChatDetailComponent = ({ selectedUser }: TProps) => {
                         <Box
                           sx={{
                             position: "absolute",
-                            bottom:"140%",
-                            right:"-100%",
+                            bottom: "140%",
+                            right: "-100%",
                             zIndex: 10,
                             backgroundColor: "white",
                             border: "1px solid #ccc",
                             borderRadius: "0.5rem",
                             boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
                           }}
+                          
                         >
-                          <EmojiPicker onEmojiClick={(emoji) => setText((text) => text + emoji.emoji )} />
+                          <EmojiPicker
+                            onEmojiClick={(emoji) =>
+                              setText((text) => text + emoji.emoji)
+                            }
+                          />
                         </Box>
                       )}
                     </Box>
