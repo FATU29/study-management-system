@@ -75,7 +75,7 @@ const AddDocumentDialog: React.FC<AddDocumentDialogProps> = ({ open, onClose, on
     try {
       const response = await addResourceAPI(slug, { ...formData, sectionLabel });
       alert("Thêm bài giảng thành công!");
-      onSubmit?.(formData); // Refresh parent data if a callback is provided
+      onSubmit?.(formData); 
       onClose();
     } catch (error) {
       console.error("Lỗi khi thêm bài giảng:", error);
