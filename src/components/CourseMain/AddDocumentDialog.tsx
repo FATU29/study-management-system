@@ -72,15 +72,15 @@ const AddDocumentDialog: React.FC<AddDocumentDialogProps> = ({ open, onClose, on
       return;
     }
 
-    try {
-      const response = await addResourceAPI(slug, { ...formData, sectionLabel });
-      alert("Thêm bài giảng thành công!");
-      onSubmit?.(formData); 
-      onClose();
-    } catch (error) {
-      console.error("Lỗi khi thêm bài giảng:", error);
-      alert("Không thể thêm bài giảng. Vui lòng thử lại.");
-    }
+    // try {
+    //   const response = await addResourceAPI(slug, { ...formData, sectionLabel });
+    //   alert("Thêm bài giảng thành công!");
+    //   onSubmit?.(formData); 
+    //   onClose();
+    // } catch (error) {
+    //   console.error("Lỗi khi thêm bài giảng:", error);
+    //   alert("Không thể thêm bài giảng. Vui lòng thử lại.");
+    // }
   };
 
   return (
