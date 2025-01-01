@@ -1,5 +1,5 @@
 export interface IFile {
-  id: string;
+  _id: string;
   filename: string;
   mimetype: string; // MIME type
   size: number;
@@ -50,7 +50,7 @@ export const emptyInfoOf = (resourceType: ResourceType): ResourceInfo => {
     case "document":
       return {
         file: {
-          id: "",
+          _id: "",
           filename: "",
           mimetype: "",
           size: 0,
@@ -69,4 +69,12 @@ export const emptyInfoOf = (resourceType: ResourceType): ResourceInfo => {
     case "announcement":
       return { content: "" };
   }
+};
+
+export const emptyFile: IFile = {
+  _id: "",
+  filename: "",
+  mimetype: "",
+  size: 0,
+  uploadDate: new Date(),
 };

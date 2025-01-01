@@ -199,7 +199,10 @@ const MainCourse: React.FC<CourseClassProps> = ({
             {selectedResource !== null && (
               <ReactModal
                 isOpen={selectedResource !== null}
-                onRequestClose={() => setSelectedResource(null)}
+                onRequestClose={() => {
+                  setSelectedResource(null);
+                  setIsEditResourceEnabled(false);
+                }}
                 className="bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto border border-gray-300"
                 overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
               >

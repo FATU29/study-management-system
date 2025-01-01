@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { ICourseResource } from "../../types/resourceType";
-import { json } from "stream/consumers";
 import AnnouncementResource from "./AnnoucementResource";
-import Iconify from "@iconify/iconify";
 import IconifyIcon from "../utils/icon";
+import LinkResource from "./LinkResource";
+import DocumentResource from "./DocumentResource";
 
 interface ResourceDetailProps {
   resource: ICourseResource;
@@ -15,7 +15,6 @@ interface ResourceDetailProps {
 export interface InnerResourceDetailProps {
   resource: ICourseResource;
   isEditing: boolean;
-  isEditConfirmed: boolean;
   onEditCompleted: (resource: ICourseResource) => void;
 }
 
@@ -26,17 +25,9 @@ const ResourceDetailByType: React.FC<InnerResourceDetailProps> = (
     case "announcement":
       return <AnnouncementResource {...innerProps} />;
     case "document":
-      return (
-        <div className="wrap">
-          <p>Document: {JSON.stringify(innerProps.resource, null, " ")}</p>
-        </div>
-      );
+      return <DocumentResource {...innerProps} />;
     case "link":
-      return (
-        <div className="wrap">
-          <p>Link: {JSON.stringify(innerProps.resource, null, " ")}</p>
-        </div>
-      );
+      return <LinkResource {...innerProps} />;
     case "assignment":
       return (
         <div className="wrap">
@@ -45,6 +36,21 @@ const ResourceDetailByType: React.FC<InnerResourceDetailProps> = (
       );
     default:
       return <> </>;
+  }
+};
+
+const resourceNameBy = (resourceType: string) => {
+  switch (resourceType) {
+    case "announcement":
+      return "Thông báo";
+    case "document":
+      return "Tài liệu";
+    case "link":
+      return "Liên kết";
+    case "assignment":
+      return "Bài tập";
+    default:
+      return "Tài liệu";
   }
 };
 
@@ -58,7 +64,7 @@ const ResourceDetail: React.FC<ResourceDetailProps> = ({
 
   return (
     <div className="p-4 bg-white border border-gray-300 rounded-lg shadow-lg mb-4">
-      <div className="flex items-center justify-left mb-2">
+      <div className="flex flex-row items-center justify-between mb-2">
         <button
           onClick={onReturn}
           className="px-2 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
@@ -67,16 +73,21 @@ const ResourceDetail: React.FC<ResourceDetailProps> = ({
             <IconifyIcon icon="bi:arrow-left" />
           </div>
         </button>
+
+        <h2 className="text-lg font-semibold">
+          {resourceNameBy(resource.resourceType)}
+        </h2>
+
+        <div className="px-2 py-2" />
       </div>
 
       <ResourceDetailByType
         resource={resource}
         isEditing={isEditing ?? false}
-        isEditConfirmed={isEditConfirmed}
         onEditCompleted={onEditCompleted}
       />
 
-      <div className="flex items-center justify-around mb-4 mt-4">
+      {/* <div className="flex items-center justify-around mb-4 mt-4">
         {isEditing && (
           <button
             className="px-8 py-2 bg-blue-500 text-white rounded-md"
@@ -87,7 +98,7 @@ const ResourceDetail: React.FC<ResourceDetailProps> = ({
             OK
           </button>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

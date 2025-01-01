@@ -1,36 +1,23 @@
 import { useState } from "react";
-import { IAnnouncementResourceInfo } from "../../types/resourceType";
+import { ILinkResourceInfo } from "../../types/resourceType";
 import { InnerResourceDetailProps } from "./ResourceDetail";
 
-const AnnouncementResource: React.FC<InnerResourceDetailProps> = ({
+const LinkResource: React.FC<InnerResourceDetailProps> = ({
   resource,
   isEditing,
   onEditCompleted,
 }) => {
   const [title, setTitle] = useState<string>(resource.title);
-  const [content, setContent] = useState<string>(
-    (resource.resourceInfo as IAnnouncementResourceInfo).content ?? ""
+  const [url, setUrl] = useState<string>(
+    (resource.resourceInfo as ILinkResourceInfo).url ?? ""
   );
-
-  // if (isEditConfirmed) {
-  //   const updatedResource = {
-  //     ...resource,
-  //     title: title,
-  //     resourceInfo: {
-  //       content: content,
-  //     },
-  //   };
-
-  //   onEditCompleted(updatedResource);
-  //   return;
-  // }
 
   const handleSubmit = async () => {
     const updatedResource = {
       ...resource,
       title: title,
       resourceInfo: {
-        content: content,
+        url: url,
       },
     };
 
@@ -39,11 +26,7 @@ const AnnouncementResource: React.FC<InnerResourceDetailProps> = ({
 
   if (isEditing) {
     return (
-      <div
-        className={
-          "" /* "p-4 bg-white border border-gray-300 rounded-lg shadow-lg" */
-        }
-      >
+      <div>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -56,20 +39,19 @@ const AnnouncementResource: React.FC<InnerResourceDetailProps> = ({
             onChange={(e) => {
               setTitle(e.target.value);
             }}
-            placeholder="Announcement title"
+            placeholder="Link title"
             required
           ></input>
 
-          <textarea
+          <input
             className="w-full mb-4"
-            value={content}
+            value={url}
             onChange={(e) => {
-              setContent(e.target.value);
+              setUrl(e.target.value);
             }}
-            placeholder="Announcement content"
-            rows={10}
+            placeholder="Url"
             required
-          ></textarea>
+          ></input>
 
           <div className="flex items-center justify-around mb-4 mt-4">
             <button
@@ -90,9 +72,13 @@ const AnnouncementResource: React.FC<InnerResourceDetailProps> = ({
         <h2 className="text-2xl font-bold">{resource.title}</h2>
       </div>
 
-      <div className="text-left whitespace-pre-wrap">{content}</div>
+      <div className="text-center mb-4">
+        <a href={url} target="_blank" rel="noopener noreferrer">
+          {url}
+        </a>
+      </div>
     </div>
   );
 };
 
-export default AnnouncementResource;
+export default LinkResource;
