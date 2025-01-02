@@ -15,7 +15,6 @@ import {
 } from "../../types/resourceType";
 import ReactModal from "react-modal";
 import { ResourceType } from "../types/class-resource";
-import { set } from "react-hook-form";
 import {
   AddCourseResourceRequestBody,
   UpdateCourseResourceRequestBody,
@@ -183,6 +182,7 @@ const MainCourse: React.FC<CourseClassProps> = ({
                   onEdit={handleEditResource}
                   onDelete={(res) => setDeletingResource(res)}
                   onCreateNew={(res) => handleCreateNewResource(section, res)}
+                  itemBackgroundModifier={sectionTabColor(index)}
                 />
               );
             })}
@@ -190,7 +190,7 @@ const MainCourse: React.FC<CourseClassProps> = ({
             <div className="text-center mt-4">
               <button
                 onClick={() => setIsAddingSection(true)}
-                className="p-2 bg-blue-500 text-white rounded-md"
+                className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
               >
                 Thêm đề mục mới
               </button>
@@ -203,7 +203,7 @@ const MainCourse: React.FC<CourseClassProps> = ({
                   setSelectedResource(null);
                   setIsEditResourceEnabled(false);
                 }}
-                className="bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto border border-gray-300"
+                className="bg-white p-6 rounded-lg shadow-lg max-w-xl mx-auto border border-gray-300"
                 overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
               >
                 <ResourceDetailVer2
@@ -262,7 +262,7 @@ const MainCourse: React.FC<CourseClassProps> = ({
                   onClick={() => {
                     setDeletingResource(null);
                   }}
-                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-fit"
+                  className="bg-blue-300 text-white px-4 py-2 rounded hover:bg-blue-400 w-fit"
                 >
                   Hông
                 </button>
@@ -273,7 +273,7 @@ const MainCourse: React.FC<CourseClassProps> = ({
                     }
                     setDeletingResource(null);
                   }}
-                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-fit"
+                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 w-fit"
                 >
                   Thiệt
                 </button>
@@ -301,6 +301,14 @@ const MainCourse: React.FC<CourseClassProps> = ({
       </div>
     </div>
   );
+};
+
+const sectionTabColor = (sectionIndex: number) => {
+  const colors = [
+    "bg-cyan-100/25 hover:bg-cyan-200/50",
+    "bg-blue-100/25 hover:bg-blue-200/50",
+  ];
+  return colors[sectionIndex % colors.length];
 };
 
 export default MainCourse;

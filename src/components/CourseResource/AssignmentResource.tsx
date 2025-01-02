@@ -27,7 +27,7 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
     (resource.resourceInfo as IAssignmentResourceInfo).openDate ?? new Date()
   );
   const [dueDate, setDueDate] = useState<Date>(
-    (resource.resourceInfo as IAssignmentResourceInfo).dueDate ?? new Date()
+    (resource.resourceInfo as IAssignmentResourceInfo).dueDate
   );
   const [actualFiles, setActualFiles] = useState<File[]>([]);
 
@@ -138,8 +138,20 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
     return (
       <div>
         <form
+          className="max-h-96 overflow-y-auto px-2"
           onSubmit={(e) => {
             e.preventDefault();
+
+            if (dueDate <= openDate) {
+              alert("Thời gian đóng phải sau thời gian mở");
+              return;
+            }
+
+            if (dueDate <= new Date()) {
+              alert("Thời gian đóng phải sau thời gian hiện tại");
+              return;
+            }
+
             handleSubmit();
           }}
         >
@@ -158,7 +170,7 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
           </label>
 
           <textarea
-            className="w-full mb-4 text-justify"
+            className="w-full mb-4 mt-1 text-justify"
             id="Description"
             value={description}
             onChange={(e) => {
@@ -173,30 +185,34 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
             <span className="font-medium">{dateAsString(openDate)}</span>
           </label>
 
-          <input
-            className="w-full mb-4"
-            id="OpenDate"
-            type="datetime-local"
-            value={datetimeLocalValueOf(openDate)}
-            onChange={(e) => handleDateChange(e, setOpenDate)}
-            placeholder="Assignment open date"
-            required
-          />
+          <div className="flex flex-row items-center justify-around">
+            <input
+              className="w-3/5 px-4 py-1 mb-4 mt-1 border border-gray-300 rounded-md"
+              id="OpenDate"
+              type="datetime-local"
+              value={datetimeLocalValueOf(openDate)}
+              onChange={(e) => handleDateChange(e, setOpenDate)}
+              placeholder="Assignment open date"
+              required
+            />
+          </div>
 
           <label className="font-semibold" htmlFor="DueDate">
             Thời gian đóng:{" "}
             <span className="font-medium">{dateAsString(dueDate)}</span>
           </label>
 
-          <input
-            className="w-full mb-4"
-            id="DueDate"
-            type="datetime-local"
-            value={datetimeLocalValueOf(dueDate)}
-            onChange={(e) => handleDateChange(e, setDueDate)}
-            placeholder="Assignment open date"
-            required
-          />
+          <div className="flex flex-row items-center justify-around">
+            <input
+              className="w-3/5 px-4 py-1 mb-4 mt-1 border border-gray-300 rounded-md"
+              id="DueDate"
+              type="datetime-local"
+              value={datetimeLocalValueOf(dueDate)}
+              onChange={(e) => handleDateChange(e, setDueDate)}
+              placeholder="Assignment open date"
+              required
+            />
+          </div>
 
           {attachments.length > 0 && (
             <div className="mb-4">
@@ -243,7 +259,7 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
           <div className="flex items-center justify-around mb-4 mt-4">
             <button
               type="submit"
-              className="px-8 py-2 bg-blue-500 text-white rounded-md"
+              className="px-8 py-2 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-600"
             >
               OK
             </button>
@@ -330,7 +346,7 @@ const displayFiles = (
 
           <div className="">
             <h3
-              className={`text-base text-center pt-2 truncate max-w-40 ${
+              className={`text-base text-center pt-2 truncate w-60 ${
                 !(file instanceof File) &&
                 temporaryRemoveFiles &&
                 temporaryRemoveFiles.includes(file)
@@ -345,7 +361,8 @@ const displayFiles = (
 
           <div className="flex flex-row items-center space-x-2 justify-center">
             <button
-              className="px-2 py-2 bg-blue-500 text-white rounded-md"
+              className="px-2 py-2 bg-blue-300 text-white rounded-md hover:bg-blue-400"
+              title="Xem"
               onClick={(e) => {
                 e.preventDefault();
                 onView(file);
@@ -359,7 +376,8 @@ const displayFiles = (
               temporaryRemoveFiles &&
               temporaryRemoveFiles.includes(file) ? (
                 <button
-                  className="px-2 py-2 bg-green-500 text-white rounded-md"
+                  className="px-2 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                  title="Khôi phục"
                   onClick={(e) => {
                     e.preventDefault();
                     onRecoveringRemovedFile &&
@@ -370,7 +388,8 @@ const displayFiles = (
                 </button>
               ) : (
                 <button
-                  className="px-2 py-2 bg-red-500 text-white rounded-md"
+                  className="px-2 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                  title="Xóa"
                   onClick={(e) => {
                     e.preventDefault();
                     onRemove && onRemove(file);
@@ -382,7 +401,8 @@ const displayFiles = (
 
             {!(file instanceof File) && onDownload && (
               <button
-                className="px-2 py-2 bg-blue-500 text-white rounded-md"
+                className="px-2 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                title="Tải về"
                 onClick={(e) => {
                   e.preventDefault();
                   onDownload(file);

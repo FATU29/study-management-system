@@ -74,7 +74,7 @@ const AnnouncementResource: React.FC<InnerResourceDetailProps> = ({
           <div className="flex items-center justify-around mb-4 mt-4">
             <button
               type="submit"
-              className="px-8 py-2 bg-blue-500 text-white rounded-md"
+              className="px-8 py-2 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-600"
             >
               OK
             </button>
@@ -90,7 +90,9 @@ const AnnouncementResource: React.FC<InnerResourceDetailProps> = ({
         <h2 className="text-2xl font-bold">{resource.title}</h2>
       </div>
 
-      <div className="text-left whitespace-pre-wrap">{content}</div>
+      <div className="text-left whitespace-pre-wrap max-h-80 overflow-y-auto px-2">
+        {content}
+      </div>
     </div>
   );
 };

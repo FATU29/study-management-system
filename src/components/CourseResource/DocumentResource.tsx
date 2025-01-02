@@ -105,7 +105,7 @@ const DocumentResource: React.FC<InnerResourceDetailProps> = ({
           <div className="flex items-center justify-around mb-4 mt-4">
             <button
               type="submit"
-              className="px-8 py-2 bg-blue-500 text-white rounded-md"
+              className="px-8 py-2 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-600"
             >
               OK
             </button>
@@ -128,7 +128,10 @@ const DocumentResource: React.FC<InnerResourceDetailProps> = ({
         />
 
         <div className="">
-          <h3 className="text-base text-center pt-2 font-medium">
+          <h3
+            className="text-base text-center pt-2 font-medium max-w-60 truncate"
+            title={file.filename}
+          >
             {file.filename}
           </h3>
         </div>
@@ -136,7 +139,7 @@ const DocumentResource: React.FC<InnerResourceDetailProps> = ({
 
       <div className="flex flex-row items-center justify-around mb-4">
         <button
-          className="w-24 px-2 py-2 bg-blue-500 text-white rounded-md"
+          className="w-24 px-2 py-2 bg-blue-300 text-white rounded-md hover:bg-blue-400"
           onClick={(e) => {
             e.preventDefault();
             handleViewFile();
@@ -146,7 +149,7 @@ const DocumentResource: React.FC<InnerResourceDetailProps> = ({
         </button>
 
         <button
-          className="w-24 px-2 py-2 bg-blue-500 text-white rounded-md"
+          className="w-24 px-2 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
           onClick={(e) => {
             e.preventDefault();
             handleDownloadFile();

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import IconifyIcon from "../utils/icon";
-import { ICourseResource } from "../../types/resourceType";
+import { ICourseResource, resourceNameBy } from "../../types/resourceType";
 import { ResourceType } from "../types/class-resource";
 import { Box, Button, Dialog, DialogTitle } from "@mui/material";
 
@@ -12,20 +12,21 @@ interface SectionTemplateProps {
   onEdit?: (resource: ICourseResource) => void;
   onDelete?: (resource: ICourseResource) => void;
   onCreateNew?: (resourceType: ResourceType) => void;
+  itemBackgroundModifier?: string;
 }
 
-const IconOf: (resourceType: ResourceType) => string = (resourceType) => {
+const iconOf: (resourceType: ResourceType) => string = (resourceType) => {
   switch (resourceType) {
     case "document":
-      return "carbon:document";
+      return "ic:baseline-file-present";
     case "link":
-      return "carbon:link";
+      return "ic:outline-link";
     case "assignment":
-      return "carbon:task";
+      return "ic:outline-assignment";
     case "announcement":
-      return "carbon:notification-counter";
+      return "ic:outline-announcement";
     default:
-      return "carbon:unknown";
+      return "ic:outline-question-mark";
   }
 };
 
@@ -45,6 +46,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
   onEdit,
   onDelete,
   onCreateNew,
+  itemBackgroundModifier,
 }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -56,12 +58,12 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
   };
 
   return (
-    <div>
-      <div className="flex justify-between items-center mt-4 pb-2">
+    <div className="mb-8">
+      <div className="flex justify-between items-center pb-2">
         <div className="font-bold text-xl text-left">{sectionTitle}</div>
         {isEditable && (
           <button
-            className="p-2 bg-blue-500 text-white rounded-md"
+            className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
             onClick={() => setIsDialogOpen(true)}
           >
             Thêm tài liệu
@@ -69,39 +71,47 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
         )}
       </div>
 
-      <div className="w-full space-y-4">
+      <div className="w-full space-y-2">
         {resources.map((resource, index) => (
           <div
             key={index}
             onClick={() => onViewDetail(resource)}
-            className="flex items-center p-2 border border-gray-200 rounded-md hover:shadow-sm cursor-pointer"
+            className={`flex items-center p-2 border border-gray-200 rounded-md hover:shadow-sm cursor-pointer ${
+              itemBackgroundModifier ?? ""
+            }`}
           >
-            <IconifyIcon
-              icon={IconOf(resource.resourceType)}
-              width="20"
-              height="20"
-              style={{ color: "black" }}
-            />
+            <div
+              title={resourceNameBy(resource.resourceType)}
+              className="flex items-center"
+            >
+              <IconifyIcon
+                icon={iconOf(resource.resourceType)}
+                style={{ color: "black" }}
+                className="size-8"
+              />
+            </div>
             <div className="ml-2 flex-1 text-left">{resource.title}</div>
             <div className="flex ml-auto">
               {isEditable && (
                 <button
+                  className="flex items-center justify-around mx-2 size-10 border border-gray-200 rounded-xl hover:bg-blue-400"
+                  title="Chỉnh sửa"
                   onClick={(e) => {
                     e.stopPropagation();
                     onEdit && onEdit(resource);
                   }}
                 >
                   <IconifyIcon
-                    icon="material-symbols-light:edit-outline"
-                    width="20"
-                    height="20"
+                    icon="ic:outline-edit"
                     style={{ color: "black" }}
+                    className="size-6"
                   />
                 </button>
               )}
               {isEditable && (
                 <button
-                  className="ml-2"
+                  className="flex items-center justify-around mx-2 size-10 border border-gray-200 rounded-xl hover:bg-red-400"
+                  title="Xóa"
                   onClick={(e) => {
                     e.stopPropagation();
                     onDelete && onDelete(resource);
@@ -109,9 +119,8 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
                 >
                   <IconifyIcon
                     icon="material-symbols:delete-outline-rounded"
-                    width="20"
-                    height="20"
                     style={{ color: "black" }}
+                    className="size-6"
                   />
                 </button>
               )}
@@ -121,8 +130,8 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
       </div>
 
       <Dialog onClose={handleDialogClose} open={isDialogOpen}>
-        <DialogTitle>{dialogTitle}</DialogTitle>
-        <Box display="flex" flexDirection="column">
+        <DialogTitle sx={{ fontWeight: "bold" }}>{dialogTitle}</DialogTitle>
+        <div className="flex flex-col items-center px-4 pb-4">
           {Array.from(uploadingResourceTypes.entries()).map(
             ([typeName, type]) => (
               <Button
@@ -134,6 +143,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
                 variant="contained"
                 color="primary"
                 style={{
+                  width: "80%",
                   margin: "8px",
                   textTransform: "none",
                   fontSize: "1rem",
@@ -143,7 +153,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
               </Button>
             )
           )}
-        </Box>
+        </div>
       </Dialog>
     </div>
   );

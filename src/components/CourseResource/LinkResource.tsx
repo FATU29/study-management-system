@@ -56,7 +56,7 @@ const LinkResource: React.FC<InnerResourceDetailProps> = ({
           <div className="flex items-center justify-around mb-4 mt-4">
             <button
               type="submit"
-              className="px-8 py-2 bg-blue-500 text-white rounded-md"
+              className="px-8 py-2 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-600"
             >
               OK
             </button>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ICourseResource } from "../../types/resourceType";
+import { ICourseResource, resourceNameBy } from "../../types/resourceType";
 import AnnouncementResource from "./AnnoucementResource";
 import IconifyIcon from "../utils/icon";
 import LinkResource from "./LinkResource";
@@ -36,21 +36,6 @@ const ResourceDetailByType: React.FC<InnerResourceDetailProps> = (
   }
 };
 
-const resourceNameBy = (resourceType: string) => {
-  switch (resourceType) {
-    case "announcement":
-      return "Thông báo";
-    case "document":
-      return "Tài liệu";
-    case "link":
-      return "Liên kết";
-    case "assignment":
-      return "Bài tập";
-    default:
-      return "Tài liệu";
-  }
-};
-
 const ResourceDetail: React.FC<ResourceDetailProps> = ({
   resource,
   isEditing,
@@ -58,22 +43,23 @@ const ResourceDetail: React.FC<ResourceDetailProps> = ({
   onEditCompleted,
 }) => {
   return (
-    <div className="p-4 bg-white border border-gray-300 rounded-lg shadow-lg mb-4">
+    <div className="p-4 bg-white border border-gray-300 rounded-lg shadow-lg">
       <div className="flex flex-row items-center justify-between mb-2">
         <button
           onClick={onReturn}
-          className="px-2 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          title="Quay lại"
+          className="px-2 py-2 size-10 bg-blue-300 text-white rounded-md hover:bg-blue-400"
         >
           <div className="flex items-center justify-around">
             <IconifyIcon icon="bi:arrow-left" />
           </div>
         </button>
 
-        <h2 className="text-lg font-semibold mx-24">
+        <h2 className="my-2 text-lg font-semibold mx-24">
           {resourceNameBy(resource.resourceType)}
         </h2>
 
-        <div className="px-2 py-2" />
+        <div className="px-2 py-2 size-10" />
       </div>
 
       <ResourceDetailByType
