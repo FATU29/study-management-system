@@ -1,3 +1,4 @@
+import { FILE } from "dns"
 
 
 
@@ -9,6 +10,7 @@ export const API_ROUTE = {
     COURSE:`${url}/api/courses`,
     SEARCH_IN_COURSE: `${url}/api/search`,
     MESSAGE:`${url}/api/message`,
+    FILES:`${url}/api/files`,
 }
 
 
