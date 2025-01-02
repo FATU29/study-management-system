@@ -4,6 +4,7 @@ import AnnouncementResource from "./AnnoucementResource";
 import IconifyIcon from "../utils/icon";
 import LinkResource from "./LinkResource";
 import DocumentResource from "./DocumentResource";
+import AssignmentResource from "./AssignmentResource";
 
 interface ResourceDetailProps {
   resource: ICourseResource;
@@ -29,11 +30,7 @@ const ResourceDetailByType: React.FC<InnerResourceDetailProps> = (
     case "link":
       return <LinkResource {...innerProps} />;
     case "assignment":
-      return (
-        <div className="wrap">
-          <p>Assignment: {JSON.stringify(innerProps.resource, null, " ")}</p>
-        </div>
-      );
+      return <AssignmentResource {...innerProps} />;
     default:
       return <> </>;
   }
@@ -60,8 +57,6 @@ const ResourceDetail: React.FC<ResourceDetailProps> = ({
   onReturn,
   onEditCompleted,
 }) => {
-  const [isEditConfirmed, setIsEditConfirmed] = useState<boolean>(false);
-
   return (
     <div className="p-4 bg-white border border-gray-300 rounded-lg shadow-lg mb-4">
       <div className="flex flex-row items-center justify-between mb-2">
@@ -74,7 +69,7 @@ const ResourceDetail: React.FC<ResourceDetailProps> = ({
           </div>
         </button>
 
-        <h2 className="text-lg font-semibold">
+        <h2 className="text-lg font-semibold mx-24">
           {resourceNameBy(resource.resourceType)}
         </h2>
 

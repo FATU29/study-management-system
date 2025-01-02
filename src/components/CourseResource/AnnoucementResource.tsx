@@ -61,7 +61,7 @@ const AnnouncementResource: React.FC<InnerResourceDetailProps> = ({
           ></input>
 
           <textarea
-            className="w-full mb-4"
+            className="w-full mb-4 text-justify"
             value={content}
             onChange={(e) => {
               setContent(e.target.value);

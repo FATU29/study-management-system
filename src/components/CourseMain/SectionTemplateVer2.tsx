@@ -58,10 +58,10 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
   return (
     <div>
       <div className="flex justify-between items-center mt-4 pb-2">
-        <div className="font-bold text-xl py-4 text-left">{sectionTitle}</div>
+        <div className="font-bold text-xl text-left">{sectionTitle}</div>
         {isEditable && (
           <button
-            className="mt-4 p-2 bg-blue-500 text-white rounded-md"
+            className="p-2 bg-blue-500 text-white rounded-md"
             onClick={() => setIsDialogOpen(true)}
           >
             Thêm tài liệu

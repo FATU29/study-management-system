@@ -63,7 +63,7 @@ export const emptyInfoOf = (resourceType: ResourceType): ResourceInfo => {
       return {
         description: "",
         attachments: [],
-        openDate: undefined,
+        openDate: new Date(),
         dueDate: new Date(),
       };
     case "announcement":
