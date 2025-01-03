@@ -34,6 +34,7 @@ export const uploadFileAPI = async (formData: FormData, sourceId?: string) => {
       sourceId ? `?sourceId=${sourceId}` : ""
     }`;
     const { accessToken } = getLocalUserData();
+    
     const response = await fetch(url, {
       method: "POST",
       headers: {
