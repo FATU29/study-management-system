@@ -56,27 +56,7 @@ const CourseMain = () => {
             <div className="p-6">
                 <div className="relative mb-8 w-full rounded-xl bg-white p-4">
                     <div className="flex items-center justify-between">
-                        <div className="absolute left-4 top-4">
-                            <img 
-                                src="https://placehold.co/100"
-                                alt="Earth icon"
-                                className="h-16 w-16"
-                            />
-                        </div>
-                        <div className="mx-auto flex items-center">
-                            <img 
-                                src="https://placehold.co/200x80"
-                                alt="Checklist 7 ngày sống xanh"
-                                className="h-20"
-                            />
-                        </div>
-                        <div className="absolute right-4 top-4">
-                            <img 
-                                src="https://placehold.co/100"
-                                alt="Nature icon"
-                                className="h-16 w-16"
-                            />
-                        </div>
+                        <img src="https://placehold.in/1200x200" className="h-12" alt="Logo" />
                     </div>
                 </div>
             </div>

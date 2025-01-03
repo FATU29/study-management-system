@@ -6,6 +6,7 @@ import Feature from "../components/Home/Feature";
 import MembersGrid from '../components/Home/MembersGrid';
 import Welcome from '../components/Home/Welcome';
 import ThemeToggle from "../components/utils/toggleTheme";
+import Snowfall from 'react-snowfall';
 
 const HomePage = () => {
   const [isScrolledOut, setIsScrolledOut] = useState(false);
@@ -24,7 +25,8 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div>
+    <div style={{ position: 'relative' }}>
+      <Snowfall />
       <Header isScrolledOut={isScrolledOut} />
       <div id="welcome-section">
         <Welcome />

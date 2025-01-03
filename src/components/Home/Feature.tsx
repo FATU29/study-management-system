@@ -7,7 +7,7 @@ const Feature = () => {
       
       <div className="row rounded bg-white justify-content-center mb-4">
         <div className="col-lg-2 col-md-4 col-sm-12 mr-2 mb-2 text-center">
-          <img src="https://placehold.co/200x200" alt="feature_1" className="img-fluid" />
+          <img src={`${process.env.PUBLIC_URL}/assets/friendly.png`} alt="feature_1" className="img-fluid" />
         </div>
         <div className="col-lg-8 col-md-8 col-sm-12 align-self-center">
           <div className="row mr-12">
@@ -15,7 +15,7 @@ const Feature = () => {
           </div>
           <div className="row">
             <span className="fs-5 text text-left">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Giao diện thân thiện, dễ dàng sử dụng. Các tính năng được bố trí khoa học và hợp lý.
             </span>
           </div>
         </div>
@@ -23,15 +23,15 @@ const Feature = () => {
       
       <div className="row rounded bg-white justify-content-center mb-4">
         <div className="col-lg-2 col-md-4 col-sm-12 mr-2 mb-2 text-center">
-          <img src="https://placehold.co/200x200" alt="feature_1" className="img-fluid" />
+          <img src={`${process.env.PUBLIC_URL}/assets/innovative.png`} alt="feature_1" className="img-fluid" />
         </div>
         <div className="col-lg-8 col-md-8 col-sm-12 align-self-center">
           <div className="row mr-12">
-            <span className="fs-3 font-bold text text-left text-primary">Thân thiện</span>
+            <span className="fs-3 font-bold text text-left text-primary">Sáng tạo</span>
           </div>
           <div className="row">
             <span className="fs-5 text text-left">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Tạo ra những trải nghiệm học tập mới lạ, việc dạy và học không còn nhàm chán.
             </span>
           </div>
         </div>
@@ -39,15 +39,15 @@ const Feature = () => {
       
       <div className="row rounded bg-white justify-content-center mb-4">
         <div className="col-lg-2 col-md-4 col-sm-12 mr-2 mb-2 text-center">
-          <img src="https://placehold.co/200x200" alt="feature_3" className="img-fluid" />
+          <img src={`${process.env.PUBLIC_URL}/assets/interactive.png`} alt="feature_3" className="img-fluid" />
         </div>
         <div className="col-lg-8 col-md-8 col-sm-12 align-self-center">
           <div className="row mr-12">
-            <span className="fs-3 font-bold text text-left text-primary">Thân thiện</span>
+            <span className="fs-3 font-bold text text-left text-primary">Tương tác</span>
           </div>
           <div className="row">
             <span className="fs-5 text text-left">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Tăng sự tương tác giữa học viên và giáo viên, giúp việc học tập trở nên thú vị hơn.
             </span>
           </div>
         </div>
