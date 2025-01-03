@@ -40,7 +40,7 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
         actualFiles.forEach((file) => {
           formData.append("file", file);
         });
-        const response = await uploadFileAPI(formData);
+        const response = await uploadFileAPI(formData, resource._id);
 
         if (response.length === 0) {
           throw new Error(
@@ -84,7 +84,7 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
     }
 
     try {
-      const response = await getFileAPI(file._id, resource.courseId, true);
+      const response = await getFileAPI(file._id, resource._id, true);
 
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
@@ -97,7 +97,7 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
 
   const handleDownloadFile = async (file: IFile) => {
     try {
-      const response = await getFileAPI(file._id, resource.courseId);
+      const response = await getFileAPI(file._id, resource._id);
 
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);

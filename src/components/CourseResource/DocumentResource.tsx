@@ -24,7 +24,7 @@ const DocumentResource: React.FC<InnerResourceDetailProps> = ({
     const formData = new FormData();
     formData.append("file", actualFile as File);
 
-    const response = await uploadFileAPI(formData);
+    const response = await uploadFileAPI(formData, resource._id);
 
     if (response.length === 0) {
       throw new Error(
@@ -45,7 +45,7 @@ const DocumentResource: React.FC<InnerResourceDetailProps> = ({
 
   const handleViewFile = async () => {
     try {
-      const response = await getFileAPI(file._id, resource.courseId, true);
+      const response = await getFileAPI(file._id, resource._id, true);
 
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
@@ -58,7 +58,7 @@ const DocumentResource: React.FC<InnerResourceDetailProps> = ({
 
   const handleDownloadFile = async () => {
     try {
-      const response = await getFileAPI(file._id, resource.courseId);
+      const response = await getFileAPI(file._id, resource._id);
 
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);

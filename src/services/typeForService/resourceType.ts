@@ -1,4 +1,4 @@
-import { ResourceInfo, ResourceType } from "../types/resourceType";
+import { ResourceInfo, ResourceType } from "../../types/resourceType";
 
 export interface AddCourseResourceRequestBody {
   title: string;

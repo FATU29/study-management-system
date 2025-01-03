@@ -18,7 +18,7 @@ import { ResourceType } from "../types/class-resource";
 import {
   AddCourseResourceRequestBody,
   UpdateCourseResourceRequestBody,
-} from "../../services/resourceType";
+} from "../../services/typeForService/resourceType";
 
 interface TeacherProps {
   name: string;
@@ -107,7 +107,7 @@ const MainCourse: React.FC<CourseClassProps> = ({
     setSelectedResource({
       _id: newlyCreatedResourceId,
       title: "New resource title",
-      courseId: courseData.slug,
+      courseId: courseData.slug, // not relevant for now
       resourceType: resourceType,
       resourceInfo: emptyInfoOf(resourceType),
       sectionLabel: sectionName,

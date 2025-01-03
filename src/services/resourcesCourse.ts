@@ -4,7 +4,7 @@ import { ICourseResource } from "../types/resourceType";
 import {
   AddCourseResourceRequestBody,
   UpdateCourseResourceRequestBody,
-} from "./resourceType";
+} from "./typeForService/resourceType";
 
 export const getResourcesAPI = async (slug: string) => {
   try {
