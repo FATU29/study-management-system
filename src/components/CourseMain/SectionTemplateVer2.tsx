@@ -18,7 +18,7 @@ interface SectionTemplateProps {
 const iconOf: (resourceType: ResourceType) => string = (resourceType) => {
   switch (resourceType) {
     case "document":
-      return "ic:baseline-file-present";
+      return "mdi:file-document-outline";
     case "link":
       return "ic:outline-link";
     case "assignment":

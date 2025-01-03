@@ -12,3 +12,8 @@ export interface UpdateCourseResourceRequestBody {
   resourceInfo: ResourceInfo;
   sectionLabel?: string;
 }
+
+export interface FileLimitsResponse {
+  maxFileSize: number;
+  maxFileCount: number;
+}

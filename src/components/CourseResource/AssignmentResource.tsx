@@ -1,14 +1,12 @@
-import React, { useState } from "react";
-import {
-  emptyFile,
-  IAssignmentResourceInfo,
-  IDocumentResourceInfo,
-  IFile,
-} from "../../types/resourceType";
+import React, { useEffect, useState } from "react";
+import { IAssignmentResourceInfo, IFile } from "../../types/resourceType";
 import { InnerResourceDetailProps } from "./ResourceDetail";
 import IconifyIcon from "../utils/icon";
-import { uploadFileAPI, getFileAPI } from "../../services/file";
+import { uploadFileAPI, getFileAPI, getLimitsAPI } from "../../services/file";
 import { fileIconByExtension } from "../../helpers/fileIconByExtension";
+import { FileLimitsResponse } from "../../services/typeForService/resourceType";
+
+export const MAXIMUM_ATTACHMENT_COUNT_PER_ASSIGNMENT = 10;
 
 const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
   resource,
@@ -19,7 +17,7 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
   const [description, setDescription] = useState<string>(
     (resource.resourceInfo as IAssignmentResourceInfo).description ?? ""
   );
-  const [attachments, setAttachments] = useState<IFile[]>(
+  const [attachments] = useState<IFile[]>(
     (resource.resourceInfo as IAssignmentResourceInfo).attachments ?? []
   );
   const [deletingAttachments, setDeletingAttachments] = useState<IFile[]>([]);
@@ -29,29 +27,90 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
   const [dueDate, setDueDate] = useState<Date>(
     (resource.resourceInfo as IAssignmentResourceInfo).dueDate
   );
+  const [fileLimits, setFileLimits] = useState<FileLimitsResponse | undefined>(
+    undefined
+  );
   const [actualFiles, setActualFiles] = useState<File[]>([]);
 
+  useEffect(() => {
+    if (isEditing) {
+      const fetchFileSizeLimit = async () => {
+        try {
+          const fileLimits = await getLimitsAPI();
+          setFileLimits(fileLimits);
+        } catch (error: any) {
+          alert("Failed to fetch file size limit: " + error.message);
+        }
+      };
+
+      fetchFileSizeLimit();
+    }
+  }, [isEditing]);
+
   const handleSubmit = async () => {
+    const finalAttachmentCount =
+      attachments.length + actualFiles.length - deletingAttachments.length;
+    if (finalAttachmentCount > MAXIMUM_ATTACHMENT_COUNT_PER_ASSIGNMENT) {
+      alert(
+        `Số lượng tệp đính kèm không được vượt quá ${MAXIMUM_ATTACHMENT_COUNT_PER_ASSIGNMENT}!\n(số lượng hiện tại là ${finalAttachmentCount})
+        \nVui lòng cân nhắc xóa một số tệp đính kèm hiện tại.`
+      );
+      return;
+    }
+
     let currentAttachments: IFile[] = [...attachments];
 
     if (actualFiles.length !== 0) {
-      try {
+      if (!fileLimits || actualFiles.length <= fileLimits.maxFileCount) {
         const formData = new FormData();
         actualFiles.forEach((file) => {
           formData.append("file", file);
         });
-        const response = await uploadFileAPI(formData, resource._id);
+        try {
+          const newFilesInfo = await uploadFileAPI(formData, resource._id);
 
-        if (response.length === 0) {
-          throw new Error(
-            "Can't retrieve the uploaded file information: " + response
-          );
+          if (newFilesInfo.length === 0) {
+            throw new Error(
+              "Can't retrieve the uploaded file information: " + newFilesInfo
+            );
+          }
+
+          currentAttachments.push(...newFilesInfo);
+        } catch (error: any) {
+          alert("Failed to upload file: " + error.message);
+          return;
         }
+      } else {
+        for (
+          let i = 0;
+          i < Math.floor(actualFiles.length / fileLimits.maxFileCount);
+          i++
+        ) {
+          const formData = new FormData();
+          const filesToUpload = actualFiles.slice(
+            i * fileLimits.maxFileCount,
+            (i + 1) * fileLimits.maxFileCount
+          );
 
-        currentAttachments.push(...response);
-      } catch (error: any) {
-        alert("Failed to upload file: " + error.message);
-        return;
+          filesToUpload.forEach((file) => {
+            formData.append("file", file);
+          });
+
+          try {
+            const newFilesInfo = await uploadFileAPI(formData, resource._id);
+
+            if (newFilesInfo.length === 0) {
+              throw new Error(
+                "Can't retrieve the uploaded file information: " + newFilesInfo
+              );
+            }
+
+            currentAttachments.push(...newFilesInfo);
+          } catch (error: any) {
+            alert("Failed to upload file: " + error.message);
+            return;
+          }
+        }
       }
     }
 
@@ -87,9 +146,13 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
       const response = await getFileAPI(file._id, resource._id, true);
 
       const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
+      const fileFromBlob = new File([blob], file.filename, {
+        type: file.mimetype,
+      });
+      const url = URL.createObjectURL(fileFromBlob);
 
       window.open(url, "_blank");
+      URL.revokeObjectURL(url);
     } catch (error: any) {
       alert("Failed to view file: " + error.message);
     }
@@ -132,6 +195,14 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
     if (e.target["validity"].valid) {
       setFunction(new Date(e.target.value));
     }
+  };
+
+  const handleNewAttachmentsAdded = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newFiles = e.target.files ? Array.from(e.target.files) : [];
+    setActualFiles([...actualFiles, ...newFiles]);
+    e.target.value = "";
   };
 
   if (isEditing) {
@@ -217,7 +288,8 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
           {attachments.length > 0 && (
             <div className="mb-4">
               <label className="font-semibold" htmlFor="newAttachments">
-                Các tệp đính kèm trước đó
+                Các tệp đính kèm trước đó (&times;
+                {attachments.length - deletingAttachments.length})
               </label>
 
               {displayFiles(
@@ -233,20 +305,25 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
           )}
 
           <label className="font-semibold" htmlFor="newAttachments">
-            Các tệp đính kèm {attachments.length > 0 ? "bổ sung" : ""}
+            Các tệp đính kèm {attachments.length > 0 ? "bổ sung" : ""} (&times;
+            {actualFiles.length})
           </label>
 
           <input
             type="file"
             id="newAttachments"
             className="w-full mt-2"
-            onChange={(e) => {
-              const newFiles = e.target.files ? Array.from(e.target.files) : [];
-              setActualFiles([...actualFiles, ...newFiles]);
-              e.target.value = "";
-            }}
+            onChange={handleNewAttachmentsAdded}
             multiple
           />
+
+          {fileLimits && (
+            <p className="text-sm text-gray-500">
+              {`(Kích thước tối đa của mỗi tập tin là ${
+                fileLimits.maxFileSize / 1024 / 1024
+              } MB)`}
+            </p>
+          )}
 
           {displayFiles(
             actualFiles,
@@ -255,6 +332,10 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
             true,
             handleRemoveFile
           )}
+
+          <p className="text-sm text-gray-500">
+            {`(Số lượng tệp đính kèm tối đa trong mỗi bài tập là ${MAXIMUM_ATTACHMENT_COUNT_PER_ASSIGNMENT})`}
+          </p>
 
           <div className="flex items-center justify-around mb-4 mt-4">
             <button
@@ -270,7 +351,7 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
   }
 
   return (
-    <div>
+    <div className="max-h-96 overflow-y-auto px-2">
       <div className="flex-grow text-center">
         <h2 className="text-2xl font-bold">{resource.title}</h2>
       </div>

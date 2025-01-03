@@ -1,6 +1,7 @@
 import { API_ROUTE } from "../configs/BASEURL";
 import { getLocalUserData } from "../helpers/LocalStorage";
 import { IFile } from "../types/resourceType";
+import { FileLimitsResponse } from "./typeForService/resourceType";
 
 export const getFileAPI = async (
   fileId: string,
@@ -57,8 +58,6 @@ export const uploadFileAPI = async (formData: FormData, sourceId?: string) => {
   }
 };
 
-// ------------------- The APIs below may be un-used -------------------
-
 export const getLimitsAPI = async () => {
   try {
     const url = `${API_ROUTE.FILES}/limits`;
@@ -69,12 +68,14 @@ export const getLimitsAPI = async () => {
       throw new Error("Failed to fetch limits");
     }
     const data = await response.json();
-    return data;
+    return data as FileLimitsResponse;
   } catch (error: any) {
     console.log("Error in getLimitsAPI: ", error.message);
     throw error;
   }
 };
+
+// ------------------- The APIs below may be un-used -------------------
 
 export const getPersonalFilesAPI = async (sourceId: string) => {
   try {

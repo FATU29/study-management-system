@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   emptyFile,
   IDocumentResourceInfo,
@@ -6,7 +6,7 @@ import {
 } from "../../types/resourceType";
 import { InnerResourceDetailProps } from "./ResourceDetail";
 import IconifyIcon from "../utils/icon";
-import { uploadFileAPI, getFileAPI } from "../../services/file";
+import { uploadFileAPI, getFileAPI, getLimitsAPI } from "../../services/file";
 import { fileIconByExtension } from "../../helpers/fileIconByExtension";
 
 const DocumentResource: React.FC<InnerResourceDetailProps> = ({
@@ -19,6 +19,24 @@ const DocumentResource: React.FC<InnerResourceDetailProps> = ({
     (resource.resourceInfo as IDocumentResourceInfo).file ?? emptyFile
   );
   const [actualFile, setActualFile] = useState<File | undefined>(undefined);
+  const [fileSizeLimit, setFileSizeLimit] = useState<number | undefined>(
+    undefined
+  );
+
+  useEffect(() => {
+    if (isEditing) {
+      const fetchFileSizeLimit = async () => {
+        try {
+          const fileLimits = await getLimitsAPI();
+          setFileSizeLimit(fileLimits.maxFileSize);
+        } catch (error: any) {
+          alert("Failed to fetch file size limit: " + error.message);
+        }
+      };
+
+      fetchFileSizeLimit();
+    }
+  }, [isEditing]);
 
   const handleSubmit = async () => {
     const formData = new FormData();
@@ -48,9 +66,13 @@ const DocumentResource: React.FC<InnerResourceDetailProps> = ({
       const response = await getFileAPI(file._id, resource._id, true);
 
       const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
+      const fileFromBlob = new File([blob], file.filename, {
+        type: file.mimetype,
+      });
+      const url = URL.createObjectURL(fileFromBlob);
 
       window.open(url, "_blank");
+      URL.revokeObjectURL(url);
     } catch (error: any) {
       alert("Failed to view file: " + error.message);
     }
@@ -97,10 +119,34 @@ const DocumentResource: React.FC<InnerResourceDetailProps> = ({
             type="file"
             className="w-full mb-4"
             onChange={(e) => {
+              const uploadingFile = e.target.files?.[0];
+              if (
+                fileSizeLimit &&
+                uploadingFile &&
+                uploadingFile.size > fileSizeLimit
+              ) {
+                e.target.value = "";
+                alert(
+                  `Kích thước tập tin vượt quá giới hạn: ${(
+                    uploadingFile.size /
+                    1024 /
+                    1024
+                  ).toFixed(2)} MB (tối đa ${fileSizeLimit / 1024 / 1024} MB)`
+                );
+                return;
+              }
               setActualFile(e.target.files?.[0]);
             }}
             required
           />
+
+          {fileSizeLimit && (
+            <p className="text-sm text-gray-500">
+              {`(Kích thước tối đa của tập tin là ${
+                fileSizeLimit / 1024 / 1024
+              } MB)`}
+            </p>
+          )}
 
           <div className="flex items-center justify-around mb-4 mt-4">
             <button
