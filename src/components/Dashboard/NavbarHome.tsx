@@ -39,13 +39,11 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
         <div className="flex items-center space-x-4 nav-left ml-3">
           <Link to="/" className="flex items-center space-x-2">
             <img
-              src="https://flowbite.com/docs/images/logo.svg"
+              src={`${process.env.PUBLIC_URL}/assets/moodle.png`}
               alt="Logo"
-              className="h-10 w-10"
+              className="w-[130px]"
             />
           </Link>
-
-          <span className="text-xl font-bold text-blue-600">Moodle</span>
         </div>
 
         {/* Right side: User Info and Notifications */}
@@ -80,12 +78,12 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
               <img
                 id="avatarButton"
                 onClick={toggleDropdown}
-                src={user?.avatar || "https://avatar.iran.liara.run/public/boy"}
+                src={user?.avatar || `${process.env.PUBLIC_URL}/assets/avatar/avatar-1.png`}
                 alt={`${toFullName(
                   user.firstName || "",
                   user.lastName || ""
                 )}'s profile`}
-                className="h-10 w-10 rounded-full object-cover border-2 border-blue-600 cursor-pointer"
+                className="h-[45px] w-[45px] rounded-full object-cover border-2 border-blue-600 cursor-pointer"
               />
 
               <div

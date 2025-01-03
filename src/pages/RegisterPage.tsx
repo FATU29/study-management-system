@@ -141,16 +141,13 @@ const RegisterPage = () => {
       <div className="flex items-center justify-center bg-white min-h-screen p-4">
         <div className="w-full max-w-4xl flex flex-col md:flex-row bg-white rounded-lg shadow-lg overflow-hidden">
           <div className="w-full md:w-1/2 bg-blue-500 p-12 text-white flex flex-col">
-            <div className="flex items-center mb-8">
-              <div className="w-8 h-8 mr-2 border-2 border-white rounded-full flex items-center justify-center">
-                <div className="w-4 h-4 bg-white rounded-full"></div>
-              </div>
-              <h1 className="text-2xl font-bold">QUẢN LÝ HỌC TẬP</h1>
+            <div className="flex items-center mb-2">
+              <h1 className="text-2xl font-bold">MOODLE</h1>
             </div>
-            <div className="flex-grow flex items-center justify-center mb-8">
+            <div className="flex-grow flex items-center justify-center mb-2">
               <img
-                className="max-w-full max-h-full object-contain"
-                src="https://placehold.co/200"
+                className="w-60 h-60 object-contain"
+                src={`${process.env.PUBLIC_URL}/assets/qr2.png`}
                 alt="Logo nhóm"
               />
             </div>
@@ -185,7 +182,7 @@ const RegisterPage = () => {
             <h2 className="text-2xl font-bold mb-6">Đăng ký tài khoản</h2>
             <p className="mb-8 text-sm text-gray-600">
               Đã có tài khoản?
-              <Link to="/login" className="text-blue-500 ml-1">
+              <Link to="/login" className="text-blue-500 ml-1 no-underline">
                 Đăng nhập
               </Link>
             </p>
@@ -292,7 +289,7 @@ const RegisterPage = () => {
                           Tôi đồng ý với{" "}
                           <a
                             href="/terms-and-conditions"
-                            className="text-blue-600 hover:text-blue-800 underline"
+                            className="text-blue-600 hover:text-blue-800 no-underline"
                             onClick={(e) => e.stopPropagation()}
                           >
                             điều khoản và điều kiện
