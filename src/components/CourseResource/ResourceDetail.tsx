@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { ICourseResource, resourceNameBy } from "../../types/resourceType";
 import AnnouncementResource from "./AnnoucementResource";
 import IconifyIcon from "../utils/icon";
@@ -76,7 +75,7 @@ const ResourceDetail: React.FC<ResourceDetailProps> = ({
               setIsEditConfirmed(true);
             }}
           >
-            OK
+            Xác nhận
           </button>
         )}
       </div> */}

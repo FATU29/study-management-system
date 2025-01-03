@@ -19,6 +19,8 @@ export interface IAssignmentResourceInfo {
   attachments?: IFile[];
   openDate?: Date;
   dueDate: Date;
+  maxFileSize?: number;
+  maxFileCount?: number;
 }
 
 export interface IAnnouncementResourceInfo {

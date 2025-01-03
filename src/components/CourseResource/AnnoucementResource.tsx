@@ -61,7 +61,7 @@ const AnnouncementResource: React.FC<InnerResourceDetailProps> = ({
           ></input>
 
           <textarea
-            className="w-full mb-4 text-justify"
+            className="w-full mb-4 text-justify p-2"
             value={content}
             onChange={(e) => {
               setContent(e.target.value);
@@ -76,7 +76,7 @@ const AnnouncementResource: React.FC<InnerResourceDetailProps> = ({
               type="submit"
               className="px-8 py-2 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-600"
             >
-              OK
+              Xác nhận
             </button>
           </div>
         </form>

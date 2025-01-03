@@ -7,6 +7,8 @@ import { fileIconByExtension } from "../../helpers/fileIconByExtension";
 import { FileLimitsResponse } from "../../services/typeForService/resourceType";
 
 export const MAXIMUM_ATTACHMENT_COUNT_PER_ASSIGNMENT = 10;
+const KIBIBYTE = 1024;
+const MEBIBYTE = 1024 * KIBIBYTE;
 
 const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
   resource,
@@ -32,12 +34,37 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
   );
   const [actualFiles, setActualFiles] = useState<File[]>([]);
 
+  const originalResourceMaxFileSize = (
+    resource.resourceInfo as IAssignmentResourceInfo
+  ).maxFileSize;
+  const [submissionFileLimits, setSubmissionFileLimits] =
+    useState<FileLimitsResponse>({
+      maxFileCount:
+        (resource.resourceInfo as IAssignmentResourceInfo).maxFileCount ?? 1,
+      maxFileSize: originalResourceMaxFileSize ?? Infinity,
+    });
+  const [fileMeasureUnit, setFileMeasureUnit] = useState<"KB" | "MB">(
+    originalResourceMaxFileSize && originalResourceMaxFileSize >= KIBIBYTE
+      ? "MB"
+      : "KB"
+  );
+
   useEffect(() => {
     if (isEditing) {
       const fetchFileSizeLimit = async () => {
         try {
           const fileLimits = await getLimitsAPI();
           setFileLimits(fileLimits);
+
+          if (!(resource.resourceInfo as IAssignmentResourceInfo).maxFileSize) {
+            setSubmissionFileLimits({
+              ...submissionFileLimits,
+              maxFileSize: fileLimits.maxFileSize,
+            });
+            setFileMeasureUnit(
+              fileLimits.maxFileSize >= KIBIBYTE ? "MB" : "KB"
+            );
+          }
         } catch (error: any) {
           alert("Failed to fetch file size limit: " + error.message);
         }
@@ -128,6 +155,11 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
         attachments: currentAttachments,
         openDate: openDate,
         dueDate: dueDate,
+        maxFileSize: submissionFileLimits.maxFileSize,
+        maxFileCount:
+          submissionFileLimits.maxFileCount === Infinity
+            ? undefined
+            : submissionFileLimits.maxFileCount,
       },
     };
 
@@ -201,7 +233,23 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const newFiles = e.target.files ? Array.from(e.target.files) : [];
-    setActualFiles([...actualFiles, ...newFiles]);
+    const overweightFiles: File[] = [];
+    const validFiles: File[] = [];
+    newFiles.forEach((file) => {
+      if (fileLimits && file.size > submissionFileLimits.maxFileSize) {
+        overweightFiles.push(file);
+      } else {
+        validFiles.push(file);
+      }
+    });
+    setActualFiles([...actualFiles, ...validFiles]);
+    if (overweightFiles.length > 0) {
+      alert(
+        `Các tệp sau không được tải lên vì kích thước vượt quá giới hạn:${overweightFiles.map(
+          (file) => `\n- ${file.name} (${(file.size / MEBIBYTE).toFixed(2)} MB)`
+        )}`
+      );
+    }
     e.target.value = "";
   };
 
@@ -252,7 +300,7 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
           ></textarea>
 
           <label className="font-semibold" htmlFor="OpenDate">
-            Thời gian mở:{" "}
+            Thời gian mở -{" "}
             <span className="font-medium">{dateAsString(openDate)}</span>
           </label>
 
@@ -269,7 +317,7 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
           </div>
 
           <label className="font-semibold" htmlFor="DueDate">
-            Thời gian đóng:{" "}
+            Thời gian đóng -{" "}
             <span className="font-medium">{dateAsString(dueDate)}</span>
           </label>
 
@@ -319,8 +367,8 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
 
           {fileLimits && (
             <p className="text-sm text-gray-500">
-              {`(Kích thước tối đa của mỗi tập tin là ${
-                fileLimits.maxFileSize / 1024 / 1024
+              {`(Kích thước tối đa của mỗi tệp đính kèm là ${
+                fileLimits.maxFileSize / MEBIBYTE
               } MB)`}
             </p>
           )}
@@ -337,12 +385,122 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
             {`(Số lượng tệp đính kèm tối đa trong mỗi bài tập là ${MAXIMUM_ATTACHMENT_COUNT_PER_ASSIGNMENT})`}
           </p>
 
+          <div className="flex flex-row items-center justify-start space-x-2 mb-2">
+            <label className="font-semibold" htmlFor="FileCount">
+              Số lượng tập tin nộp tối đa -{" "}
+            </label>
+
+            <input
+              className="w-16 px-2 py-1 border border-gray-300 rounded-md"
+              id="FileCount"
+              type="number"
+              max={MAXIMUM_ATTACHMENT_COUNT_PER_ASSIGNMENT}
+              min={1}
+              value={submissionFileLimits.maxFileCount}
+              onChange={(e) =>
+                setSubmissionFileLimits({
+                  ...submissionFileLimits,
+                  maxFileCount: parseInt(e.target.value),
+                })
+              }
+            />
+          </div>
+
+          <div className="flex flex-row items-center justify-start space-x-2 mb-2">
+            <label className="font-semibold" htmlFor="FileMeasureUnit">
+              Kích thước mỗi tập tin nộp tối đa -{" "}
+            </label>
+            {fileLimits ? (
+              <input
+                className="w-20 px-2 py-1 border border-gray-300 rounded-md"
+                type="number"
+                max={
+                  fileSizeIn(fileLimits.maxFileSize, fileMeasureUnit)
+                  // fileMeasureUnit === "MB"
+                  //   ? fileLimits.maxFileSize / MEBIBYTE
+                  //   : fileLimits.maxFileSize / KIBIBYTE
+                }
+                min={fileMeasureUnit === "MB" ? 0.5 : 1}
+                step={fileMeasureUnit === "MB" ? 0.5 : 1}
+                value={
+                  fileSizeIn(submissionFileLimits.maxFileSize, fileMeasureUnit)
+                  // fileMeasureUnit === "MB"
+                  //   ? submissionFileLimits.maxFileSize / MEBIBYTE
+                  //   : submissionFileLimits.maxFileSize / KIBIBYTE
+                }
+                onChange={(e) => {
+                  setSubmissionFileLimits({
+                    ...submissionFileLimits,
+                    maxFileSize: Math.floor(
+                      (fileMeasureUnit === "MB"
+                        ? Math.min(
+                            Math.floor(parseFloat(e.target.value) * 2) / 2,
+                            fileLimits.maxFileSize / MEBIBYTE
+                          )
+                        : Math.min(
+                            Math.floor(parseFloat(e.target.value)),
+                            KIBIBYTE
+                          )) * (fileMeasureUnit === "MB" ? MEBIBYTE : KIBIBYTE)
+                    ),
+                  });
+                }}
+              />
+            ) : (
+              <input
+                className="w-20 px-2 py-1 border border-gray-300 rounded-md"
+                type="number"
+                readOnly
+                value={
+                  fileSizeIn(submissionFileLimits.maxFileSize, fileMeasureUnit)
+                  // fileMeasureUnit === "MB"
+                  //   ? submissionFileLimits.maxFileSize / MEBIBYTE
+                  //   : submissionFileLimits.maxFileSize / KIBIBYTE
+                }
+              />
+            )}
+
+            <select
+              className="px-2 py-1 border border-gray-300 rounded-md"
+              id="FileMeasureUnit"
+              value={fileMeasureUnit}
+              disabled={!fileLimits}
+              onChange={(e) => {
+                setFileMeasureUnit(e.target.value as "KB" | "MB");
+                if (!fileLimits) {
+                  return;
+                }
+                if (
+                  e.target.value === "KB" &&
+                  submissionFileLimits.maxFileSize > MEBIBYTE
+                ) {
+                  setSubmissionFileLimits({
+                    ...submissionFileLimits,
+                    maxFileSize: MEBIBYTE,
+                  });
+                }
+                if (e.target.value === "MB") {
+                  setSubmissionFileLimits({
+                    ...submissionFileLimits,
+                    maxFileSize: Math.max(
+                      submissionFileLimits.maxFileSize -
+                        (submissionFileLimits.maxFileSize % (MEBIBYTE / 2)),
+                      0.5 * MEBIBYTE
+                    ),
+                  });
+                }
+              }}
+            >
+              <option value="KB">KB</option>
+              <option value="MB">MB</option>
+            </select>
+          </div>
+
           <div className="flex items-center justify-around mb-4 mt-4">
             <button
               type="submit"
               className="px-8 py-2 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-600"
             >
-              OK
+              Xác nhận
             </button>
           </div>
         </form>
@@ -361,12 +519,12 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
       </div>
 
       <p className="font-semibold">
-        Thời gian mở:{" "}
+        Thời gian mở -{" "}
         <span className="font-medium">{dateAsString(openDate)}</span>
       </p>
 
       <p className="font-semibold">
-        Thời gian đóng:{" "}
+        Thời gian đóng -{" "}
         <span className="font-medium">{dateAsString(dueDate)}</span>
       </p>
 
@@ -377,6 +535,19 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
           {displayFiles(attachments, handleViewFile, handleDownloadFile)}
         </>
       )}
+
+      <p className="font-semibold">
+        Số lượng tập tin nộp tối đa -{" "}
+        <span className="font-medium">{submissionFileLimits.maxFileCount}</span>
+      </p>
+
+      <p className="font-semibold">
+        Kích thước mỗi tập tin nộp tối đa -{" "}
+        <span className="font-medium">
+          {fileSizeIn(submissionFileLimits.maxFileSize, fileMeasureUnit)}{" "}
+          {fileMeasureUnit}
+        </span>
+      </p>
 
       {/* <div
         className="flex flex-row items-center justify-around mb-4"
@@ -529,6 +700,14 @@ const datetimeLocalValueOf = (date: Date) => {
   const year = validDate.getFullYear();
 
   return `${year}-${month}-${day}T${hours}:${minutes}`;
+};
+
+const fileSizeIn = (size: number, measureUnit: "KB" | "MB") => {
+  if (measureUnit === "KB") {
+    return size / KIBIBYTE;
+  }
+
+  return size / MEBIBYTE;
 };
 
 export default AssignmentResource;

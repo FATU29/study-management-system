@@ -153,7 +153,7 @@ const DocumentResource: React.FC<InnerResourceDetailProps> = ({
               type="submit"
               className="px-8 py-2 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-600"
             >
-              OK
+              Xác nhận
             </button>
           </div>
         </form>

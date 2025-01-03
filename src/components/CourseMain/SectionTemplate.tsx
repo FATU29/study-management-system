@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import IconifyIcon from "../utils/icon";
-import AddDocumentDialog from './AddDocumentDialog';
-import { addResourceAPI } from "../../services/resourcesCourse";  
+import AddDocumentDialog from "./AddDocumentDialog";
+import { addResourceAPI } from "../../services/resourcesCourse";
 
 interface FileProps {
   name: string;
@@ -16,21 +16,27 @@ interface SectionTemplateProps {
   slug: string;
 }
 
-const SectionTemplate: React.FC<SectionTemplateProps> = ({ title, files, isTeacher, onViewDetail, slug }) => {
+const SectionTemplate: React.FC<SectionTemplateProps> = ({
+  title,
+  files,
+  isTeacher,
+  onViewDetail,
+  slug,
+}) => {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const handleSubmit = (formData: any
-  ) => {
-    console.log('Submitted:', formData);
+  const handleSubmit = (formData: any) => {
+    console.log("Submitted:", formData);
     setDialogOpen(false);
   };
-  
+
   return (
     <div>
       <div className="font-bold text-xl py-4">{title}</div>
       <div className="w-full space-y-4">
         {files.map((file, index) => (
           <div
-            key={index} onClick={() => onViewDetail(file)} 
+            key={index}
+            onClick={() => onViewDetail(file)}
             className="flex items-center p-2 border border-gray-200 rounded-md hover:shadow-sm cursor-pointer"
           >
             <IconifyIcon
@@ -76,7 +82,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({ title, files, isTeach
             className="mt-4 p-2 bg-blue-500 text-white rounded-md"
             onClick={() => setDialogOpen(true)}
           >
-            Thêm tài liệu
+            Thêm tài nguyên
           </button>
           <AddDocumentDialog
             open={dialogOpen}

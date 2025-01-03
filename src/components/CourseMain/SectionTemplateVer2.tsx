@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import IconifyIcon from "../utils/icon";
 import { ICourseResource, resourceNameBy } from "../../types/resourceType";
 import { ResourceType } from "../types/class-resource";
-import { Box, Button, Dialog, DialogTitle } from "@mui/material";
+import { Button, Dialog, DialogTitle } from "@mui/material";
 
 interface SectionTemplateProps {
   sectionTitle: string;
@@ -36,7 +36,7 @@ const uploadingResourceTypes: Map<string, ResourceType> = new Map([
   ["Liên kết", "link"],
   ["Bài tập", "assignment"],
 ]);
-const dialogTitle = "Chọn loại tài liệu muốn thêm";
+const dialogTitle = "Chọn loại tài nguyên muốn thêm";
 
 const SectionTemplate: React.FC<SectionTemplateProps> = ({
   sectionTitle,
@@ -66,7 +66,7 @@ const SectionTemplate: React.FC<SectionTemplateProps> = ({
             className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
             onClick={() => setIsDialogOpen(true)}
           >
-            Thêm tài liệu
+            Thêm tài nguyên
           </button>
         )}
       </div>
