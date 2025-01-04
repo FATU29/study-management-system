@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import TeacherTemplate from "./TeacherTemplate";
 import SectionTemplateVer2 from "./SectionTemplateVer2";
 import ResourceDetailVer2 from "../CourseResource/ResourceDetail";
@@ -25,17 +25,13 @@ interface TeacherProps {
   email: string;
 }
 
-interface CourseClassProps {
+interface CourseProps {
   name: string;
   isTeacher: boolean;
   courseData: any;
 }
 
-const MainCourse: React.FC<CourseClassProps> = ({
-  name,
-  isTeacher,
-  courseData,
-}) => {
+const MainCourse: React.FC<CourseProps> = ({ name, isTeacher, courseData }) => {
   const [isEditResourceEnabled, setIsEditResourceEnabled] = useState(false);
   const [selectedResource, setSelectedResource] =
     useState<ICourseResource | null>(null);

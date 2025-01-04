@@ -1,6 +1,6 @@
 import { API_ROUTE } from "../configs/BASEURL";
 import { getLocalUserData } from "../helpers/LocalStorage";
-import { ICourseResource } from "../types/resourceType";
+import { ICourseResource, IFile } from "../types/resourceType";
 import {
   AddCourseResourceRequestBody,
   UpdateCourseResourceRequestBody,
@@ -31,6 +31,41 @@ export const getResourcesAPI = async (slug: string) => {
     }
   } catch (error: any) {
     console.log("Error in getResourcesAPI: ", error.message);
+    throw error;
+  }
+};
+
+export const getSubmissionsAPI = async (
+  slug: string,
+  resourceId: string,
+  uploaderId?: string
+) => {
+  try {
+    const url = `${API_ROUTE.COURSES}/${slug}/res/submissions/${resourceId}${
+      uploaderId ? `?uploaderId=${uploaderId}` : ""
+    }`;
+    const { accessToken } = getLocalUserData();
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (response.status !== 200) {
+      throw new Error("Failed to fetch submission");
+    }
+
+    const data = await response.json();
+
+    if (data && data.data) {
+      return data.data as IFile[];
+    } else {
+      throw new Error("Invalid response format");
+    }
+  } catch (error: any) {
+    console.log("Error in getSubmissionAPI: ", error.message);
     throw error;
   }
 };

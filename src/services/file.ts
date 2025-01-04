@@ -75,6 +75,31 @@ export const getLimitsAPI = async () => {
   }
 };
 
+/**
+ * Only files owned by its uploader can be deleted this way
+ */
+export const deleteFileAPI = async (fileId: string) => {
+  try {
+    const url = `${API_ROUTE.FILES}/delete?fileId=${fileId}`;
+    const { accessToken } = getLocalUserData();
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    if (!response.ok) {
+      console.log("Failed to delete file: ", JSON.stringify(response));
+      throw new Error("Failed to delete file");
+    }
+    const data = await response.json();
+    return data;
+  } catch (error: any) {
+    console.log("Error in deleteFileAPI: ", JSON.stringify(error));
+    throw error;
+  }
+};
+
 // ------------------- The APIs below may be un-used -------------------
 
 export const getPersonalFilesAPI = async (sourceId: string) => {
@@ -94,28 +119,6 @@ export const getPersonalFilesAPI = async (sourceId: string) => {
     return data;
   } catch (error: any) {
     console.log("Error in getPersonalFilesAPI: ", error.message);
-    throw error;
-  }
-};
-
-export const deleteFileAPI = async (fileId: string) => {
-  try {
-    const url = `${API_ROUTE.FILES}/delete`;
-    const { accessToken } = getLocalUserData();
-    const response = await fetch(url, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({ fileId }),
-    });
-    if (!response.ok) {
-      throw new Error("Failed to delete file");
-    }
-    const data = await response.json();
-    return data;
-  } catch (error: any) {
-    console.log("Error in deleteFileAPI: ", error.message);
     throw error;
   }
 };

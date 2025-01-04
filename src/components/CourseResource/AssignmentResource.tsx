@@ -5,6 +5,7 @@ import IconifyIcon from "../utils/icon";
 import { uploadFileAPI, getFileAPI, getLimitsAPI } from "../../services/file";
 import { fileIconByExtension } from "../../helpers/fileIconByExtension";
 import { FileLimitsResponse } from "../../services/typeForService/resourceType";
+import AssignmentSubmission from "./AssignmentSubmission";
 
 export const MAXIMUM_ATTACHMENT_COUNT_PER_ASSIGNMENT = 10;
 const KIBIBYTE = 1024;
@@ -536,7 +537,7 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
         </>
       )}
 
-      <p className="font-semibold">
+      {/* <p className="font-semibold">
         Số lượng tập tin nộp tối đa -{" "}
         <span className="font-medium">{submissionFileLimits.maxFileCount}</span>
       </p>
@@ -547,34 +548,17 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
           {fileSizeIn(submissionFileLimits.maxFileSize, fileMeasureUnit)}{" "}
           {fileMeasureUnit}
         </span>
-      </p>
+      </p> */}
 
-      {/* <div
-        className="flex flex-row items-center justify-around mb-4"
-        onClick={(e) => {
-          e.preventDefault();
-          handleViewFile();
-        }}
-      >
-        <button className="w-24 px-2 py-2 bg-blue-500 text-white rounded-md">
-          Xem
-        </button>
-
-        <button
-          className="w-24 px-2 py-2 bg-blue-500 text-white rounded-md"
-          onClick={(e) => {
-            e.preventDefault();
-            handleDownloadFile();
-          }}
-        >
-          Tải về
-        </button>
-      </div> */}
+      <AssignmentSubmission
+        resource={resource}
+        fileLimits={submissionFileLimits}
+      />
     </div>
   );
 };
 
-const displayFiles = (
+export const displayFiles = (
   files: File[] | IFile[],
   onView: (file: File | IFile) => void,
   onDownload?: (file: IFile) => void,
@@ -702,7 +686,7 @@ const datetimeLocalValueOf = (date: Date) => {
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
 
-const fileSizeIn = (size: number, measureUnit: "KB" | "MB") => {
+export const fileSizeIn = (size: number, measureUnit: "KB" | "MB") => {
   if (measureUnit === "KB") {
     return size / KIBIBYTE;
   }
