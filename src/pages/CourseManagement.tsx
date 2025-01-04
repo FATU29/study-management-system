@@ -19,13 +19,10 @@ export default function CourseManagementPage() {
   const [currentPage, setCurrentPage] = React.useState<number>(1);
   const [perPage, setPerPage] = React.useState<number>(pageSizeOptions[0]);
   const [teacherId, setTeacherId] = React.useState<string>("");
-  const [lessonId, setLessonId] = React.useState<string>("");
   const [enrollmentId, setEnrollmentId] = React.useState<string>("");
 
   const handleChangeTeacherId = (event: SelectChangeEvent<string>) =>
     setTeacherId(event.target.value);
-  const handleChangeLessonId = (event: SelectChangeEvent<string>) =>
-    setLessonId(event.target.value);
   const handleChangeEnrollmentId = (event: SelectChangeEvent<string>) =>
     setEnrollmentId(event.target.value);
 
@@ -43,7 +40,7 @@ export default function CourseManagementPage() {
         height:"100%"
       }}
     >
-      <Select value={value} onChange={onChange} sx={{ minWidth: 120 }}>
+      <Select value={value} onChange={onChange} sx={{ width: 200 }}>
         {data.map((item) => (
           <MenuItem key={item} value={item}>
             {item}

@@ -1,17 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import {Box, Container, Grid} from "@mui/material";
+import {Container, Grid} from "@mui/material";
 import {useTheme} from "@mui/material/styles";
 import ChatListComponent from "../components/AppChat/ChatList";
 import ChatDetailComponent from "../components/AppChat/ChatDetail";
-import UserDetailComponent from "../components/AppChat/UserDetail";
+
+
 
 const MessagePage = () => {
+    const [selectedUser, setSelectedUser] = useState<any>();
 
 
     const theme = useTheme();
     return (
         <React.Fragment>
+
             <CssBaseline/>
             <Container
                 maxWidth="xl"
@@ -40,7 +43,7 @@ const MessagePage = () => {
                                 borderRight:`2px solid ${theme.customColors.textGrey}`,
                             }}
                         >
-                            <ChatListComponent/>
+                            <ChatListComponent selectedUser={selectedUser} setSelectedUser={setSelectedUser}/>
                         </Grid>
                         <Grid
                             item
@@ -53,10 +56,9 @@ const MessagePage = () => {
                                 height:"100%",
                             }}
                         >
-                            <ChatDetailComponent/>
+                            <ChatDetailComponent selectedUser={selectedUser}/>
                         </Grid>
                     </Grid>
-
             </Container>
         </React.Fragment>
     );

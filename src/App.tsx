@@ -63,19 +63,21 @@ const AppContent: React.FC = () => {
             </AuthGuard>
           }
         >
-          {/* Change start here! */}
           <Route index element={<Main />} />
           <Route path="course/:id" element={<DetailCoursePage />} />
           <Route path="message" element={<MessagePage />} />
           <Route path="modal-test" element={<ModalTestPage />} />
           <Route path="drive" element={<MainDrive />} />
           {/* <Route path="assignment" element={<AssignmentPage label={""} classId={""} />} /> */}
-          
+
           <Route path="course">
-            <Route
-              path="course-1"
-              element={<DetailCoursePage />}
-            />
+            <Route path="course-1" element={<DetailCoursePage />} />
+
+            {/* <Route
+              path=":courseId"
+              element={<ClassPageExample />}
+              /> */}
+
             <Route
               path="upload-resource"
               element={<ResourceUploadDispatcher />}
@@ -124,7 +126,7 @@ const AppContent: React.FC = () => {
             </AuthGuard>
           }
         />
-        <Route path="/modal" element={<AdminPage/>} />
+        <Route path="/modal" element={<AdminPage />} />
         <Route
           path="/users/verify-email"
           element={

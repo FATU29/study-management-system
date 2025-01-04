@@ -106,18 +106,15 @@ return (
       <div className="w-full md:w-1/2 bg-blue-500 flex flex-col overflow-hidden">
         {/* Top section with fixed content */}
         <div className="p-8">
-          <div className="flex items-center mb-6">
-            <div className="w-8 h-8 mr-2 border-2 border-white rounded-full flex items-center justify-center">
-              <div className="w-4 h-4 bg-white rounded-full"></div>
-            </div>
-            <h1 className="text-2xl font-bold text-white">QUẢN LÝ HỌC TẬP</h1>
+          <div className="flex items-center mb-2">
+            <h1 className="text-2xl font-bold text-white">MOODLE</h1>
           </div>
         </div>
 
         {/* Middle section with logo and quote - fixed height */}
         <div className="flex-grow flex flex-col items-center justify-center px-8">
-          <div className="w-32 h-32 mb-8">
-            <img className="w-full h-full object-contain" src="https://placehold.co/200" alt="Logo nhóm" />
+          <div className="w-60 h-60 mb-2">
+            <img className="w-full h-full object-contain" src={`${process.env.PUBLIC_URL}/assets/qr.png`} alt="Logo nhóm" />
           </div>
           
           {/* Quote container with fixed height */}
@@ -154,7 +151,7 @@ return (
           <h2 className="text-2xl font-bold mb-6">Đăng nhập</h2>
           <p className="mb-8 text-sm text-gray-600">
             Bạn chưa có tài khoản? 
-            <Link to="/Register" className="text-blue-500 ml-1">Đăng ký</Link>
+            <Link to="/Register" className="text-blue-500 ml-1 no-underline">Đăng ký</Link>
           </p>
 
           <form onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -212,13 +209,13 @@ return (
                         disabled={isSubmitting}
                       />
                     }
-                    label="Nhớ tên tài khoản"
+                    label="Ghi nhớ tôi"
                   />
                 )}
               />
               <Link 
                 to="/forgot-password" 
-                className="text-blue-500 text-sm hover:text-blue-700"
+                className="text-blue-500 text-sm hover:text-blue-700 no-underline"
               >
                 Quên mật khẩu?
               </Link>
@@ -227,10 +224,10 @@ return (
             <Button 
               type="submit" 
               variant="contained" 
-              color="primary" 
               fullWidth
               className="mb-4"
               disabled={isSubmitting}
+              style={{backgroundColor: '#', color: 'white'}}
             >
               {isSubmitting ? 'Đang đăng nhập...' : 'Đăng nhập'}
             </Button>

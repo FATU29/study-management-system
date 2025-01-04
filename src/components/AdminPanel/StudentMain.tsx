@@ -86,6 +86,8 @@ const StudentAdminPanel = () => {
             perPage={perPage}
             setCurrentPage={setCurrentPage}
             setPerPage={setPerPage}
+            pageSizeOptions={[5,10]}
+            totalItems={1}
         />
         </Box>
     </Box>

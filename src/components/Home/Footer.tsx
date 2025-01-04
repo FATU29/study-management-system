@@ -6,25 +6,17 @@ const Footer = () => {
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-lg-3 col-md-6 col-sm-12 mr-lg-4 mb-4">
-            <div className="text-black font-medium font-bold text-left py-4">
-              Về Moodle
+            <div className="py-2">
+            <div className="row d-flex align-items-center justify-content-center">
+              <div className="col-auto">
+                <img src={`${process.env.PUBLIC_URL}/assets/moodle.png`} className='w-[150px]' alt="Logo" />
+              </div>
+            </div>
             </div>
             <div className="text-black text-left text-xs text-gray-500 py-1">
               Moodle là một sản phẩm được tạo ra để quản lý giáo dục. Với Moodle, chúng ta có thể giải quyết những vấn đề còn tồn đọng trong ngành giáo dục.
             </div>
-            <div className="py-2">
-              <div className="row">
-                <div className="col-auto">
-                  <IconifyIcon icon="radix-icons:modulz-logo" width="80" height="80"></IconifyIcon>
-                </div>
-                <div className="col text-left font-bold text-lg">
-                  Moodle
-                  <div className="text-left font-bold text-xs">
-                    Education Solution
-                  </div>
-                </div>
-              </div>
-            </div>
+            
           </div>
           
           <div className="col-lg-3 mr-lg-4 col-md-6 col-sm-12 mb-4">
@@ -41,7 +33,7 @@ const Footer = () => {
                 <span className="font-bold">Địa chỉ: </span> 227 Nguyễn Văn Cừ, phường 4, quận 5, TP.HCM
               </a>
               <a className="block text-decoration-none text-black" href="mailto:mail@example.com">
-                <span className="font-bold">Email: </span>contact@example.com
+                <span className="font-bold">Email: </span>contact@moodle.edu.vn
               </a>
             </div>
           </div>

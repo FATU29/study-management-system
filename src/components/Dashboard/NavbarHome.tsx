@@ -30,7 +30,6 @@ const convertRoleToVietnamese = (role: string): string => {
   }
 };
 
-
 const NavbarHome: React.FC<NavbarHomeProps> = ({
   user = {
     id: "",
@@ -57,22 +56,18 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
 
   const { notifications, fetchNotifications } = useNotification();
 
-
   useEffect(() => {
     const interval = setInterval(() => {
       fetchNotifications(); // Re-fetch notifications every 10 seconds
     }, 10000); // Adjust the interval as needed
-  
+
     return () => clearInterval(interval); // Cleanup on component unmount
   }, [fetchNotifications]);
-  
 
-  
-
-  const unreadNotifications = notifications.filter(noti => !noti.read);
+  const unreadNotifications = notifications.filter((noti) => !noti.read);
 
   const handleViewAllNotifications = () => {
-    navigate('/notifications');
+    navigate("/notifications");
     setIsNotificationOpen(false);
   };
 
@@ -83,12 +78,13 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
         <div className="flex items-center space-x-4 nav-left ml-3">
           <a href="/" className="flex items-center space-x-2">
             <img
-              src="https://flowbite.com/docs/images/logo.svg"
+              src={`${process.env.PUBLIC_URL}/assets/moodle.png`}
               alt="Logo"
-              className="h-10 w-10"
+              className="w-[130px]"
             />
           </a>
           <span className="text-xl font-bold text-blue-600">Moodle</span>
+          {/* </Link> */}
         </div>
 
         {/* Right side: User Info and Notifications */}
@@ -123,8 +119,9 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
                       <div
                         key={`${notification.id}-${index}`}
                         className={`px-4 py-2 border-b hover:bg-gray-50 cursor-pointer ${
-                          !notification.read ? 'bg-blue-50' : ''
-                        }`}>
+                          !notification.read ? "bg-blue-50" : ""
+                        }`}
+                      >
                         <div className="flex items-center justify-between">
                           <span className="font-semibold text-lg">
                             {notification.title}
@@ -147,12 +144,13 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
                 <div className="px-4 py-2 border-t text-center">
                   <button
                     onClick={handleViewAllNotifications}
-                    className="text-blue-600 text-sm hover:underline">
+                    className="text-blue-600 text-sm hover:underline"
+                  >
                     Xem tất cả
                   </button>
                 </div>
               </div>
-              )}
+            )}
           </div>
           {/* User Info */}
           <div className="flex items-center space-x-4 nav-item m-2">
@@ -169,12 +167,15 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
               <img
                 id="avatarButton"
                 onClick={toggleDropdown}
-                src={user?.avatar || "https://avatar.iran.liara.run/public/boy"}
+                src={
+                  user?.avatar ||
+                  `${process.env.PUBLIC_URL}/assets/avatar/avatar-1.png`
+                }
                 alt={`${toFullName(
                   user.firstName || "",
                   user.lastName || ""
                 )}'s profile`}
-                className="h-10 w-10 rounded-full object-cover border-2 border-blue-600 cursor-pointer"
+                className="h-[45px] w-[45px] rounded-full object-cover border-2 border-blue-600 cursor-pointer"
               />
 
               <div

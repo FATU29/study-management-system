@@ -1,58 +1,51 @@
-import React, { useState } from 'react';
-import { Box, Button, TextField } from '@mui/material';
-import CourseTable from '../CourseManagement/Table';
+import React, { useEffect, useState } from "react";
+import { Box, Button, TextField } from "@mui/material";
+import CourseTable from "../CourseManagement/Table";
+import { useQuery } from "@tanstack/react-query";
+import { getCourses, searchCourse } from "../../services/courses";
+import Spinner from "../../helpers/Spinner";
+import ModalCreateCourseComponent from "../CourseManagement/ModalCreateCourse";
+import useDebounce from "../../hooks/useDebounce";
+
+const pageSizeOptions = [5, 10, 15, 20];
 
 const CourseAdminPanel = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [perPage, setPerPage] = useState<number>(10);
-  const [searchText, setSearchText] = useState<string>('');
+  const [perPage, setPerPage] = useState<number>(pageSizeOptions[0]);
+  const [searchText, setSearchText] = useState<string>("");
+  const [totalItems,setTotalItems] = useState<number>(0);
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const debounceVal = useDebounce(searchText);
+  const [rows, setRows] = useState<any[]>([]);
 
-  const rows = [
-    {
-      id: "507f1f77bcf86cd799439011",
-      title: "Lập Trình Web Cơ Bản",
-      description: "Khóa học giới thiệu về HTML, CSS và JavaScript",
-      teacherId: ["507f1f77bcf86cd799439012", "507f1f77bcf86cd799439013"],
-      enrollmentId: ["507f1f77bcf86cd799439017", "507f1f77bcf86cd799439018"],
-      slug: "lap-trinh-web-co-ban",
+  const { data, isFetching, refetch } = useQuery({
+    queryKey: ["courses-table", currentPage, perPage],
+    queryFn: async () => {
+      const data = await getCourses(currentPage, perPage);
+      return data;
     },
-    {
-      id: "507f1f77bcf86cd799439021",
-      title: "Lập Trình Python",
-      description: "Khóa học Python từ cơ bản đến nâng cao",
-      teacherId: ["507f1f77bcf86cd799439022"],
-      enrollmentId: ["507f1f77bcf86cd799439025", "507f1f77bcf86cd799439026"],
-      slug: "lap-trinh-python",
-    },
-    {
-      id: "507f1f77bcf86cd799439031",
-      title: "Cơ Sở Dữ Liệu",
-      description: "Thiết kế và quản lý cơ sở dữ liệu",
-      teacherId: ["507f1f77bcf86cd799439032", "507f1f77bcf86cd799439033"],
-      enrollmentId: ["507f1f77bcf86cd799439036"],
-      slug: "co-so-du-lieu",
-    },
-    {
-      id: "507f1f77bcf86cd799439041",
-      title: "Java Programming",
-      description: "Lập trình hướng đối tượng với Java",
-      teacherId: ["507f1f77bcf86cd799439042"],
-      enrollmentId: ["507f1f77bcf86cd799439045", "507f1f77bcf86cd799439046"],
-      slug: "java-programming",
-    },
-    {
-      id: "507f1f77bcf86cd799439051",
-      title: "React Framework",
-      description: "Phát triển ứng dụng web với React",
-      teacherId: ["507f1f77bcf86cd799439052", "507f1f77bcf86cd799439053"],
-      enrollmentId: ["507f1f77bcf86cd799439056", "507f1f77bcf86cd799439057"],
-      slug: "react-framework",
-    },
-  ];
+  });
+
+  const courseSearch = useQuery({
+    queryKey: ["search-courses", debounceVal,currentPage, perPage],
+    queryFn: async () => {
+      const data = await searchCourse(debounceVal,currentPage,perPage);
+      return data || []
+    }
+  });
+
+  useEffect(() => {
+    if (debounceVal && courseSearch.data?.data) {
+      setRows(courseSearch.data.data);
+      setTotalItems(courseSearch.data.totalItems)
+    } else if (data?.data) {
+      setRows(data?.data);
+      setTotalItems(data?.totalItems)
+    }
+  }, [debounceVal, courseSearch?.data, data?.data, data?.totalItems]);
 
   const handleAdd = () => {
-    // Implement the add functionality
-    console.log("Add button clicked");
+    setOpenModal(true);
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,35 +53,56 @@ const CourseAdminPanel = () => {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-start', m:2 }}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleAdd}
-          sx={{ height: 54, width: 100, fontSize: '1rem', padding: '0 10px', borderRadius: '8px', textTransform: 'none', color:'white' }}
-        >
-          Thêm
-        </Button>
+    <>
+      {isFetching && <Spinner />}
 
-        <TextField
-          label="Tìm kiếm"
-          variant="outlined"
-          value={searchText}
-          onChange={handleSearchChange}
-          sx={{ ml: 2 }}
-        />
-      </Box>
-      <Box sx={{m:2}}>
-        <CourseTable 
+      <ModalCreateCourseComponent
+        open={openModal}
+        setOpen={setOpenModal}
+        refetch={refetch}
+      />
+
+      <Box sx={{ width: "100%" }}>
+        <Box sx={{ display: "flex", justifyContent: "flex-start", m: 2 }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleAdd}
+            sx={{
+              height: 54,
+              width: 100,
+              fontSize: "1rem",
+              padding: "0 10px",
+              borderRadius: "8px",
+              textTransform: "none",
+              color: "white",
+            }}
+          >
+            Thêm
+          </Button>
+
+          <TextField
+            label="Tìm kiếm"
+            variant="outlined"
+            value={searchText}
+            onChange={handleSearchChange}
+            sx={{ ml: 2 }}
+          />
+        </Box>
+        <Box sx={{ m: 2 }}>
+          <CourseTable
             rows={rows}
             currentPage={currentPage}
             perPage={perPage}
             setCurrentPage={setCurrentPage}
             setPerPage={setPerPage}
-        />
+            pageSizeOptions={pageSizeOptions}
+            totalItems={totalItems}
+            
+          />
         </Box>
-    </Box>
+      </Box>
+    </>
   );
 };
 
