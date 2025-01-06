@@ -47,7 +47,7 @@ const MainDrive: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto py-4 h-screen">
+    <div className="container mx-auto py-4 h-100">
       <div className="flex justify-start mb-4">
         <button
           onClick={addFile}

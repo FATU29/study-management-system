@@ -1,4 +1,4 @@
-import { io } from "socket.io-client";
+import io from "socket.io-client";
 import { getLocalUserData } from "./LocalStorage";
 
 const BASE_URL_BE = String(process.env.REACT_APP_BASE_URL);

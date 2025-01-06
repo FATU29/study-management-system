@@ -33,7 +33,7 @@ const MenuCourse: React.FC<{
   onSectionChange: (section: MenuSection) => void;
   sections: MenuSection[];
 }> = ({ onSectionChange, sections }) => {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const isExpanded = true;
   const [activeItem, setActiveItem] = useState<string | null>(null);
   const [openSections, setOpenSections] = useState<string[]>([]); // Tracks open sections
 
@@ -52,7 +52,7 @@ const MenuCourse: React.FC<{
     level: number = 0
   ) => {
     return sections
-      .filter((section) => section.parentSectionId === parentSectionId) // Also true if parentSectionId is null and section.parentSectionId is null
+      .filter((section) => section.parentSectionId === parentSectionId) 
       .map((section) => {
         const isActive = section.id === activeItem;
         const isOpen = openSections.includes(section.id);
@@ -139,39 +139,10 @@ const MenuCourse: React.FC<{
   return (
     <aside
       className={`
-      relative min-h-screen bg-white border-r border-gray-200 transition-all duration-300 ease-in-out
+      relative min-h-full bg-white  border-gray-200 transition-all duration-300 ease-in-out border-l border-r
       ${isExpanded ? "w-64" : "w-20"}
     `}
     >
-      {/* Toggle Button */}
-      <button
-        onClick={() => setIsExpanded(!isExpanded)}
-        className="absolute -right-3 top-6 z-10 rounded-full bg-white p-1.5 shadow-md hover:bg-gray-50"
-      >
-        {isExpanded ? (
-          <IconifyIcon
-            icon="cuida:caret-left-outline"
-            className="h-4 w-4 text-gray-600"
-          />
-        ) : (
-          <IconifyIcon
-            icon="cuida:caret-right-outline"
-            className="h-4 w-4 text-gray-600"
-          />
-        )}
-      </button>
-
-      {/* Logo Area */}
-      {/* <div className="flex h-16 items-center justify-center border-b px-4">
-        <div className="flex items-center space-x-3">
-          <div className="h-8 w-8 rounded-lg bg-blue-500"></div>
-          {isExpanded && (
-            <span className="text-lg font-semibold text-gray-800">
-              Course App
-            </span>
-          )}
-        </div>
-      </div> */}
 
       <nav className="mt-6 px-2">{renderSections(null)}</nav>
 

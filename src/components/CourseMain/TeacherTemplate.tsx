@@ -8,7 +8,7 @@ interface TeacherProps {
 
 const TeacherTemplate: React.FC<TeacherProps> = ({ name, email }) => {
   return (
-    <div className="card w-auto mx-auto text-left border-1 rounded-lg bg-white">
+    <div className="card w-100 mx-auto text-left border-1 rounded-lg bg-white">
       <div className="px-3">
         <h2 className="text-base mt-3 mb-1">Giáo viên: {name}</h2>
         <h1 className="text-gray-500 text-sm mb-3">

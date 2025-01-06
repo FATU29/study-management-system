@@ -3,6 +3,38 @@ import { instanceAxios } from "../contexts/instanceAxios";
 import { getLocalUserData } from "../helpers/LocalStorage";
 import { COURSE } from "../types/courseType";
 
+export const getCoursesAPI = async (enrollmentId: string) => {
+  try {
+    const url = `${API_ROUTE.COURSES}/getCourseForStudent/${enrollmentId}`;
+    const { accessToken } = getLocalUserData();
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch courses: ${response.status} ${response.statusText}`
+      );
+    }
+
+    const data = await response.json();
+
+    if (data && data.status === 200 && Array.isArray(data.courses)) {
+      return data.courses;
+    } else {
+      console.log("Unexpected response format:", data);
+      throw new Error("Invalid response format");
+    }
+  } catch (error: any) {
+    console.log("Error in getCoursesAPI: ", error.message);
+    throw error;
+  }
+};
+
 export const getCourses = async (page: number = 1, perPage: number = 10) => {
   try {
     const { accessToken } = getLocalUserData();
@@ -403,7 +435,11 @@ export const usersInCourse = async (content: string, courseId?: string) => {
   }
 };
 
-export const searchCourse = async (content: string, page:number = 1, perPage:number = 5) => {
+export const searchCourse = async (
+  content: string,
+  page: number = 1,
+  perPage: number = 5
+) => {
   try {
     const url = API_ROUTE.SEARCH_IN_COURSE + "/courses";
     const { accessToken } = getLocalUserData();
@@ -417,10 +453,10 @@ export const searchCourse = async (content: string, page:number = 1, perPage:num
       data: {
         content: content,
       },
-      params:{
+      params: {
         page,
-        perPage
-      }
+        perPage,
+      },
     });
     return response.data;
   } catch (error) {

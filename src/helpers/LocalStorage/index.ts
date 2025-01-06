@@ -1,4 +1,4 @@
-import { ACCESS_TOKEN, REFRESH_TOKEN, USER_DATA } from "../../configs/localStorageConfig";
+import { ACCESS_TOKEN, REFRESH_TOKEN, USER_DATA, TEMPORARY_COURSES } from "../../configs/localStorageConfig";
 
 
 export const setLocalUserData = (userData?: string, accessToken?: string, refreshToken?: string) => {
@@ -39,4 +39,38 @@ export const clearLocalUserData = () => {
         window.localStorage.removeItem(ACCESS_TOKEN);
         window.localStorage.removeItem(REFRESH_TOKEN);
     }
+};
+
+export const setLocalCourses = (course?: { _id: string }) => {
+    if (typeof window !== "undefined") {
+        const storedCourses = JSON.parse(window.localStorage.getItem(TEMPORARY_COURSES) || "[]");
+
+        if (course) {
+            // Check if the course already exists in the array
+            const courseExists = storedCourses.some((storedCourse: { _id: string }) => storedCourse._id === course._id);
+
+            if (!courseExists) {
+                // Add the new course to the array
+                storedCourses.push(course);
+
+                // If the number of courses exceeds 5, remove the oldest course
+                if (storedCourses.length > 5) {
+                    storedCourses.shift();
+                }
+
+                // Save the updated courses array to local storage
+                window.localStorage.setItem(TEMPORARY_COURSES, JSON.stringify(storedCourses));
+            }
+        }
+
+        return course;
+    }
+    return null;
+};
+
+export const getLocalCourses = () => {
+    if (typeof window !== "undefined") {
+        return JSON.parse(window.localStorage.getItem(TEMPORARY_COURSES) || "[]");
+    }
+    return [];
 };

@@ -18,14 +18,8 @@ import MessagePage from "./pages/MessagePage";
 import ModalTestPage from "./pages/ModalTest";
 import DashboardPage from "./pages/DashboardPage";
 import Main from "./components/Dashboard/Main";
-import ClassPageExample, { classLoader } from "./pages/ClassPageExample";
 import ResourceUploadDispatcher from "./components/Dashboard/ResourceUploadDispatcher";
-// import ModalPage from "./pages/Modal";
-import MainCourse from "./components/CourseMain/Main";
-// import CoursePage from "./pages/CoursePage";
-// import ShellCourse from "./components/CourseMain/Shell";
 import { ThemeProviderWrapper } from "./contexts/ThemeContext";
-import CourseManagementPage from "./pages/CourseManagement";
 import AuthProvider from "./contexts/AuthContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -36,8 +30,11 @@ import NoAccess from "./pages/NoAcess";
 import AuthGuard from "./components/Guard/AuthGuard";
 import GuestGuard from "./components/Guard/GuestGuard";
 import InstanceAxiosProvider from "./contexts/instanceAxios";
+import NotificationProvider from "./contexts/NotificationContext";
 import MainDrive from "./components/Dashboard/Drive";
 import AdminPage from "./pages/AdminPage";
+import DetailCoursePage from "./pages/DetailCoursePage";
+import AssignmentPage from "./pages/AssignmentPage";
 
 const queryClient = new QueryClient();
 
@@ -60,24 +57,27 @@ const AppContent: React.FC = () => {
           path="/home"
           element={
             <AuthGuard roleRequires={["USER", "TEACHER", "ADMIN"]}>
-              <DashboardPage />
+              <NotificationProvider>
+                <DashboardPage />
+              </NotificationProvider>
             </AuthGuard>
           }
         >
           <Route index element={<Main />} />
-          <Route
-            path="course-ver-2"
-            element={<MainCourse name="TODO: Do not pass prop here" />}
-          />
+          <Route path="course/:id" element={<DetailCoursePage />} />
           <Route path="message" element={<MessagePage />} />
           <Route path="modal-test" element={<ModalTestPage />} />
           <Route path="drive" element={<MainDrive />} />
+          {/* <Route path="assignment" element={<AssignmentPage label={""} classId={""} />} /> */}
+
           <Route path="course">
-            <Route index element={<ClassPageExample />} />
-            <Route
+            <Route path="course-1" element={<DetailCoursePage />} />
+
+            {/* <Route
               path=":courseId"
               element={<ClassPageExample />}
-            />
+              /> */}
+
             <Route
               path="upload-resource"
               element={<ResourceUploadDispatcher />}
@@ -120,7 +120,9 @@ const AppContent: React.FC = () => {
           path="/admin"
           element={
             <AuthGuard roleRequires={["ADMIN"]}>
-              <AdminPage />
+              <NotificationProvider>
+                <AdminPage />
+              </NotificationProvider>
             </AuthGuard>
           }
         />

@@ -139,7 +139,6 @@ const AssignmentPage: React.FC<{
 
       <Box
         sx={{
-          // border: '1px solid #ff0099',
           position: "absolute",
           bottom: 16,
           left: 0,
