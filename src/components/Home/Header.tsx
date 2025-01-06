@@ -18,22 +18,8 @@ function Header({ isScrolledOut }: HeaderProps) {
         className={`border-gray-200 px-4 lg:px-6 dark:bg-gray-800 bg-transparent shadow-md`}
       >
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-          //{" "}
-          <div className="flex items-center text-decoration-none hover:text-blue-500">
-            //{" "}
-            <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="mr-3 h-6 sm:h-9"
-              alt="Logo"
-            />
-            //{" "}
-            <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white text-decoration-none">
-              Moodle
-            </span>
-            //{" "}
-          </div>
           <a
-            href="#"
+            href="/"
             className="flex items-center text-decoration-none hover:text-blue-500"
           >
             <img
