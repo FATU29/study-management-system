@@ -135,7 +135,7 @@ const MainDrive: React.FC = () => {
           <thead>
             <tr>
               <th className="py-2 px-4 border-b">Tên</th>
-              <th className="py-2 px-4 border-b">Ngày chỉnh sửa Modified</th>
+              <th className="py-2 px-4 border-b">Ngày tải lên</th>
               <th className="py-2 px-4 border-b"></th>
             </tr>
           </thead>
