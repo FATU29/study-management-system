@@ -2,15 +2,16 @@ import { API_ROUTE } from "../configs/BASEURL";
 import { getLocalUserData } from "../helpers/LocalStorage";
 // import { IFile } from "../types/resourceType";
 
+const MAX_FILE_SIZE = 20 * 1024 * 1024;
+
 export const getFileAPI = async (
   fileId: string,
   sourceId?: string,
   inline?: boolean
 ) => {
+  console.log('Downloading file:', fileId);
   try {
-    const url = `${API_ROUTE.FILES}/download/?fileId=${fileId}${
-      sourceId ? "&sourceId=" + sourceId : ""
-    }${inline ? "&inline=true" : ""}`;
+    const url = `${API_ROUTE.FILES}/download/?fileId=${fileId}${sourceId ? "&sourceId=" + sourceId : ""}${inline ? "&inline=true" : ""}`;
     const { accessToken } = getLocalUserData();
     const response = await fetch(url, {
       method: "GET",
@@ -30,11 +31,20 @@ export const getFileAPI = async (
 
 export const uploadFileAPI = async (formData: FormData, sourceId?: string) => {
   try {
-    const url = `${API_ROUTE.FILES}/upload${
-      sourceId ? `?sourceId=${sourceId}` : ""
-    }`;
+    const files = Array.from(formData.getAll('files'));
+    files.forEach(file => {
+      if (file instanceof File) {
+        if (file.size > MAX_FILE_SIZE) {
+          alert(`File "${file.name}" quá lớn. Kích thước tối đa là 20MB`);
+          throw new Error(`File "${file.name}" is too large. Maximum size is 20MB`);
+        }
+      }
+    });
+
+    const url = `${API_ROUTE.FILES}/upload${sourceId ? `?sourceId=${sourceId}` : ""
+      }`;
     const { accessToken } = getLocalUserData();
-    
+
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -58,8 +68,6 @@ export const uploadFileAPI = async (formData: FormData, sourceId?: string) => {
     throw error;
   }
 };
-
-// ------------------- The APIs below may be un-used -------------------
 
 export const getLimitsAPI = async () => {
   try {
@@ -103,21 +111,23 @@ export const getPersonalFilesAPI = async (sourceId: string) => {
 export const deleteFileAPI = async (fileId: string) => {
   console.log('Deleting file:', fileId);
   try {
-    const url = `${API_ROUTE.FILES}/delete`;
+    const url = `${API_ROUTE.FILES}/delete?fileId=${fileId}&sourceId=personal-storage`;
     const { accessToken } = getLocalUserData();
+
     const response = await fetch(url, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        'Content-Type': "application/json",
-      },
-      body: JSON.stringify({ fileId }),
+      }
     });
-    console.log("response body", response.body);
+
     if (!response.ok) {
-      throw new Error("Failed to delete file");
+      const errorData = await response.json();
+      throw new Error(`Failed to delete file: ${JSON.stringify(errorData)}`);
     }
+
     const data = await response.json();
+    console.log('Delete response:', data);
     return data;
   } catch (error: any) {
     console.log("Error in deleteFileAPI: ", error.message);

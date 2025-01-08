@@ -3,6 +3,8 @@ import {
   getPersonalFilesAPI,
   uploadFileAPI,
   deleteFileAPI,
+  getFileAPI,
+  getLimitsAPI,
 } from "../../services/fileForStorage";
 
 // File interface
@@ -100,6 +102,28 @@ const MainDrive: React.FC = () => {
     alert(`Sharing ${name}`);
   };
 
+  // Download file
+  const downloadFile = async (id: string, filename: string) => {
+    try {
+      const response = await getFileAPI(id, "personal-storage", true);
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      URL.revokeObjectURL(url);
+      return response;
+    } catch (error: any) {
+      console.error("Error downloading file:", error);
+    }
+  };
+
   return (
     <div className="container mx-auto py-4 h-screen">
       <input
@@ -108,7 +132,8 @@ const MainDrive: React.FC = () => {
         ref={fileInputRef}
         onChange={handleFileSelect}
         className="hidden"
-        accept=".pdf,.doc,.docx,.txt,.xlsx"
+        accept=".jpg,.jpeg,.png,.gif,.webp,.pdf,.doc,.docx,.txt,.xlsx,.xls,.ppt,.pptx,.zip,.rar,.7z,
+                .mp4,.mp3,.wav,.flac,.ogg,.avi,.mkv,.mov,.wmv,.flv,.webm"
       />
       <div className="flex justify-start mb-4">
         <button
@@ -138,18 +163,11 @@ const MainDrive: React.FC = () => {
                     : "No date available"}
                 </td>
                 <td className="py-2 px-4 border-b flex space-x-2">
-                  <a
-                    href={file.url}
-                    download={file.name}
+                  <button
+                    onClick={() => downloadFile(file.id, file.name)}
                     className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-700 no-underline"
                   >
                     Tải xuống
-                  </a>
-                  <button
-                    onClick={() => shareFile(file.name)}
-                    className="px-2 py-1 bg-green-500 text-white rounded hover:bg-green-700"
-                  >
-                    Chia sẻ
                   </button>
                   <button
                     onClick={() => deleteFile(file.id)}
