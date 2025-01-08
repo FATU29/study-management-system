@@ -36,14 +36,15 @@ const DetailCoursePage: React.FC = () => {
       courseData?: any;
     }) || {};
   const { name = "Default Course Name", isTeacher = false, courseData } = state;
+  const { user } = useAuth();
 
   useEffect(() => {
-    if (courseData) {
-      setLocalCourses(courseData);
+    if (courseData && user?._id) {
+      setLocalCourses(user._id.toString(), courseData);
     }
   }, [courseData]);
 
-  const { user } = useAuth();
+
 
   return (
     <div className="min-h-100 bg-gray-100 w-100">

@@ -24,6 +24,7 @@ const RecentCourse = ({ title, teacher, assistant }: RecentCourseProps) => (
 );
 
 const CourseMain = () => {
+  const {user} = useAuth();
   // const courses = [
   //     {
   //         title: "Cấu trúc dữ liệu và giải thuật",
@@ -53,7 +54,7 @@ const CourseMain = () => {
   // ];
   const [courses, setCourses] = useState<RecentCourseProps[]>([]);
   useEffect(() => {
-    const courses = getLocalCourses();
+    const courses = getLocalCourses(user?._id?.toString() || "");
     setCourses(courses);
   }, []);
 
@@ -104,7 +105,7 @@ const CourseMain = () => {
                 </h2>
                 <div className="relative">
                   <div className="overflow-x-auto pb-4">
-                    <div className="flex gap-6">
+                    <div className="flex gap-6 h-[300px] w-[200px]">
                       {courses.map((course, index) => (
                         <RecentCourse
                           key={index}
