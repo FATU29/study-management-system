@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import TeacherTemplate from "./TeacherTemplate";
 import SectionTemplateVer2 from "./SectionTemplateVer2";
 import ResourceDetailVer2 from "../CourseResource/ResourceDetail";
@@ -55,17 +55,22 @@ const MainCourse: React.FC<CourseProps> = ({ name, isTeacher, courseData }) => {
         setResources(res);
 
         const existingSections = new Set<string>();
-        const sections = res
-          .map((resource) => {
-            if (
-              resource.sectionLabel &&
-              !existingSections.has(resource.sectionLabel)
-            ) {
-              existingSections.add(resource.sectionLabel as string);
-            }
-            return resource.sectionLabel;
-          })
-          .filter((section) => section !== undefined);
+        res.forEach((resource) => {
+          if (resource.sectionLabel) {
+            existingSections.add(resource.sectionLabel);
+          }
+        });
+        // const sections = res
+        //   .map((resource) => {
+        //     if (
+        //       resource.sectionLabel &&
+        //       !existingSections.has(resource.sectionLabel)
+        //     ) {
+        //       existingSections.add(resource.sectionLabel as string);
+        //     }
+        //     return resource.sectionLabel;
+        //   })
+        //   .filter((section) => section !== undefined);
         setSections(Array.from(existingSections));
       })
       .catch((err) => {
@@ -183,14 +188,16 @@ const MainCourse: React.FC<CourseProps> = ({ name, isTeacher, courseData }) => {
               );
             })}
 
-            <div className="text-center mt-4">
-              <button
-                onClick={() => setIsAddingSection(true)}
-                className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-              >
-                Thêm đề mục mới
-              </button>
-            </div>
+            {isTeacher && (
+              <div className="text-center mt-4">
+                <button
+                  onClick={() => setIsAddingSection(true)}
+                  className="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                >
+                  Thêm đề mục mới
+                </button>
+              </div>
+            )}
 
             {selectedResource !== null && (
               <ReactModal

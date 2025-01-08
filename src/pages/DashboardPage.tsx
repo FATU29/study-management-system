@@ -4,7 +4,8 @@ import MenuCourse from "../components/Dashboard/MenuCourse";
 import { MenuSection } from "../components/types/menu-section";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { getCoursesAPI } from "../services/courses";
+import { getCoursesAPI, getCoursesByRoleAPI } from "../services/courses";
+import { ROLE_TYPE } from "../types/roleType";
 
 const initialSections: MenuSection[] = [
   {
@@ -27,7 +28,7 @@ const initialSections: MenuSection[] = [
     id: "course",
     name: "Khóa học",
     icon: "hugeicons:course",
-    badge: 0,  // Will be updated with actual course count
+    badge: 0, // Will be updated with actual course count
     parentSectionId: null,
   },
   {
@@ -59,7 +60,12 @@ const DashboardPage: React.FC = () => {
     const fetchCourses = async () => {
       try {
         if (user?._id) {
-          const response = await getCoursesAPI(user._id.toString());
+          console.log("user.role", user.role);
+          // const response = await getCoursesAPI(user._id.toString());
+          const response = await getCoursesByRoleAPI(
+            user._id.toString(),
+            user.role || ""
+          );
           setCourses(response);
 
           const courseSections: MenuSection[] = response.map((course: any) => ({
@@ -72,13 +78,13 @@ const DashboardPage: React.FC = () => {
           }));
 
           // Update sections with dynamic courses
-          setSections(prevSections => {
+          setSections((prevSections) => {
             const sectionsWithoutCourses = prevSections.filter(
-              section => section.parentSectionId !== "course"
+              (section) => section.parentSectionId !== "course"
             );
-            
-            const updatedSections = sectionsWithoutCourses.map(section => 
-              section.id === "course" 
+
+            const updatedSections = sectionsWithoutCourses.map((section) =>
+              section.id === "course"
                 ? { ...section, badge: response.length }
                 : section
             );
@@ -97,15 +103,19 @@ const DashboardPage: React.FC = () => {
   }, [user?._id]);
 
   function handleSectionChange(section: MenuSection) {
+    console.log("isTeacher: role=", user?.role);
     if (section.url) {
-      const course = courses.find(course => `course-${course._id}` === section.id);
+      const course = courses.find(
+        (course) => `course-${course._id}` === section.id
+      );
       navigate(section.url, {
-        state: { 
-          name: section.name, 
-          isTeacher: section.parentSectionId === "course" ? false : true,
+        state: {
+          name: section.name,
+          // isTeacher: section.parentSectionId === "course" ? false : true,
+          isTeacher: user?.role === ROLE_TYPE.TEACHER,
           courseData: course,
-          userId: user?._id
-        }
+          userId: user?._id,
+        },
       });
     }
   }
@@ -127,10 +137,7 @@ const DashboardPage: React.FC = () => {
     <div style={styles.app}>
       <NavbarHome user={user || undefined} />
       <div style={styles.content}>
-        <MenuCourse
-          onSectionChange={handleSectionChange}
-          sections={sections}
-        />
+        <MenuCourse onSectionChange={handleSectionChange} sections={sections} />
         <Outlet />
       </div>
     </div>

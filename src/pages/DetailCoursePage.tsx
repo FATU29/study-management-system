@@ -5,9 +5,17 @@ import MainCourseVer2 from "../components/CourseMain/MainVer2";
 import { setLocalCourses } from "../helpers/LocalStorage";
 import { useAuth } from "../contexts/AuthContext";
 
+export type StudentDetailType = {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: string;
+};
+
 export type CourseContextType = {
   courseSlug: string;
-  studentDetails: string[];
+  studentDetails: StudentDetailType[];
   currentUserId: string;
   currentUserRole: string;
 };
@@ -50,7 +58,7 @@ const DetailCoursePage: React.FC = () => {
       >
         <MainCourseVer2
           name={name}
-          isTeacher={isTeacher || true}
+          isTeacher={isTeacher}
           courseData={courseData}
         />
       </CourseContext.Provider>
