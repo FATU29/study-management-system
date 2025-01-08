@@ -44,8 +44,6 @@ const DetailCoursePage: React.FC = () => {
     }
   }, [courseData]);
 
-
-
   return (
     <div className="min-h-100 bg-gray-100 w-100">
       {/* <MainCourse name={name} isTeacher={isTeacher} courseData={courseData} /> */}

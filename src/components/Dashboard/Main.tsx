@@ -3,16 +3,28 @@ import IconifyIcon from "../utils/icon/index";
 import CalendarSidebar from "./CalendarSidebar";
 import { getLocalCourses } from "../../helpers/LocalStorage";
 import { useAuth } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { ROLE_TYPE } from "../../types/roleType";
 
 interface RecentCourseProps {
+  _id?: string;
   title: string;
   teacher: string;
   assistant: string;
+  onClick?: () => void;
 }
 
 // RecentCourse component
-const RecentCourse = ({ title, teacher, assistant }: RecentCourseProps) => (
-  <div className="min-w-[280px] md:min-w-[320px] lg:min-w-[360px] rounded-lg bg-white p-6 shadow-sm transition-all hover:shadow-md">
+const RecentCourse = ({
+  title,
+  teacher,
+  assistant,
+  onClick,
+}: RecentCourseProps) => (
+  <div
+    onClick={onClick}
+    className="min-w-[280px] md:min-w-[320px] lg:min-w-[360px] rounded-lg bg-white p-6 shadow-sm transition-all hover:shadow-xl cursor-pointer"
+  >
     <div className="mb-4 h-45 w-full bg-gray-200">
       <img
         src="https://thaitrien.com/wp-content/uploads/2021/09/Phong-nen-hoc-online-by-Thaitrien.com-1-scaled.jpg"
@@ -24,34 +36,9 @@ const RecentCourse = ({ title, teacher, assistant }: RecentCourseProps) => (
 );
 
 const CourseMain = () => {
-  const {user} = useAuth();
-  // const courses = [
-  //     {
-  //         title: "Cấu trúc dữ liệu và giải thuật",
-  //         teacher: "Nguyễn Văn A",
-  //         assistant: "Nguyễn Văn B"
-  //     },
-  //     {
-  //         title: "Hệ thống thông tin",
-  //         teacher: "Nguyễn Văn A",
-  //         assistant: "Nguyễn Văn B"
-  //     },
-  //     {
-  //         title: "Hệ điều hành",
-  //         teacher: "Nguyễn Văn A",
-  //         assistant: "Nguyễn Văn B"
-  //     },
-  //     {
-  //         title: "Lập trình Web",
-  //         teacher: "Nguyễn Văn C",
-  //         assistant: "Nguyễn Văn D"
-  //     },
-  //     {
-  //         title: "Trí tuệ nhân tạo",
-  //         teacher: "Nguyễn Văn E",
-  //         assistant: "Nguyễn Văn F"
-  //     }
-  // ];
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
   const [courses, setCourses] = useState<RecentCourseProps[]>([]);
   useEffect(() => {
     const courses = getLocalCourses(user?._id?.toString() || "");
@@ -112,6 +99,18 @@ const CourseMain = () => {
                           title={course.title}
                           teacher={"Nguyễn Văn A"}
                           assistant={"Nguyễn Văn B"}
+                          onClick={() => {
+                            if (course._id && course.title) {
+                              navigate(`course\\${course._id}`, {
+                                state: {
+                                  name: course.title,
+                                  isTeacher: user?.role === ROLE_TYPE.TEACHER,
+                                  courseData: course,
+                                  userId: user?._id,
+                                },
+                              });
+                            }
+                          }}
                         />
                       ))}
                     </div>
@@ -123,6 +122,37 @@ const CourseMain = () => {
 
               {/* All Courses Section */}
               <div>
+                <h2 className="mb-4 text-2xl font-bold text-blue-600">
+                  Tất cả khóa học
+                </h2>
+
+                <div className="grid grid-rows-2 w-full grid-flow-col gap-4">
+                  {courses.map((course, index) => (
+                    <div
+                      key={index}
+                      className="py-1 rounded-lg bg-blue-200 hover:bg-blue-300 cursor-pointer"
+                      onClick={() => {
+                        if (course._id && course.title) {
+                          navigate(`course\\${course._id}`, {
+                            state: {
+                              name: course.title,
+                              isTeacher: user?.role === ROLE_TYPE.TEACHER,
+                              courseData: course,
+                              userId: user?._id,
+                            },
+                          });
+                        }
+                      }}
+                    >
+                      <h3 className="mb-2 text-lg font-medium text-gray-800">
+                        {course.title}
+                      </h3>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* <div>
                 <h2 className="mb-4 text-xl font-medium text-gray-800">
                   Tất cả khóa học
                 </h2>
@@ -154,7 +184,7 @@ const CourseMain = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
 

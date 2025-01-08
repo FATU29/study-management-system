@@ -8,17 +8,20 @@ const defaultIcon = "mdi:blank";
 const levelStyles: {
   [key: number]: { background: string; fontSize: string };
 } = {
-  0: { background: "", fontSize: "text-base" },
+  0: {
+    background: "hover:bg-blue-400/50",
+    fontSize: "text-base",
+  },
   1: {
-    background: "bg-green-50",
+    background: "bg-blue-200/25 hover:bg-blue-300/50",
     fontSize: "text-sm",
   },
   2: {
-    background: "bg-yellow-50",
+    background: "bg-blue-100/25 hover:bg-blue-200/50",
     fontSize: "text-xs",
   },
   3: {
-    background: "bg-red-50",
+    background: "bg-blue-50/25 hover:bg-blue-100/50",
     fontSize: "text-[10px]",
   }, // Smaller custom size for level 3
 };
@@ -52,7 +55,7 @@ const MenuCourse: React.FC<{
     level: number = 0
   ) => {
     return sections
-      .filter((section) => section.parentSectionId === parentSectionId) 
+      .filter((section) => section.parentSectionId === parentSectionId)
       .map((section) => {
         const isActive = section.id === activeItem;
         const isOpen = openSections.includes(section.id);
@@ -79,7 +82,7 @@ const MenuCourse: React.FC<{
                 ${background}
                 ${
                   isActive
-                    ? "bg-blue-50 text-blue-600 border-l-4 border-blue-600"
+                    ? "bg-blue-300/80 text-blue-600 border-l-4 border-blue-600"
                     : "text-gray-600 hover:bg-gray-50"
                 }
               `}
@@ -90,7 +93,7 @@ const MenuCourse: React.FC<{
                 className={`h-5 w-5 transition-colors
                   ${
                     activeItem === section.id
-                      ? "text-blue-600"
+                      ? "text-blue-500"
                       : "text-gray-500 group-hover:text-gray-600"
                   }
                 `}
@@ -143,7 +146,6 @@ const MenuCourse: React.FC<{
       ${isExpanded ? "w-64" : "w-20"}
     `}
     >
-
       <nav className="mt-6 px-2">{renderSections(null)}</nav>
 
       {isExpanded && (
