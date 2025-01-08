@@ -41,25 +41,22 @@ export const clearLocalUserData = () => {
     }
 };
 
-export const setLocalCourses = (course?: { _id: string }) => {
+export const setLocalCourses = (userId: string, course?: { _id: string }) => {
     if (typeof window !== "undefined") {
-        const storedCourses = JSON.parse(window.localStorage.getItem(TEMPORARY_COURSES) || "[]");
+        const key = `${TEMPORARY_COURSES}_${userId}`;
+        const storedCourses = JSON.parse(window.localStorage.getItem(key) || "[]");
 
         if (course) {
-            // Check if the course already exists in the array
             const courseExists = storedCourses.some((storedCourse: { _id: string }) => storedCourse._id === course._id);
 
             if (!courseExists) {
-                // Add the new course to the array
                 storedCourses.push(course);
 
-                // If the number of courses exceeds 5, remove the oldest course
                 if (storedCourses.length > 5) {
                     storedCourses.shift();
                 }
 
-                // Save the updated courses array to local storage
-                window.localStorage.setItem(TEMPORARY_COURSES, JSON.stringify(storedCourses));
+                window.localStorage.setItem(key, JSON.stringify(storedCourses));
             }
         }
 
@@ -68,9 +65,10 @@ export const setLocalCourses = (course?: { _id: string }) => {
     return null;
 };
 
-export const getLocalCourses = () => {
+export const getLocalCourses = (userId: string) => {
     if (typeof window !== "undefined") {
-        return JSON.parse(window.localStorage.getItem(TEMPORARY_COURSES) || "[]");
+        const key = `${TEMPORARY_COURSES}_${userId}`;
+        return JSON.parse(window.localStorage.getItem(key) || "[]");
     }
     return [];
 };
