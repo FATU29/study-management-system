@@ -45,7 +45,7 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
       maxFileSize: originalResourceMaxFileSize ?? Infinity,
     });
   const [fileMeasureUnit, setFileMeasureUnit] = useState<"KB" | "MB">(
-    originalResourceMaxFileSize && originalResourceMaxFileSize >= KIBIBYTE
+    originalResourceMaxFileSize && originalResourceMaxFileSize >= MEBIBYTE
       ? "MB"
       : "KB"
   );
@@ -63,7 +63,7 @@ const AssignmentResource: React.FC<InnerResourceDetailProps> = ({
               maxFileSize: fileLimits.maxFileSize,
             });
             setFileMeasureUnit(
-              fileLimits.maxFileSize >= KIBIBYTE ? "MB" : "KB"
+              fileLimits.maxFileSize >= MEBIBYTE ? "MB" : "KB"
             );
           }
         } catch (error: any) {

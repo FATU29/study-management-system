@@ -35,6 +35,48 @@ export const getCoursesAPI = async (enrollmentId: string) => {
   }
 };
 
+export const getCoursesByRoleAPI = async (
+  userId: string,
+  role: "TEACHER" | "USER" | string
+) => {
+  if (role !== "TEACHER" && role !== "USER") {
+    return [];
+  }
+
+  try {
+    const url =
+      role === "USER"
+        ? `${API_ROUTE.COURSES}/getCourseForStudent/${userId}`
+        : `${API_ROUTE.COURSES}/getCourseForTeacher/${userId}`;
+    const { accessToken } = getLocalUserData();
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch courses: ${response.status} ${response.statusText}`
+      );
+    }
+
+    const data = await response.json();
+
+    if (data && data.status === 200 && Array.isArray(data.courses)) {
+      return data.courses;
+    } else {
+      console.log("Unexpected response format:", data);
+      throw new Error("Invalid response format");
+    }
+  } catch (error: any) {
+    console.log("Error in getCoursesAPI: ", error.message);
+    throw error;
+  }
+};
+
 export const getCourses = async (page: number = 1, perPage: number = 10) => {
   try {
     const { accessToken } = getLocalUserData();
