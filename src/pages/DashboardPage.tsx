@@ -36,6 +36,7 @@ const initialSections: MenuSection[] = [
     name: "Trò chuyện",
     icon: "proicons:chat",
     url: "message",
+    badge:0,
     parentSectionId: null,
   },
   {
