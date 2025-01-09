@@ -671,7 +671,7 @@ const dateAsString = (date: Date) => {
   return `${hours}h${minutes}, ${day}/${month}/${year}`;
 };
 
-const datetimeLocalValueOf = (date: Date) => {
+export const datetimeLocalValueOf = (date: Date) => {
   const validDate = new Date(date);
   if (isNaN(validDate.getTime())) {
     return "1900-01-01T00:00";

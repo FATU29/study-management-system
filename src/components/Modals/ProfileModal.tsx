@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Modal,
@@ -6,8 +6,10 @@ import {
   Button,
   Typography,
   Avatar,
-  Divider,
 } from "@mui/material";
+import { useAuth } from "../../contexts/AuthContext";
+import ReactModal from "react-modal";
+import { updateUserAPI, UpdateUserContent } from "../../services/user";
 
 interface ProfileModalProps {
   isOpen: boolean;
@@ -15,30 +17,83 @@ interface ProfileModalProps {
 }
 
 const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
-  const [middleName, setMiddleName] = useState<string>("Nguyễn Minh");
-  const [firstName, setFirstName] = useState<string>("Trực");
-  const [fullName, setFullName] = useState<string>("");
-  const [dateOfBirth, setDateOfBirth] = useState<string>("01/01/2004");
-  const [email, setEmail] = useState<string>("minhtruc1234@gmail.com");
-  const [id, setID] = useState<string>("22120394");
-  const [grade, setGrade] = useState<string>("2022");
+  const user = useAuth().user;
+  // console.log("User in ProfileModal: ", JSON.stringify(user));
 
-  useEffect(() => {
-    setFullName(`${middleName} ${firstName}`);
-  }, [middleName, firstName]);
+  // const [middleName, setMiddleName] = useState<string>("Nguyễn Minh");
+  // const [firstName, setFirstName] = useState<string>("Trực");
+  // const [fullName, setFullName] = useState<string>("");
+  // const [dateOfBirth, setDateOfBirth] = useState<string>("01/01/2004");
+  // const [email, setEmail] = useState<string>("minhtruc1234@gmail.com");
+  // const [id, setID] = useState<string>("22120394");
+  // const [grade, setGrade] = useState<string>("2022");
+  // useEffect(() => {
+  //   setFullName(`${middleName} ${firstName}`);
+  // }, [middleName, firstName]);
 
-  const handleSave = () => {
+  const [middleName, setMiddleName] = useState<string>(user?.lastName || "");
+  const [firstName, setFirstName] = useState<string>(user?.firstName || "");
+  const fullName = `${middleName} ${firstName}`;
+  const [dateOfBirth, setDateOfBirth] = useState<Date>(
+    user?.dateOfBirth || new Date()
+  );
+  const email = user?.email || "";
+  const id = "chưa hỗ trợ";
+  const grade = "2022";
+
+  if (user === null) {
+    return (
+      <ReactModal
+        isOpen={isOpen}
+        onRequestClose={() => {
+          onClose();
+        }}
+        className="bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto border border-gray-300"
+        overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+      >
+        <h2 className="text-2xl font-bold mb-4 text-center">
+          Hãy đăng nhập lại
+          <br />
+          để xem thông tin cá nhân
+        </h2>
+        <div className="flex justify-center space-x-4">
+          <button
+            onClick={() => {
+              onClose();
+            }}
+            className="bg-blue-300 text-white px-4 py-2 rounded hover:bg-blue-400 w-fit"
+          >
+            Ok
+          </button>
+        </div>
+      </ReactModal>
+    );
+  }
+
+  const handleSave = async () => {
     // Xử lý logic lưu thông tin tại đây
-    console.log("Thông tin cá nhân đã cập nhật:", {
-      middleName,
-      firstName,
-      fullName,
-    });
-    onClose();
+    // console.log("Thông tin cá nhân đã cập nhật:", {
+    //   middleName,
+    //   firstName,
+    //   fullName,
+    // });
+    try {
+      const updateContent: UpdateUserContent = {
+        firstName,
+        lastName: middleName,
+        dateOfBirth,
+      };
+      await updateUserAPI(updateContent);
+      alert("Cập nhật thông tin thành công");
+      onClose();
+    } catch (error: any) {
+      console.log("Error in handleSave: ", error.message);
+      alert("Cập nhật thông tin thất bại");
+    }
   };
 
   const handleChangePassword = () => {
-    window.location.href = "/ResetPassword";
+    window.location.href = "/reset-password";
   };
 
   return (
@@ -155,7 +210,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
           </Typography>
           <Box component="form" noValidate autoComplete="off">
             {" "}
-            // FOR NAMES
+            {/* FOR NAMES */}
             <Box
               sx={{
                 display: "flex",
@@ -218,9 +273,15 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
             <Box sx={{ display: "flex", gap: 4 }}>
               <TextField
                 label="Ngày sinh"
-                value={dateOfBirth}
+                value={new Date(dateOfBirth).toISOString().split("T")[0]}
+                onChange={(e) => {
+                  if (e.target["validity"].valid) {
+                    setDateOfBirth(new Date(e.target.value));
+                  }
+                }}
                 margin="normal"
                 fullWidth
+                type="date"
                 sx={{
                   height: 40,
                   "& .MuiInputBase-input": { height: "0.875em" },
@@ -230,23 +291,29 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) => {
                 label="Email cá nhân"
                 value={email}
                 margin="normal"
+                aria-readonly="true"
                 fullWidth
                 sx={{
                   height: 40,
                   "& .MuiInputBase-input": { height: "0.875em" },
+                  backgroundColor: "#f0f0f0",
                 }}
               />
             </Box>
             <Box sx={{ display: "flex", gap: 4 }}>
               <TextField
                 fullWidth
-                label="Mã số học sinh/học viên"
+                label="Mã số học sinh/giáo viên"
                 value={id}
                 margin="normal"
                 InputProps={{
                   readOnly: true,
                   sx: { backgroundColor: "#f0f0f0" },
-                  style: { padding: "3px 3px", fontSize: "0.875rem" },
+                  style: {
+                    padding: "3px 3px",
+                    fontSize: "0.875rem",
+                    color: "gray",
+                  },
                 }}
                 sx={{
                   height: 40,

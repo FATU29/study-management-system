@@ -83,7 +83,7 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
               className="w-[130px]"
             />
           </a>
-          <span className="text-xl font-bold text-blue-600">Moodle</span>
+          {/* <span className="text-xl font-bold text-blue-600">Moodle</span> */}
           {/* </Link> */}
         </div>
 
