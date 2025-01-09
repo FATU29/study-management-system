@@ -18,12 +18,6 @@ const mainListItems: {
     text: "Khóa học",
     badge: 0,
   },
-  {
-    icon: "hugeicons:course",
-    section: { id: "student", name: "Người dùng", parentSectionId: null },
-    text: "Người dùng",
-    badge: 0,
-  },
 ];
 
 const MenuCourse: React.FC<MenuCourseProps> = ({ onSectionChange }) => {

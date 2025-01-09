@@ -76,7 +76,7 @@ const NavbarHome: React.FC<NavbarHomeProps> = ({
       <div className="flex w-100 justify-content-between m-2">
         {/* Left side: Logo and Page Name */}
         <div className="flex items-center space-x-4 nav-left ml-3">
-          <a href="/" className="flex items-center space-x-2">
+          <a href="/home" className="flex items-center space-x-2">
             <img
               src={`${process.env.PUBLIC_URL}/assets/moodle.png`}
               alt="Logo"

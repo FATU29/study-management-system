@@ -161,11 +161,11 @@ const CourseTable: React.FC<CourseTableProps> = ({
         }}
       />
 
-      <Box sx={{ height: 400, width: "100%" }}>
+      <Box sx={{ height: 500, width: "100%" }}>
         <DataGrid
           rows={rows}
           columns={columns}
-          getRowId={(row) => row._id}
+          getRowId={(row) => row?._id}
           sx={{
             "--DataGrid-containerBackground": "none",
             "& .MuiDataGrid-columnSeparator": {
@@ -192,7 +192,6 @@ const CourseTable: React.FC<CourseTableProps> = ({
             ),
           }}
           rowHeight={80}
-          autoHeight
           checkboxSelection
           disableRowSelectionOnClick
         />

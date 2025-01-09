@@ -7,6 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import { forgotPasswordAPI } from "../services/auth";
 import Spinner from "../helpers/Spinner";
 import CustomModalAlert from "../components/CustomModalAlert";
+import { Link } from "react-router-dom";
 
 interface AccountEmail {
   email: string;
@@ -189,6 +190,8 @@ const ForgotPasswordPage = () => {
                     )}
                   />
                 </div>
+                
+                <Link to={"/login"}>Quay về đăng nhập</Link>
 
                 <Button
                   fullWidth

@@ -196,6 +196,7 @@ export const resetPasswordAPI = async ({password, confirmPassword}: {password: s
 
 export const getAuthGoogleUrl = () => {
     const oauth2Endpoint = `https://accounts.google.com/o/oauth2/v2/auth`;
+    console.log(process.env.REACT_APP_GOOGLE_AUTH_REDIRECT_URL)
     const params = {
         'client_id': String(process.env.REACT_APP_GOOGLE_CLIENT_ID),
         'redirect_uri':String(process.env.REACT_APP_GOOGLE_AUTH_REDIRECT_URL),
