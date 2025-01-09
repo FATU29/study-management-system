@@ -27,7 +27,7 @@ const AssignmentSubmission: React.FC<AssignmentSubmissionProps> = ({
   const { courseSlug, studentDetails, currentUserId, currentUserRole } =
     courseContext;
 
-  const isLoadedAllStudentsSubmission = currentUserRole === ROLE_TYPE.TEACHER;
+  const isLoadingAllStudentsSubmission = currentUserRole === ROLE_TYPE.TEACHER;
 
   // For USER
   const [submittedFiles, setSubmittedFiles] = useState<IFile[] | undefined>(
@@ -53,7 +53,7 @@ const AssignmentSubmission: React.FC<AssignmentSubmissionProps> = ({
 
   useEffect(() => {
     const fetchSubmission = async () => {
-      if (isLoadedAllStudentsSubmission) {
+      if (isLoadingAllStudentsSubmission) {
         setSubmittedFiles([]);
         return;
       }

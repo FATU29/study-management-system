@@ -1,3 +1,4 @@
+// UNUSED, use ones in src/types/resourceType.ts instead
 export type ResourceType = "document" | "link" | "assignment" | "announcement";
 
 export type Class = {
