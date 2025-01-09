@@ -136,8 +136,8 @@ const ModalActionComponent = ({
                         </ListItemAvatar>
                         <ListItemText
                           primary={toFullName(
-                            dataItem.firstName,
-                            dataItem.lastName
+                            dataItem.firstName || "",
+                            dataItem.lastName || ""
                           )}
                           secondary={dataItem.email ? "Secondary text" : null}
                         />

@@ -178,8 +178,8 @@ const ModalCreateCourseComponent = ({ open, setOpen,refetch }: TProps) => {
                         </ListItemAvatar>
                         <ListItemText
                           primary={toFullName(
-                            teacher.firstName,
-                            teacher.lastName
+                            teacher.firstName || "",
+                            teacher.lastName || ""
                           )}
                           secondary={teacher.email ? "Secondary text" : null}
                         />
@@ -232,8 +232,8 @@ const ModalCreateCourseComponent = ({ open, setOpen,refetch }: TProps) => {
                         </ListItemAvatar>
                         <ListItemText
                           primary={toFullName(
-                            enrollment.firstName,
-                            enrollment.lastName
+                            enrollment.firstName || "",
+                            enrollment.lastName || ""
                           )}
                           secondary={enrollment.email ? "Secondary text" : null}
                         />

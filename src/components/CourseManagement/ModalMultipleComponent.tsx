@@ -162,7 +162,7 @@ const ModalMultipleComponent = ({
                   onChange={() => handleCheckboxChange(item._id)}
                 />
                 <Typography>
-                  {toFullName(item.firstName, item.lastName)}
+                  {toFullName(item.firstName || "", item.lastName || "")}
                 </Typography>
                 <Typography>{item.email}</Typography>
               </Box>

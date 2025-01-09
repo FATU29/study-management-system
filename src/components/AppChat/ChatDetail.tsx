@@ -165,7 +165,7 @@ const ChatDetailComponent = ({ selectedUser }: TProps) => {
                 alignContent={"center"}
               >
                 <Typography variant="h6" component="div" fontWeight="bold">
-                  {toFullName(selectedUser?.firstName, selectedUser?.lastName)}
+                  {toFullName(selectedUser?.firstName || "", selectedUser?.lastName || "")}
                 </Typography>
               </Grid>
             </Grid>

@@ -77,7 +77,7 @@ const ActionsCell: React.FC<ActionsCellProps> = ({
         <Select value={value} onChange={onChange} sx={{ minWidth: 200 }}>
           {data?.map((item: any, index) => (
             <MenuItem key={index} value={item}>
-              {toFullName(item?.firstName, item?.lastName)}
+              {toFullName(item?.firstName || "", item?.lastName || "")}
             </MenuItem>
           ))}
         </Select>

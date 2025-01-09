@@ -84,7 +84,7 @@ const ChatListComponent = ({  setSelectedUser, selectedUser }: TProp) => {
                     color: selectedUser?._id === item._id ? "white" : "black",
                   }}
                 >
-                  {toFullName(item?.firstName, item?.lastName)}
+                  {toFullName(item?.firstName || "", item?.lastName || "")}
                 </Typography>
               </Grid>
 
