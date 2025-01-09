@@ -4,11 +4,11 @@
 
 # ACCOUNT TEST
 - admin:
-    email: admin@gmail.com
-    password: Admin@123
+    + email: admin@gmail.com
+    + password: Admin@123
 - teacher:
-    email: teacher@gmail.com
-    password: Teacher@123
+    + email: teacher@gmail.com
+    + password: Teacher@123
 - user:  register or login by google
 
 # Tech MERN stack
