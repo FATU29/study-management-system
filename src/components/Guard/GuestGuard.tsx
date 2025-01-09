@@ -16,6 +16,8 @@ const GuestGuard = ({ children }: TProps) => {
       navigate("/home", { replace: true });
     } else if (user.role === "ADMIN") {
       navigate("/admin", { replace: true });
+    } else if(user.role === "TEACHER"){
+      navigate("/home", { replace: true });
     }
     return null; 
   }
