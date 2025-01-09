@@ -11,7 +11,7 @@ import {
 import { useTheme } from "@mui/material/styles";
 import IconifyIcon from "../utils/icon";
 import { useAuth } from "../../contexts/AuthContext";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getMessageById } from "../../services/message";
 import { socket } from "../../helpers/socket";
 import { toFullName } from "../../helpers/toFullName";
@@ -29,6 +29,7 @@ const ChatDetailComponent = ({ selectedUser }: TProps) => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const queryClient = useQueryClient()
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
@@ -91,6 +92,8 @@ const ChatDetailComponent = ({ selectedUser }: TProps) => {
     };
 
     socket.on("send-from-server", handleIncomingMessage);
+    queryClient.refetchQueries({ queryKey: ["user-chat"] })
+
 
     return () => {
       socket.off("send-from-server", handleIncomingMessage);
