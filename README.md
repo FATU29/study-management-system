@@ -1,6 +1,6 @@
 # STUDY-MANAGEMENT-SYSTEM
 - URL: https://study-management-system-tau.vercel.app/
-
+- VIDEO: https://www.youtube.com/watch?v=cq7S5L6VzCc&t=145s
 
 # ACCOUNT TEST
 - admin:
